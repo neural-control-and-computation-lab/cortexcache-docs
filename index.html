@@ -215,11 +215,11 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 <nav class="toc" aria-label="Contents">
   <span class="overline">On this page</span>
   <a href="#start">Before you start</a>
+  <a href="#access">Getting access</a>
   <a href="#vpn">1 · Connect to the VPN</a>
   <a href="#mount">2 · Mount the share</a>
   <a href="#reference">Quick reference</a>
   <a href="#troubleshooting">Troubleshooting</a>
-  <a href="#access">Getting access</a>
   <button class="reset" id="resetBtn" title="Clear your checklist progress and OS choice">Reset progress</button>
 </nav>
 
@@ -232,11 +232,29 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 
   <div class="note">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg>
-    <div><b>What you'll need</b><p>Your <strong>Passport York</strong> username and password (the same login as York email) with <strong>Duo Mobile</strong> set up for two‑factor authentication, plus access to the <code>cortex</code> VPN profile and the <code>Michaels-Group</code> share. If you're new to the lab, see <a href="#access">Getting access</a> first.</p></div>
+    <div><b>What you'll need</b><p>Your <strong>Passport York</strong> username and password (the same login as York email) with <strong>Duo Mobile</strong> set up for two‑factor authentication, plus access to the <code>cortex</code> VPN profile and the <code>Michaels-Group</code> share. If you're new to the lab, start with <a href="#access">Getting access</a> below.</p></div>
   </div>
   <div class="note warn">
     <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>
     <div><b>The VPN is always required — on campus too</b><p>CortexCache is only reachable through the <code>cortex</code> VPN profile, even from York's wired or wireless network. Without step 1, the mount in step 2 fails or hangs.</p></div>
+  </div>
+</section>
+
+<!-- ============ ACCESS ============ -->
+<section class="card" id="access">
+  <h2>Getting access</h2>
+  <p class="intro">Do this first — it takes a few days. Two permissions are attached to your Passport York ID, and neither is automatic when you join the lab: the <code>cortex</code> <strong>VPN profile</strong> (everyone at York has the generic <em>VPNYork</em> profile, but restricted profiles are granted per person) and the <code>Michaels-Group</code> <strong>share</strong> itself. Jonathan requests both for you.</p>
+  <ol class="steps" data-group="access">
+    <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Have a Passport York account with Duo set up</label>
+      <p>Students and staff normally already do. If Duo isn't set up, follow <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">York UIT's Duo instructions</a>.</p></div></li>
+    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Send Jonathan your Passport York ID</label>
+      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>. He submits the VPN profile request to UIT and asks Science IT, who administer CortexCache, to add you to the share's access group. Allow a few working days.</p></div></li>
+    <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Connect</label>
+      <p>Once you're told access is granted, follow steps 1 and 2 below.</p></div></li>
+  </ol>
+  <div class="note ok">
+    <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+    <div><b>Good citizenship on the share</b><p>It's shared storage for the whole lab. Keep your work inside the existing folder structure, don't store personal files there, and never leave your Passport York password in a script or config file on the share.</p></div>
   </div>
 </section>
 
@@ -462,24 +480,6 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
   <details><summary>I can connect but the share is missing or empty</summary><div class="ans">
     <p>Your Passport York account probably hasn't been added to the share's access group yet. See <a href="#access">Getting access</a>.</p>
   </div></details>
-</section>
-
-<!-- ============ ACCESS ============ -->
-<section class="card" id="access">
-  <h2>Getting access</h2>
-  <p class="intro">Two permissions are attached to your Passport York ID, and neither is automatic when you join the lab: the <code>cortex</code> <strong>VPN profile</strong> (everyone at York has the generic <em>VPNYork</em> profile, but restricted profiles are granted per person) and the <code>Michaels-Group</code> <strong>share</strong> itself. Jonathan requests both for you.</p>
-  <ol class="steps" data-group="access">
-    <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Have a Passport York account with Duo set up</label>
-      <p>Students and staff normally already do. If Duo isn't set up, follow <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">York UIT's Duo instructions</a>.</p></div></li>
-    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Send Jonathan your Passport York ID</label>
-      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>. He submits the VPN profile request to UIT and asks Science IT, who administer CortexCache, to add you to the share's access group. Allow a few working days.</p></div></li>
-    <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Connect</label>
-      <p>Once you're told access is granted, follow steps 1 and 2 above.</p></div></li>
-  </ol>
-  <div class="note ok">
-    <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-    <div><b>Good citizenship on the share</b><p>It's shared storage for the whole lab. Keep your work inside the existing folder structure, don't store personal files there, and never leave your Passport York password in a script or config file on the share.</p></div>
-  </div>
 </section>
 
 <footer>
