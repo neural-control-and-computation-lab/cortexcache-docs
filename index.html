@@ -5,144 +5,182 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CortexCache Guide · NCC Lab</title>
 <meta name="description" content="How to connect to the NCC Lab's CortexCache network storage (Michaels-Group share) from Windows, macOS and Linux.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231f5f8b'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='system-ui'%3ECC%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231d4f78'/%3E%3Cpath d='M28 38h44v10H28zM28 52h44v10H28z' fill='white' opacity='.95'/%3E%3Ccircle cx='36' cy='43' r='2.5' fill='%231d4f78'/%3E%3Ccircle cx='36' cy='57' r='2.5' fill='%231d4f78'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f6f7f9; --panel:#ffffff; --ink:#1c2430; --muted:#5d6b7a; --line:#dde3ea;
-  --accent:#1f5f8b; --accent-ink:#ffffff; --accent-soft:#e6f0f7;
-  --code-bg:#0f1720; --code-ink:#e6edf3; --ok:#2e7d4f; --ok-soft:#e5f4ea;
-  --warn:#9a6700; --warn-soft:#fff6e0; --danger:#b3261e; --danger-soft:#fdecea;
-  --radius:12px; --shadow:0 1px 2px rgba(20,30,40,.06),0 6px 20px -8px rgba(20,30,40,.12);
+  --bg:#f7f8fa; --panel:#ffffff; --ink:#18212b; --ink-2:#3d4a58; --muted:#6b7785; --line:#e3e8ee; --line-2:#eef1f5;
+  --accent:#1d4f78; --accent-ink:#ffffff; --accent-soft:#e9f1f8; --accent-line:#c9dcea;
+  --code-bg:#111a24; --code-ink:#e8eef5; --code-var:#f2c46d; --code-cmt:#7f8fa0;
+  --ok:#1f7a4d; --ok-soft:#e6f4ec; --ok-line:#bfe3cf;
+  --warn:#8a5a00; --warn-soft:#fdf5e3; --warn-line:#f1dfae;
+  --r:14px; --r-s:9px;
+  --shadow:0 1px 2px rgba(16,24,32,.05);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0e1319; --panel:#161d26; --ink:#e7edf3; --muted:#9aa8b6; --line:#28323e;
-    --accent:#5aa7dc; --accent-ink:#0b1420; --accent-soft:#17283a;
-    --code-bg:#0a0f15; --code-ink:#e6edf3; --ok:#6fcf97; --ok-soft:#14301f;
-    --warn:#e6b450; --warn-soft:#2e2510; --danger:#f28b82; --danger-soft:#3a1a18;
-    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 20px -8px rgba(0,0,0,.6);
+    --bg:#0d1218; --panel:#141b23; --ink:#e8edf2; --ink-2:#c3ccd6; --muted:#8e9aa7; --line:#232d38; --line-2:#1c2530;
+    --accent:#6fb1e3; --accent-ink:#0b1622; --accent-soft:#16283a; --accent-line:#24425c;
+    --code-bg:#0a1016; --code-ink:#e6edf3; --code-var:#f2c46d; --code-cmt:#7f8fa0;
+    --ok:#6ccf98; --ok-soft:#12291c; --ok-line:#1f4a31;
+    --warn:#e8b95a; --warn-soft:#2a2210; --warn-line:#4d3d14;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
   }
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-a{color:var(--accent)}
-code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
-code{background:var(--accent-soft);padding:.1em .4em;border-radius:6px;font-size:.92em}
-kbd{background:var(--panel);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:.05em .45em;font-size:.88em}
-h1,h2,h3{line-height:1.25;margin:0 0 .5rem}
-h1{font-size:2rem;letter-spacing:-.01em}
-h2{font-size:1.45rem;margin-top:0}
-h3{font-size:1.1rem}
-p{margin:.5rem 0 1rem}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-line)}
+a:hover{border-bottom-color:var(--accent)}
+code,kbd,pre,.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+code{background:var(--accent-soft);color:var(--ink);padding:.12em .4em;border-radius:5px;font-size:.86em}
+kbd{background:var(--panel);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:.05em .45em;font-size:.82em}
+h1,h2,h3{line-height:1.25;margin:0;letter-spacing:-.012em}
+h1{font-size:2.1rem;font-weight:700}
+h2{font-size:1.35rem;font-weight:650}
+h3{font-size:1.02rem;font-weight:600}
+p{margin:.55rem 0 .9rem;color:var(--ink-2)}
+p:last-child{margin-bottom:0}
+strong{color:var(--ink);font-weight:600}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.overline{display:block;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
 
-/* header */
-header{background:linear-gradient(135deg,var(--accent) 0%,#134264 100%);color:#fff;padding:40px 0 32px}
-header .wrap{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between}
-header h1{color:#fff}
-header p{color:rgba(255,255,255,.85);margin:0;max-width:60ch}
-.eyebrow{display:inline-block;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:.4rem}
-.progress{min-width:220px;background:rgba(255,255,255,.14);border-radius:10px;padding:12px 14px;font-size:.9rem}
-.progress .bar{height:8px;background:rgba(255,255,255,.25);border-radius:6px;overflow:hidden;margin-top:6px}
-.progress .bar > div{height:100%;background:#fff;width:0;transition:width .3s}
+/* ---- header ---- */
+header{padding:56px 0 36px;border-bottom:1px solid var(--line);background:var(--panel)}
+header .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:center}
+header h1{color:var(--ink)}
+header .lede{font-size:1.05rem;color:var(--ink-2);max-width:56ch;margin:.9rem 0 0}
+header .lede code{background:var(--line-2)}
+.path{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:10px}
+.path .arrow{align-self:center}
+.path .node{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.path .node b{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:600}
+.path .node b span{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink);align-items:center;justify-content:center;font-size:.8rem;font-weight:700}
+.path .node small{display:block;color:var(--muted);margin-top:4px;font-size:.84rem}
+.path .arrow{color:var(--muted);font-size:1.3rem}
 
-/* layout */
-.layout{display:grid;grid-template-columns:230px 1fr;gap:28px;padding:28px 0 60px}
-nav.toc{position:sticky;top:16px;align-self:start;font-size:.92rem}
-nav.toc a{display:block;padding:6px 10px;border-left:2px solid var(--line);color:var(--muted);text-decoration:none}
+/* ---- sticky toolbar ---- */
+.toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.toolbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;padding-top:8px;padding-bottom:8px}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:0;border-radius:999px;background:transparent;color:var(--ink-2);font:inherit;font-size:.9rem;font-weight:500;cursor:pointer;transition:background .15s,color .15s}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.seg svg{width:16px;height:16px;fill:currentColor}
+.prog{display:flex;align-items:center;gap:12px;font-size:.86rem;color:var(--muted);white-space:nowrap}
+.prog .bar{width:140px;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.prog .bar>div{height:100%;width:0;background:var(--ok);transition:width .3s}
+.prog b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---- layout ---- */
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;padding:36px 0 72px}
+nav.toc{position:sticky;top:80px;align-self:start;font-size:.9rem}
+nav.toc .overline{margin-left:12px}
+nav.toc a{display:block;padding:6px 12px;border:0;border-left:2px solid var(--line);color:var(--muted);border-radius:0}
 nav.toc a:hover{color:var(--ink)}
-nav.toc a.active{border-color:var(--accent);color:var(--accent);font-weight:600}
-main{min-width:0}
-section.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:22px}
-.step-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:.95rem;margin-right:10px;vertical-align:middle}
+nav.toc a.active{border-left-color:var(--accent);color:var(--accent);font-weight:600}
+nav.toc .reset{margin:18px 0 0 12px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:5px 10px;font:inherit;font-size:.8rem;cursor:pointer}
+nav.toc .reset:hover{color:var(--ink);border-color:var(--muted)}
 
-/* OS picker */
-.ospick{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}
-.ospick button{flex:1 1 140px;display:flex;align-items:center;gap:10px;justify-content:center;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;font-weight:600;cursor:pointer;transition:.15s}
-.ospick button:hover{border-color:var(--accent)}
-.ospick button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.ospick svg{width:20px;height:20px;fill:currentColor}
+section.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:30px 34px;margin-bottom:26px}
+section.card>h2{display:flex;align-items:center;gap:12px;margin-bottom:.35rem}
+section.card>h2 .n{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex:none}
+section.card>.intro{font-size:1rem;margin-top:.4rem}
+section.card>:last-child{margin-bottom:0}
+.sub{display:flex;align-items:center;gap:10px;margin:26px 0 8px;padding-top:22px;border-top:1px solid var(--line-2)}
+.sub:first-of-type{border-top:0;padding-top:0;margin-top:20px}
+.pill{font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.2em .6em;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+
+/* ---- OS-gated ---- */
 .os-only{display:none}
 body[data-os="mac"] .os-only.mac,body[data-os="win"] .os-only.win,body[data-os="linux"] .os-only.linux{display:block}
-.os-hint{color:var(--muted);font-size:.9rem}
+.os-empty{display:none;border:1px dashed var(--line);border-radius:var(--r-s);padding:18px;text-align:center;color:var(--muted);margin-top:14px}
+body[data-os=""] .os-empty{display:block}
+.os-empty button{border:0;background:none;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;padding:0;border-bottom:1px solid var(--accent-line)}
 
-/* steps / checklist */
-ol.steps{list-style:none;counter-reset:s;padding:0;margin:0}
-ol.steps > li{display:grid;grid-template-columns:28px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
-ol.steps > li:first-child{border-top:0}
-ol.steps input[type=checkbox]{appearance:none;width:22px;height:22px;margin:3px 0 0;border:2px solid var(--line);border-radius:6px;background:var(--panel);cursor:pointer;position:relative;flex:none}
+/* ---- steps ---- */
+ol.steps{list-style:none;padding:0;margin:14px 0 0}
+ol.steps>li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:16px;padding:18px 0;border-top:1px solid var(--line-2)}
+ol.steps>li:first-child{border-top:0;padding-top:8px}
+ol.steps input[type=checkbox]{appearance:none;width:22px;height:22px;margin:2px 0 0;border:1.5px solid var(--muted);border-radius:6px;background:var(--panel);cursor:pointer;position:relative;flex:none;transition:.15s}
+ol.steps input[type=checkbox]:hover{border-color:var(--ok)}
 ol.steps input[type=checkbox]:checked{background:var(--ok);border-color:var(--ok)}
-ol.steps input[type=checkbox]:checked::after{content:"";position:absolute;left:6px;top:2px;width:5px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
-ol.steps li.done .step-title{color:var(--muted);text-decoration:line-through}
-.step-title{font-weight:600;display:block;margin-bottom:.25rem}
+ol.steps input[type=checkbox]:checked::after{content:"";position:absolute;left:7px;top:2.5px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.step-title{display:block;font-weight:600;color:var(--ink);cursor:pointer;margin-bottom:.15rem;font-size:1rem}
+li.done .step-title{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .step-body{min-width:0}
-.step-body p:last-child{margin-bottom:0}
-details .ans,section.card{min-width:0}
 
-/* code blocks with copy */
-.cmd{position:relative;background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:14px 92px 14px 16px;margin:.6rem 0;overflow-x:auto;font-size:.9rem;line-height:1.5}
-.cmd pre{margin:0;white-space:pre}
-.cmd .var{color:#f8c471}
-.cmd .cmt{color:#8b98a5}
-.copy{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:5px 10px;font:600 .78rem/1 inherit;cursor:pointer}
-.copy:hover{background:rgba(255,255,255,.22)}
-.copy.ok{background:var(--ok);border-color:var(--ok)}
+/* ---- code ---- */
+.cmd{position:relative;background:var(--code-bg);color:var(--code-ink);border-radius:var(--r-s);padding:14px 16px;margin:.7rem 0;overflow-x:auto;font-size:.84rem;line-height:1.6}
+.cmd pre{margin:0;white-space:pre;padding-right:80px}
+.cmd .var{color:var(--code-var)}
+.cmd .cmt{color:var(--code-cmt)}
+.copy{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);color:#dfe7ef;border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:4px 9px;font:500 .74rem/1 Inter,sans-serif;cursor:pointer;transition:.15s}
+.copy svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.copy:hover{background:rgba(255,255,255,.16)}
+.copy.ok{background:var(--ok);border-color:var(--ok);color:#fff}
 
-/* key value chips */
-.kv{display:grid;grid-template-columns:1fr;gap:10px;margin:.5rem 0}
-.kv .row{display:grid;grid-template-columns:170px 1fr auto;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-.kv .k{color:var(--muted);font-size:.86rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.kv .v{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92rem;overflow-wrap:anywhere}
+/* ---- key/value ---- */
+.kv{display:grid;grid-template-columns:1fr;border:1px solid var(--line);border-radius:var(--r-s);overflow:hidden;margin:.8rem 0}
+.kv .row{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:14px;align-items:center;padding:11px 14px;border-top:1px solid var(--line-2);background:var(--panel)}
+.kv .row:first-child{border-top:0}
+.kv .k{color:var(--muted);font-size:.76rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.kv .v{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.86rem;color:var(--ink);overflow-wrap:anywhere}
+.kv .v.plain{font-family:Inter,sans-serif;color:var(--ink-2)}
+.kv .v .var{color:var(--warn)}
 .kv .copy{position:static;background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.kv .copy:hover{background:var(--accent-line)}
 .kv .copy.ok{background:var(--ok);color:#fff}
 
-/* callouts */
-.note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:0 10px 10px 0;margin:1rem 0}
-.note.warn{border-color:var(--warn);background:var(--warn-soft)}
-.note.danger{border-color:var(--danger);background:var(--danger-soft)}
-.note.ok{border-color:var(--ok);background:var(--ok-soft)}
-.note p:last-child{margin-bottom:0}
-.note strong:first-child{display:block;margin-bottom:.2rem}
+/* ---- callouts ---- */
+.note{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;border:1px solid var(--accent-line);background:var(--accent-soft);padding:13px 16px;border-radius:var(--r-s);margin:1rem 0}
+.note svg{width:18px;height:18px;margin-top:3px;flex:none;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.note b{display:block;color:var(--ink);font-weight:600;margin-bottom:.15rem}
+.note p{margin:0;color:var(--ink-2);font-size:.93rem}
+.note.warn{border-color:var(--warn-line);background:var(--warn-soft)} .note.warn svg{stroke:var(--warn)}
+.note.ok{border-color:var(--ok-line);background:var(--ok-soft)} .note.ok svg{stroke:var(--ok)}
 
-/* figures */
-figure{margin:.8rem 0}
-figure img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;display:block}
-figcaption{color:var(--muted);font-size:.85rem;margin-top:.35rem}
-.figrow{display:flex;gap:14px;flex-wrap:wrap}
-.figrow figure{flex:1 1 220px;margin:0}
-.figrow img{max-height:320px;width:auto;max-width:100%}
+/* ---- figures ---- */
+.figrow{display:flex;gap:14px;flex-wrap:wrap;margin:.9rem 0 .3rem}
+.figrow figure{flex:0 1 auto;margin:0;min-width:0;max-width:100%}
+figure img{width:auto;max-width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--r-s);background:#fff}
+figcaption{color:var(--muted);font-size:.8rem;margin-top:.4rem}
 
-/* faq */
-details{border:1px solid var(--line);border-radius:10px;padding:0 16px;margin:.55rem 0;background:var(--bg)}
-details[open]{background:var(--panel)}
-summary{cursor:pointer;padding:12px 0;font-weight:600;list-style:none;display:flex;gap:10px;align-items:center}
-summary::before{content:"+";display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-weight:700;flex:none}
-details[open] summary::before{content:"–"}
-details .ans{padding:0 0 14px 30px;color:var(--ink)}
-details .ans p:last-child{margin-bottom:0}
+/* ---- disclosure ---- */
+details{border:1px solid var(--line);border-radius:var(--r-s);margin:.6rem 0;background:var(--panel);overflow:hidden}
+details summary{cursor:pointer;padding:13px 16px;font-weight:500;color:var(--ink);list-style:none;display:flex;gap:12px;align-items:center;font-size:.96rem}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"";width:8px;height:8px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;flex:none;margin-left:4px}
+details[open] summary::before{transform:rotate(45deg)}
+details summary:hover{background:var(--bg)}
+details .ans{padding:2px 16px 16px 36px;border-top:1px solid var(--line-2)}
+details .ans p{font-size:.94rem}
+details.adv{background:var(--bg);border-style:dashed}
+details.adv summary{font-weight:500;color:var(--ink-2)}
 
-.pill{display:inline-block;font-size:.75rem;font-weight:700;padding:.15em .6em;border-radius:999px;background:var(--accent-soft);color:var(--accent);vertical-align:middle;margin-left:6px}
-.pill.mac{background:#eef0f3;color:#333}.pill.win{background:#e3effa;color:#0b5aa8}.pill.linux{background:#fff1dc;color:#8a4b00}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill.mac{background:#2a3038;color:#ddd}:root:not([data-theme="light"]) .pill.win{background:#15304a;color:#8cc3f2}:root:not([data-theme="light"]) .pill.linux{background:#3a2a12;color:#f0b76a}}
+footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px solid var(--line);line-height:1.6}
 
-footer{color:var(--muted);font-size:.86rem;padding:20px 0 40px;border-top:1px solid var(--line)}
-.btn-reset{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:4px 10px;font:inherit;font-size:.82rem;cursor:pointer}
-.btn-reset:hover{color:var(--ink);border-color:var(--ink)}
-.sr{position:absolute;left:-9999px}
-
-@media (max-width: 820px){
-  .layout{grid-template-columns:1fr;gap:18px}
-  nav.toc{position:static;display:flex;flex-wrap:wrap;gap:4px}
-  nav.toc a{border-left:0;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.85rem}
+@media (max-width:900px){
+  header{padding:36px 0 26px}
+  header .wrap{grid-template-columns:1fr;gap:22px}
+  h1{font-size:1.7rem}
+  .layout{grid-template-columns:1fr;gap:18px;padding-top:22px}
+  nav.toc{position:static;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  nav.toc .overline,nav.toc .reset{display:none}
+  nav.toc a{border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.84rem}
   nav.toc a.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-  .kv .row{grid-template-columns:1fr auto}
+  section.card{padding:22px 18px}
+  .kv .row{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}
   .kv .k{grid-column:1 / -1}
-  .cmd{padding-right:16px;padding-top:40px}
-  header{padding:28px 0 24px}
-  h1{font-size:1.6rem}
+  .cmd{padding-top:40px} .cmd pre{padding-right:0}
+  .toolbar .wrap{flex-wrap:wrap}
+  .prog .bar{width:90px}
+  .seg button span{display:none}
+  .seg button{padding:8px 12px}
 }
-@media print{header,nav.toc,.copy,.progress,.btn-reset{display:none!important}.os-only{display:block!important}section.card{box-shadow:none;break-inside:avoid}}
+@media print{header .path,.toolbar,nav.toc,.copy{display:none!important}.os-only{display:block!important}section.card{box-shadow:none;break-inside:avoid}}
 </style>
 </head>
 <body data-os="">
@@ -150,25 +188,39 @@ footer{color:var(--muted);font-size:.86rem;padding:20px 0 40px;border-top:1px so
 <header>
   <div class="wrap">
     <div>
-      <span class="eyebrow">NCC Lab · York University</span>
+      <span class="overline">NCC Lab · York University</span>
       <h1>Connecting to CortexCache</h1>
-      <p>CortexCache is the lab's shared network storage, run by Science IT. Our data lives on the <code style="background:rgba(255,255,255,.18);color:#fff">Michaels-Group</code> share. This page walks you through connecting from your own computer in two steps: VPN, then mount.</p>
+      <p class="lede">CortexCache is the lab's shared network storage, administered by Science IT. Our data lives on the <code>Michaels-Group</code> share. Getting to it from your own computer takes two steps, and this page walks through both.</p>
     </div>
-    <div class="progress" aria-live="polite">
-      <div style="display:flex;justify-content:space-between;align-items:center"><span>Your progress</span><span id="progText">0 / 0</span></div>
-      <div class="bar"><div id="progBar"></div></div>
+    <div class="path" aria-hidden="true">
+      <div class="node"><b><span>1</span>Connect the VPN</b><small>Ivanti Secure Access · <code>cortex</code> profile</small></div>
+      <div class="arrow">→</div>
+      <div class="node"><b><span>2</span>Mount the share</b><small>SMB · Windows, macOS or Linux</small></div>
     </div>
   </div>
 </header>
 
+<div class="toolbar">
+  <div class="wrap">
+    <div class="seg" role="group" aria-label="Choose your operating system">
+      <button data-os="mac" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M16.4 12.9c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1.9-4 2.4-1.7 3-.4 7.3 1.2 9.7.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8 2.2-1.2 3-2.4c.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.6-4zM14 5.8c.7-.8 1.1-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg><span>macOS</span></button>
+      <button data-os="win" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 5.5l7.4-1v7.2H3V5.5zm8.4-1.2L21 3v8.7h-9.6V4.3zM3 12.5h7.4v7.2L3 18.6v-6.1zm8.4 0H21V21l-9.6-1.3v-7.2z"/></svg><span>Windows</span></button>
+      <button data-os="linux" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2c-2.2 0-3.6 1.8-3.6 4.4 0 1-.3 1.8-.8 2.6-1 1.5-2.3 3.2-2.6 5.3-.8.3-1.5.9-1.5 1.7 0 .5.2.9.6 1.2-.1.4-.1.8 0 1.2.3.9 1.4 1.2 2.5 1.7.6.3 1.3.7 1.9.9.9.3 1.8-.2 2-.9h3c.2.7 1.1 1.2 2 .9.6-.2 1.3-.6 1.9-.9 1.1-.5 2.2-.8 2.5-1.7.1-.4.1-.8 0-1.2.4-.3.6-.7.6-1.2 0-.8-.7-1.4-1.5-1.7-.3-2.1-1.6-3.8-2.6-5.3-.5-.8-.8-1.6-.8-2.6C15.6 3.8 14.2 2 12 2zm-1.3 4.3c.4 0 .7.5.7 1.1s-.3 1.1-.7 1.1-.7-.5-.7-1.1.3-1.1.7-1.1zm2.6 0c.4 0 .7.5.7 1.1s-.3 1.1-.7 1.1-.7-.5-.7-1.1.3-1.1.7-1.1zM12 9c.9 0 2 .6 2 1.1 0 .4-1.1 1.2-2 1.2s-2-.8-2-1.2C10 9.6 11.1 9 12 9zm0 3.3c1.9 0 3.5 2.1 3.5 4.3 0 .5-.1.9-.2 1.4h-6.6c-.1-.5-.2-.9-.2-1.4 0-2.2 1.6-4.3 3.5-4.3z"/></svg><span>Linux</span></button>
+    </div>
+    <div class="prog" aria-live="polite"><span id="progText"><b>0</b> of 0 steps</span><div class="bar"><div id="progBar"></div></div></div>
+  </div>
+</div>
+
 <div class="wrap layout">
 <nav class="toc" aria-label="Contents">
+  <span class="overline">On this page</span>
   <a href="#start">Before you start</a>
-  <a href="#vpn">1 · Connect to VPN</a>
+  <a href="#vpn">1 · Connect to the VPN</a>
   <a href="#mount">2 · Mount the share</a>
   <a href="#reference">Quick reference</a>
   <a href="#troubleshooting">Troubleshooting</a>
   <a href="#access">Getting access</a>
+  <button class="reset" id="resetBtn" title="Clear your checklist progress and OS choice">Reset progress</button>
 </nav>
 
 <main>
@@ -176,172 +228,154 @@ footer{color:var(--muted);font-size:.86rem;padding:20px 0 40px;border-top:1px so
 <!-- ============ BEFORE YOU START ============ -->
 <section class="card" id="start">
   <h2>Before you start</h2>
-  <p>Pick your operating system. The instructions below will show only the steps that apply to you, and your checklist progress is saved in this browser.</p>
-  <div class="ospick" role="group" aria-label="Choose your operating system">
-    <button data-os="mac" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M16.4 12.9c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1.9-4 2.4-1.7 3-.4 7.3 1.2 9.7.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8 2.2-1.2 3-2.4c.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.6-4zM14 5.8c.7-.8 1.1-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>macOS</button>
-    <button data-os="win" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 5.5l7.4-1v7.2H3V5.5zm8.4-1.2L21 3v8.7h-9.6V4.3zM3 12.5h7.4v7.2L3 18.6v-6.1zm8.4 0H21V21l-9.6-1.3v-7.2z"/></svg>Windows</button>
-    <button data-os="linux" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2c-2.2 0-3.6 1.8-3.6 4.4 0 1-.3 1.8-.8 2.6-1 1.5-2.3 3.2-2.6 5.3-.8.3-1.5.9-1.5 1.7 0 .5.2.9.6 1.2-.1.4-.1.8 0 1.2.3.9 1.4 1.2 2.5 1.7.6.3 1.3.7 1.9.9.9.3 1.8-.2 2-.9h3c.2.7 1.1 1.2 2 .9.6-.2 1.3-.6 1.9-.9 1.1-.5 2.2-.8 2.5-1.7.1-.4.1-.8 0-1.2.4-.3.6-.7.6-1.2 0-.8-.7-1.4-1.5-1.7-.3-2.1-1.6-3.8-2.6-5.3-.5-.8-.8-1.6-.8-2.6C15.6 3.8 14.2 2 12 2zm-1.3 4.3c.4 0 .7.5.7 1.1s-.3 1.1-.7 1.1-.7-.5-.7-1.1.3-1.1.7-1.1zm2.6 0c.4 0 .7.5.7 1.1s-.3 1.1-.7 1.1-.7-.5-.7-1.1.3-1.1.7-1.1zM12 9c.9 0 2 .6 2 1.1 0 .4-1.1 1.2-2 1.2s-2-.8-2-1.2C10 9.6 11.1 9 12 9zm0 3.3c1.9 0 3.5 2.1 3.5 4.3 0 .5-.1.9-.2 1.4h-6.6c-.1-.5-.2-.9-.2-1.4 0-2.2 1.6-4.3 3.5-4.3z"/></svg>Linux</button>
-  </div>
-  <p class="os-hint" id="osHint">No system selected yet — the mount step will stay hidden until you choose one.</p>
+  <p class="intro">Choose your operating system in the bar above; the page then shows only the steps that apply to you. Tick steps off as you go — progress is saved in this browser.</p>
 
   <div class="note">
-    <strong>What you'll need</strong>
-    <p>Your <strong>Passport York</strong> username and password (the same login you use for York email), and the <strong>Duo Mobile</strong> app set up for two‑factor authentication. If you don't yet have access to the <code>Michaels-Group</code> share, see <a href="#access">Getting access</a> first.</p>
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg>
+    <div><b>What you'll need</b><p>Your <strong>Passport York</strong> username and password (the same login as York email) with <strong>Duo Mobile</strong> set up for two‑factor authentication, plus access to the <code>cortex</code> VPN profile and the <code>Michaels-Group</code> share. If you're new to the lab, see <a href="#access">Getting access</a> first.</p></div>
   </div>
   <div class="note warn">
-    <strong>The VPN is always required</strong>
-    <p>CortexCache is only reachable through the <code>cortex</code> VPN profile, <em>even when you are on campus</em> and connected to York's wired or wireless network. If you skip step 1, the mount in step 2 will fail or hang.</p>
+    <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>
+    <div><b>The VPN is always required — on campus too</b><p>CortexCache is only reachable through the <code>cortex</code> VPN profile, even from York's wired or wireless network. Without step 1, the mount in step 2 fails or hangs.</p></div>
   </div>
 </section>
 
 <!-- ============ STEP 1: VPN ============ -->
 <section class="card" id="vpn">
-  <h2><span class="step-num">1</span>Connect to the VPN (Ivanti Secure Access)</h2>
-  <p>York uses the <strong>Ivanti Secure Access Client</strong> for VPN. It was previously called <strong>Pulse Secure</strong>; Ivanti bought the product and renamed it, so if you see either name (York's own pages still say "Pulse Secure" in places, and the Linux build installs to <code>/opt/pulsesecure/</code>), it's the same client. You only have to install it and create the profile once; afterwards you just click <em>Connect</em>.</p>
+  <h2><span class="n">1</span>Connect to the VPN</h2>
+  <p class="intro">York's VPN client is <strong>Ivanti Secure Access</strong>, formerly called <strong>Pulse Secure</strong> — the same product under a new name, so either label may appear on York's pages (and the Linux build still installs to <code>/opt/pulsesecure/</code>). You install it and create the profile once; after that it's a single click to connect.</p>
 
   <ol class="steps" data-group="vpn">
     <li><input type="checkbox" id="v1"><div class="step-body"><label class="step-title" for="v1">Install the Ivanti Secure Access Client</label>
-      <p>Installers are hosted by York UIT (Passport York login required to download) on the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">UIT Internet Access page</a>, under the <em>VPN</em> tab. Use the version marked <em>Current</em> (22.8r2 at the time of writing), not the older Pulse Secure 9.1 builds.</p>
-      <div class="os-only mac"><p><strong>macOS:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#mac" target="_blank" rel="noopener">Mac installer</a>, open the package and click through <em>Continue ▸ Install</em>. The client then appears in your Applications folder and in the menu bar. If macOS complains about an unidentified developer, allow it under <em>System Settings ▸ Privacy &amp; Security</em>.</p></div>
-      <div class="os-only win"><p><strong>Windows:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#windows" target="_blank" rel="noopener">64‑bit installer</a> (or the ARM64 build on a Snapdragon laptop), run the <code>.msi</code>, and accept the defaults. The Ivanti icon appears in the system tray.</p></div>
-      <div class="os-only linux"><p><strong>Linux:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#linux" target="_blank" rel="noopener"><code>.deb</code> (Ubuntu/Debian) or <code>.rpm</code> (Fedora/RHEL)</a>. The client needs a desktop session (it embeds a browser for the sign‑in) and two dependencies:</p>
+      <p>Installers are on the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT Internet Access page</a>, under the <em>VPN</em> tab (Passport York login required to download). Use the version marked <em>Current</em> — 22.8r2 at the time of writing — not the older Pulse Secure 9.1 builds.</p>
+      <div class="os-only mac"><p><strong>macOS:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#mac" target="_blank" rel="noopener">Mac installer</a>, open the package and click through <em>Continue ▸ Install</em>. The client appears in Applications and in the menu bar. If macOS objects to an unidentified developer, allow it under <em>System Settings ▸ Privacy &amp; Security</em>.</p></div>
+      <div class="os-only win"><p><strong>Windows:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#windows" target="_blank" rel="noopener">64‑bit installer</a> (or the ARM64 build on a Snapdragon laptop), run the <code>.msi</code> and accept the defaults. The Ivanti icon appears in the system tray.</p></div>
+      <div class="os-only linux"><p><strong>Linux:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#linux" target="_blank" rel="noopener"><code>.deb</code> (Ubuntu/Debian) or <code>.rpm</code> (Fedora/RHEL)</a>. The client needs a desktop session (it embeds a browser for sign‑in) and two dependencies:</p>
         <div class="cmd"><pre>sudo apt-get install libnss3-tools libwebkit2gtk-4.0-37   <span class="cmt"># Ubuntu 22.04 / Debian 12</span>
 sudo apt install ~/Downloads/ps-pulse-linux-*.deb
 sudo /opt/pulsesecure/bin/setup_cef.sh install</pre><button class="copy" data-copy="sudo apt-get install libnss3-tools libwebkit2gtk-4.0-37
 sudo apt install ~/Downloads/ps-pulse-linux-*.deb
-sudo /opt/pulsesecure/bin/setup_cef.sh install">Copy</button></div>
-        <p>Then launch <strong>Ivanti Secure Access Client</strong> (<code>pulseUi</code>) from your applications menu, or run <code>/opt/pulsesecure/bin/pulseUi</code>. On Fedora/RHEL use <code>sudo dnf install ./ps-pulse-linux-*.rpm</code> instead.</p>
-        <div class="note warn"><strong>Ubuntu 24.04 and newer</strong><p>The client depends on <code>libwebkit2gtk-4.0-37</code>, which 24.04 no longer ships (it has 4.1). The usual workaround is to temporarily add the Ubuntu 22.04 ("jammy") repository, install that one package, then remove the repository again. Very recent Fedora/RHEL releases have dropped the legacy WebKitGTK packages entirely and may not work until Ivanti updates the client. If you hit this, ask in the lab — connecting from a lab machine may be simpler.</p></div>
+sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
+        <p>Then launch <strong>Ivanti Secure Access Client</strong> from your applications menu, or run <code>/opt/pulsesecure/bin/pulseUi</code>. On Fedora/RHEL use <code>sudo dnf install ./ps-pulse-linux-*.rpm</code> instead.</p>
+        <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Ubuntu 24.04 and newer</b><p>The client depends on <code>libwebkit2gtk-4.0-37</code>, which 24.04 no longer ships. The usual workaround is to add the Ubuntu 22.04 ("jammy") repository temporarily, install that one package, then remove the repository. Recent Fedora/RHEL releases have dropped legacy WebKitGTK entirely and may not work until Ivanti updates the client. If you hit this, ask in the lab — a lab machine may be simpler.</p></div></div>
       </div></div></li>
 
-    <li><input type="checkbox" id="v2"><div class="step-body"><label class="step-title" for="v2">Open the client and add a new connection</label>
-      <p>Launch Ivanti Secure Access Client (on Windows it lives in the system tray; on macOS in the menu bar). In the <em>Connections</em> panel, click the <strong>+</strong> button.</p>
-      <div class="figrow">
-        <figure><img src="img/vpn-1-tray.jpeg" alt="Ivanti Secure Access Client window with an empty Connections list"><figcaption>The client with no connections yet.</figcaption></figure>
-      </div></div></li>
+    <li><input type="checkbox" id="v2"><div class="step-body"><label class="step-title" for="v2">Open the client and add a connection</label>
+      <p>Launch Ivanti Secure Access Client (system tray on Windows, menu bar on macOS). In the <em>Connections</em> panel, click <strong>+</strong>.</p>
+      <div class="figrow"><figure><img src="img/vpn-1-tray.jpeg" alt="Ivanti Secure Access Client window with an empty Connections list"><figcaption>The client before any connections exist.</figcaption></figure></div></div></li>
 
-    <li><input type="checkbox" id="v3"><div class="step-body"><label class="step-title" for="v3">Fill in the connection details and save</label>
+    <li><input type="checkbox" id="v3"><div class="step-body"><label class="step-title" for="v3">Enter the connection details and save</label>
       <div class="kv">
-        <div class="row"><span class="k">Type</span><span class="v">Policy Secure (UAC) or Connect Secure (VPN)</span><span></span></div>
-        <div class="row"><span class="k">Name</span><span class="v">cortex</span><button class="copy" data-copy="cortex">Copy</button></div>
-        <div class="row"><span class="k">Server URL</span><span class="v">https://vpngateway.yorku.ca/cortex</span><button class="copy" data-copy="https://vpngateway.yorku.ca/cortex">Copy</button></div>
+        <div class="row"><span class="k">Type</span><span class="v plain">Policy Secure (UAC) or Connect Secure (VPN)</span><span></span></div>
+        <div class="row"><span class="k">Name</span><span class="v">cortex</span><button class="copy" data-copy="cortex"></button></div>
+        <div class="row"><span class="k">Server URL</span><span class="v">https://vpngateway.yorku.ca/cortex</span><button class="copy" data-copy="https://vpngateway.yorku.ca/cortex"></button></div>
       </div>
-      <p>The name is just a label for you; the <strong>Server URL must end in <code>/cortex</code></strong> — the generic York VPN profile will <em>not</em> give you access to CortexCache. Click <strong>Save</strong>.</p>
+      <p>The name is just a label. The <strong>server URL must end in <code>/cortex</code></strong>: the generic York VPN profile does not reach CortexCache. Click <strong>Save</strong>.</p>
       <div class="figrow">
         <figure><img src="img/vpn-2-add.png" alt="Edit Connection dialog with Name cortex and Server URL https://vpngateway.yorku.ca/cortex"><figcaption>Adding the connection.</figcaption></figure>
         <figure><img src="img/vpn-3-saved.png" alt="Connections list showing the saved cortex profile with a Connect button"><figcaption>The saved <code>cortex</code> profile.</figcaption></figure>
       </div></div></li>
 
     <li><input type="checkbox" id="v4"><div class="step-body"><label class="step-title" for="v4">Connect and sign in</label>
-      <p>Click <strong>Connect</strong> next to <code>cortex</code>. Enter your Passport York <strong>username only</strong> (e.g. <code>jsmith</code>, <em>not</em> <code>jsmith@yorku.ca</code>) and your password, then <strong>Sign In</strong> / <strong>Connect</strong>.</p>
-      <div class="note warn"><strong>Leave “Save settings” unticked</strong><p>York InfoSec asks that you do <em>not</em> tick <em>Save settings</em> on this dialog: with Duo two‑factor, a saved password causes failed logins later. You'll type your password each time you connect.</p></div>
-      <div class="figrow">
-        <figure><img src="img/vpn-4-signin.png" alt="Ivanti sign-in dialog titled Connect to: cortex, asking for user name and password"><figcaption>The sign‑in prompt.</figcaption></figure>
-      </div></div></li>
+      <p>Click <strong>Connect</strong> next to <code>cortex</code>. Enter your Passport York <strong>username only</strong> (<code>jsmith</code>, not <code>jsmith@yorku.ca</code>) and your password, then <strong>Connect</strong>.</p>
+      <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Leave “Save settings” unticked</b><p>York InfoSec asks that you don't save your password here: with Duo two‑factor, a saved password causes failed logins later. You'll type it each time you connect.</p></div></div>
+      <div class="figrow"><figure><img src="img/vpn-4-signin.png" alt="Ivanti sign-in dialog titled Connect to: cortex, asking for user name and password"><figcaption>The sign‑in prompt.</figcaption></figure></div></div></li>
 
     <li><input type="checkbox" id="v5"><div class="step-body"><label class="step-title" for="v5">Approve the Duo push</label>
-      <p>Your phone will receive a <strong>Duo Push</strong> notification. Tap <em>Approve</em>. The client status changes to <em>Connected</em>. Leave it connected for as long as you're working with the share.</p>
-      <p>If the push doesn't arrive, open the Duo Mobile app; there's usually a <em>Request waiting</em> banner you can tap. Alternatively, type your password followed by a comma and a Duo passcode in the password field, e.g. <code>mypassword,123456</code>, using the six‑digit code shown in Duo Mobile.</p></div></li>
+      <p>Your phone receives a <strong>Duo Push</strong>; tap <em>Approve</em>. The client shows <em>Connected</em>. Leave it connected while you work with the share.</p>
+      <p>If no push arrives, open Duo Mobile and tap the <em>Request waiting</em> banner. Or use a passcode instead: type your password, a comma, and the six‑digit code from Duo Mobile in the password field, e.g. <code>mypassword,123456</code>.</p></div></li>
   </ol>
 </section>
 
 <!-- ============ STEP 2: MOUNT ============ -->
 <section class="card" id="mount">
-  <h2><span class="step-num">2</span>Mount the <code>Michaels-Group</code> share</h2>
-  <p>With the VPN connected, attach the share to your computer so it appears like an ordinary drive or folder. The server address and login format are the same everywhere; only the mechanics differ by system.</p>
+  <h2><span class="n">2</span>Mount the <code>Michaels-Group</code> share</h2>
+  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system.</p>
   <div class="kv">
-    <div class="row"><span class="k">Server</span><span class="v">cortexcache-data.nas.sci.yorku.ca</span><button class="copy" data-copy="cortexcache-data.nas.sci.yorku.ca">Copy</button></div>
-    <div class="row"><span class="k">Share</span><span class="v">Michaels-Group</span><button class="copy" data-copy="Michaels-Group">Copy</button></div>
-    <div class="row"><span class="k">Username</span><span class="v">yorku.yorku.ca\<span style="color:var(--warn)">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\">Copy prefix</button></div>
-    <div class="row"><span class="k">Password</span><span class="v">your Passport York password</span><span></span></div>
+    <div class="row"><span class="k">Server</span><span class="v">cortexcache-data.nas.sci.yorku.ca</span><button class="copy" data-copy="cortexcache-data.nas.sci.yorku.ca"></button></div>
+    <div class="row"><span class="k">Share</span><span class="v">Michaels-Group</span><button class="copy" data-copy="Michaels-Group"></button></div>
+    <div class="row"><span class="k">Username</span><span class="v">yorku.yorku.ca\<span class="var">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\" data-label="Copy prefix"></button></div>
+    <div class="row"><span class="k">Password</span><span class="v plain">Your Passport York password</span><span></span></div>
   </div>
   <div class="note">
-    <strong>About the username</strong>
-    <p>The domain prefix <code>yorku.yorku.ca\</code> (with a <em>backslash</em>) is required in front of your Passport York ID, e.g. <code>yorku.yorku.ca\jsmith</code>. Leaving it off is the single most common reason a login is rejected.</p>
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg>
+    <div><b>The domain prefix matters</b><p>Put <code>yorku.yorku.ca\</code> — with a backslash — in front of your Passport York ID, e.g. <code>yorku.yorku.ca\jsmith</code>. Leaving it off is the most common reason a login is rejected.</p></div>
   </div>
 
-  <p class="os-hint" id="mountHint" style="display:none">Choose your operating system under <a href="#start">Before you start</a> to see the mount steps.</p>
+  <div class="os-empty">Choose <button type="button" data-os="mac">macOS</button>, <button type="button" data-os="win">Windows</button> or <button type="button" data-os="linux">Linux</button> to see the mount steps.</div>
 
   <!-- ---------- macOS ---------- -->
   <div class="os-only mac">
-    <h3>macOS <span class="pill mac">Finder</span></h3>
+    <div class="sub"><h3>macOS</h3><span class="pill">Finder</span></div>
     <ol class="steps" data-group="mac">
       <li><input type="checkbox" id="m1"><div class="step-body"><label class="step-title" for="m1">Open “Connect to Server”</label>
-        <p>In Finder, choose <strong>Go ▸ Connect to Server…</strong> from the menu bar, or press <kbd>⌘</kbd> <kbd>K</kbd>.</p></div></li>
+        <p>In Finder, choose <strong>Go ▸ Connect to Server…</strong>, or press <kbd>⌘</kbd> <kbd>K</kbd>.</p></div></li>
       <li><input type="checkbox" id="m2"><div class="step-body"><label class="step-title" for="m2">Enter the server address</label>
-        <div class="cmd"><pre>smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/</pre><button class="copy">Copy</button></div>
-        <p>Click the <strong>+</strong> button to save it to your favourites so you don't have to type it again, then click <strong>Connect</strong>.</p></div></li>
+        <div class="cmd"><pre>smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/</pre><button class="copy"></button></div>
+        <p>Click <strong>+</strong> to save it to your favourites, then <strong>Connect</strong>.</p></div></li>
       <li><input type="checkbox" id="m3"><div class="step-body"><label class="step-title" for="m3">Sign in as a registered user</label>
-        <p>Choose <em>Registered User</em>. Name: <code>yorku.yorku.ca\your_ppy_id</code>. Password: your Passport York password. Tick <em>Remember this password in my keychain</em> if you like, then <strong>Connect</strong>.</p></div></li>
+        <p>Choose <em>Registered User</em>. Name: <code>yorku.yorku.ca\your_ppy_id</code>; password: your Passport York password. Ticking <em>Remember this password in my keychain</em> is fine. Click <strong>Connect</strong>.</p></div></li>
       <li><input type="checkbox" id="m4"><div class="step-body"><label class="step-title" for="m4">Find the share</label>
-        <p>The share appears under <em>Locations</em> in the Finder sidebar and at <code>/Volumes/Michaels-Group</code> in Terminal. Eject it (click <strong>⏏</strong> next to it) before disconnecting the VPN or closing your laptop.</p></div></li>
+        <p>It appears under <em>Locations</em> in the Finder sidebar and at <code>/Volumes/Michaels-Group</code> in Terminal. Eject it (<strong>⏏</strong> in the sidebar) before disconnecting the VPN or closing your laptop.</p></div></li>
     </ol>
-    <details>
-      <summary>Optional: reconnect automatically at login</summary>
-      <div class="ans">
-        <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and select the <code>Michaels-Group</code> volume from the Finder sidebar. It will reconnect each time you log in — but only if the VPN is already up, so also enable auto‑connect in Ivanti or connect it first.</p>
-      </div>
-    </details>
+    <details class="adv"><summary>Optional: reconnect automatically at login</summary><div class="ans">
+      <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and pick the <code>Michaels-Group</code> volume. It reconnects at each login — but only if the VPN is already up, so connect Ivanti first.</p>
+    </div></details>
   </div>
 
   <!-- ---------- Windows ---------- -->
   <div class="os-only win">
-    <h3>Windows 10 / 11 <span class="pill win">File Explorer</span></h3>
+    <div class="sub"><h3>Windows 10 / 11</h3><span class="pill">File Explorer</span></div>
     <ol class="steps" data-group="win">
       <li><input type="checkbox" id="w1"><div class="step-body"><label class="step-title" for="w1">Open File Explorer and go to “This PC”</label>
         <p>Press <kbd>Win</kbd> <kbd>E</kbd>, then click <strong>This PC</strong> in the left pane.</p></div></li>
       <li><input type="checkbox" id="w2"><div class="step-body"><label class="step-title" for="w2">Choose “Map network drive”</label>
-        <p>Windows 11: click the <strong>⋯</strong> (<em>See more</em>) button in the toolbar ▸ <strong>Map network drive</strong>. Windows 10: it's on the <em>Computer</em> ribbon tab.</p></div></li>
+        <p>Windows 11: click <strong>⋯</strong> (<em>See more</em>) in the toolbar ▸ <strong>Map network drive</strong>. Windows 10: it's on the <em>Computer</em> ribbon tab.</p></div></li>
       <li><input type="checkbox" id="w3"><div class="step-body"><label class="step-title" for="w3">Pick a drive letter and enter the folder path</label>
-        <div class="cmd"><pre>\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group</pre><button class="copy">Copy</button></div>
-        <p>Tick <strong>Reconnect at sign‑in</strong> and — important — <strong>Connect using different credentials</strong>, otherwise Windows tries your local account and fails. Click <strong>Finish</strong>.</p>
+        <div class="cmd"><pre>\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group</pre><button class="copy"></button></div>
+        <p>Tick <strong>Reconnect at sign‑in</strong> and, importantly, <strong>Connect using different credentials</strong> — otherwise Windows tries your local account and fails. Click <strong>Finish</strong>.</p>
         <div class="figrow">
-          <figure><img src="img/win-1-map.png" alt="Map Network Drive dialog with drive letter and folder path fields"><figcaption>The Map Network Drive dialog.</figcaption></figure>
-          <figure><img src="img/win-2-folder.png" alt="Windows Security dialog asking for network credentials"><figcaption>Credentials prompt.</figcaption></figure>
+          <figure><img src="img/win-1-map.png" alt="Map Network Drive dialog with drive letter and folder path fields"><figcaption>Map Network Drive.</figcaption></figure>
+          <figure><img src="img/win-2-folder.png" alt="Windows Security dialog asking for network credentials"><figcaption>The credentials prompt.</figcaption></figure>
         </div></div></li>
       <li><input type="checkbox" id="w4"><div class="step-body"><label class="step-title" for="w4">Enter your credentials</label>
-        <p>User name: <code>yorku.yorku.ca\your_ppy_id</code>. Password: your Passport York password. Tick <em>Remember my credentials</em> so the drive reconnects without asking. The share opens as the drive letter you chose.</p></div></li>
+        <p>User name <code>yorku.yorku.ca\your_ppy_id</code>, password your Passport York password. Tick <em>Remember my credentials</em> so the drive reconnects without asking. The share opens under the drive letter you chose.</p></div></li>
     </ol>
-    <details>
-      <summary>Alternative: map the drive from the Command Prompt</summary>
-      <div class="ans">
-        <p>Open <em>Command Prompt</em> (or PowerShell) and run — replacing <code>your_ppy_id</code>, and <code>M:</code> with any free drive letter:</p>
-        <div class="cmd"><pre>net use M: \\cortexcache-data.nas.sci.yorku.ca\Michaels-Group /user:"yorku.yorku.ca\<span class="var">your_ppy_id</span>" /persistent:yes</pre><button class="copy">Copy</button></div>
-        <p>You'll be prompted for your password. <code>net use</code> on its own lists mapped drives; to disconnect:</p>
-        <div class="cmd"><pre>net use M: /delete</pre><button class="copy">Copy</button></div>
-      </div>
-    </details>
+    <details class="adv"><summary>Alternative: map the drive from the Command Prompt</summary><div class="ans">
+      <p>In Command Prompt or PowerShell — replace <code>your_ppy_id</code>, and <code>M:</code> with any free letter. You'll be prompted for your password.</p>
+      <div class="cmd"><pre>net use M: \\cortexcache-data.nas.sci.yorku.ca\Michaels-Group /user:"yorku.yorku.ca\<span class="var">your_ppy_id</span>" /persistent:yes</pre><button class="copy"></button></div>
+      <p><code>net use</code> alone lists mapped drives. To disconnect:</p>
+      <div class="cmd"><pre>net use M: /delete</pre><button class="copy"></button></div>
+    </div></details>
   </div>
 
   <!-- ---------- Linux ---------- -->
   <div class="os-only linux">
-    <h3>Linux <span class="pill linux">CIFS</span></h3>
-    <p>Tested on Ubuntu / Debian. On Fedora use <code>sudo dnf install cifs-utils</code>; on Arch <code>sudo pacman -S cifs-utils</code>. Everything else is the same.</p>
+    <div class="sub"><h3>Linux</h3><span class="pill">CIFS</span></div>
+    <p>Written for Ubuntu/Debian. On Fedora use <code>sudo dnf install cifs-utils</code>, on Arch <code>sudo pacman -S cifs-utils</code>; everything else is the same.</p>
     <ol class="steps" data-group="linux">
       <li><input type="checkbox" id="l1"><div class="step-body"><label class="step-title" for="l1">Install CIFS utilities</label>
-        <div class="cmd"><pre>sudo apt-get install cifs-utils -y</pre><button class="copy">Copy</button></div></div></li>
+        <div class="cmd"><pre>sudo apt-get install cifs-utils -y</pre><button class="copy"></button></div></div></li>
       <li><input type="checkbox" id="l2"><div class="step-body"><label class="step-title" for="l2">Create a mount point</label>
-        <div class="cmd"><pre>sudo mkdir -p /mnt/cortex</pre><button class="copy">Copy</button></div></div></li>
+        <div class="cmd"><pre>sudo mkdir -p /mnt/cortex</pre><button class="copy"></button></div></div></li>
       <li><input type="checkbox" id="l3"><div class="step-body"><label class="step-title" for="l3">Mount the share</label>
-        <p>Replace <code>your_ppy_id</code> with your Passport York ID. The first line reads your password without echoing it, so it never ends up in your shell history or visible to other users via <code>ps</code>.</p>
+        <p>Replace <code>your_ppy_id</code> with your Passport York ID. The first line reads your password without echoing it, so it never lands in your shell history or in <code>ps</code> output.</p>
         <div class="cmd"><pre>read -s -p "Passport York password: " SMB_PASS; echo
 sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Group /mnt/cortex \
   -o username=<span class="var">your_ppy_id</span>,password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
-unset SMB_PASS</pre><button class="copy">Copy</button></div>
-        <p><code>uid=$(id -u),gid=$(id -g)</code> makes the mounted files owned by your Linux user so you can read and write them without <code>sudo</code>.</p></div></li>
+unset SMB_PASS</pre><button class="copy"></button></div>
+        <p><code>uid=$(id -u),gid=$(id -g)</code> makes the mounted files yours, so you can read and write without <code>sudo</code>.</p></div></li>
       <li><input type="checkbox" id="l4"><div class="step-body"><label class="step-title" for="l4">Verify</label>
-        <div class="cmd"><pre>df -h | grep cortex        <span class="cmt"># should show the share and its free space</span>
-mount | grep cifs          <span class="cmt"># lists all mounted CIFS shares</span></pre><button class="copy" data-copy="df -h | grep cortex">Copy</button></div>
-        <p>Your data is now under <code>/mnt/cortex</code>.</p></div></li>
+        <div class="cmd"><pre>df -h | grep cortex        <span class="cmt"># the share and its free space</span>
+mount | grep cifs          <span class="cmt"># all mounted CIFS shares</span></pre><button class="copy" data-copy="df -h | grep cortex"></button></div>
+        <p>Your data is under <code>/mnt/cortex</code>.</p></div></li>
       <li><input type="checkbox" id="l5"><div class="step-body"><label class="step-title" for="l5">Unmount when finished</label>
-        <div class="cmd"><pre>sudo umount /mnt/cortex</pre><button class="copy">Copy</button></div>
-        <p>Do this before disconnecting the VPN; otherwise processes touching <code>/mnt/cortex</code> may hang.</p></div></li>
+        <div class="cmd"><pre>sudo umount /mnt/cortex</pre><button class="copy"></button></div>
+        <p>Do this before disconnecting the VPN, or processes touching <code>/mnt/cortex</code> may hang.</p></div></li>
     </ol>
-    <details>
-      <summary>Optional: a reusable mount script</summary>
-      <div class="ans">
-        <p>Save this as <code>~/mount-cortex.sh</code>, make it executable with <code>chmod +x ~/mount-cortex.sh</code>, and run it whenever you need the share. It prompts for your password each time rather than storing it.</p>
-        <div class="cmd"><pre>#!/usr/bin/env bash
+    <details class="adv"><summary>Optional: a reusable mount script</summary><div class="ans">
+      <p>Save as <code>~/mount-cortex.sh</code>, run <code>chmod +x ~/mount-cortex.sh</code>, and call it whenever you need the share. It prompts for your password rather than storing it.</p>
+      <div class="cmd"><pre>#!/usr/bin/env bash
 set -e
 USER_ID="<span class="var">your_ppy_id</span>"
 MP=/mnt/cortex
@@ -350,83 +384,82 @@ read -s -p "Passport York password for $USER_ID: " SMB_PASS; echo
 sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Group "$MP" \
   -o username="$USER_ID",password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
 unset SMB_PASS
-echo "Mounted at $MP"</pre><button class="copy">Copy</button></div>
-        <div class="note warn"><strong>Don't hard‑code your password</strong><p>Avoid putting your password in the script, in <code>/etc/fstab</code>, or on the command line directly — it's your Passport York password and unlocks far more than this share. If you want an unattended mount, use a <code>credentials=</code> file with <code>chmod 600</code> permissions and ask in the lab before setting it up.</p></div>
-      </div>
-    </details>
+echo "Mounted at $MP"</pre><button class="copy"></button></div>
+      <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Don't hard‑code your password</b><p>Keep it out of scripts, <code>/etc/fstab</code> and the command line — it's your Passport York password and unlocks far more than this share. For an unattended mount, use a <code>credentials=</code> file with <code>chmod 600</code>, and ask in the lab before setting it up.</p></div></div>
+    </div></details>
   </div>
 </section>
 
 <!-- ============ QUICK REFERENCE ============ -->
 <section class="card" id="reference">
   <h2>Quick reference</h2>
-  <p>Everything on one card, for when you've done this before and just need the values.</p>
+  <p class="intro">For when you've done this before and just need the values.</p>
   <div class="kv">
-    <div class="row"><span class="k">VPN client</span><span class="v">Ivanti Secure Access Client</span><span></span></div>
-    <div class="row"><span class="k">VPN server URL</span><span class="v">https://vpngateway.yorku.ca/cortex</span><button class="copy" data-copy="https://vpngateway.yorku.ca/cortex">Copy</button></div>
-    <div class="row"><span class="k">VPN login</span><span class="v">Passport York username (no @yorku.ca) + Duo push</span><span></span></div>
-    <div class="row"><span class="k">macOS path</span><span class="v">smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/</span><button class="copy" data-copy="smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/">Copy</button></div>
-    <div class="row"><span class="k">Windows path</span><span class="v">\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group</span><button class="copy" data-copy="\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group">Copy</button></div>
-    <div class="row"><span class="k">Linux source</span><span class="v">//cortexcache-data.nas.sci.yorku.ca/Michaels-Group</span><button class="copy" data-copy="//cortexcache-data.nas.sci.yorku.ca/Michaels-Group">Copy</button></div>
-    <div class="row"><span class="k">Share login</span><span class="v">yorku.yorku.ca\your_ppy_id</span><button class="copy" data-copy="yorku.yorku.ca\">Copy prefix</button></div>
+    <div class="row"><span class="k">VPN client</span><span class="v plain">Ivanti Secure Access Client (formerly Pulse Secure)</span><span></span></div>
+    <div class="row"><span class="k">VPN server</span><span class="v">https://vpngateway.yorku.ca/cortex</span><button class="copy" data-copy="https://vpngateway.yorku.ca/cortex"></button></div>
+    <div class="row"><span class="k">VPN login</span><span class="v plain">Passport York username (no @yorku.ca) · Duo push</span><span></span></div>
+    <div class="row"><span class="k">macOS</span><span class="v">smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/</span><button class="copy" data-copy="smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/"></button></div>
+    <div class="row"><span class="k">Windows</span><span class="v">\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group</span><button class="copy" data-copy="\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group"></button></div>
+    <div class="row"><span class="k">Linux</span><span class="v">//cortexcache-data.nas.sci.yorku.ca/Michaels-Group</span><button class="copy" data-copy="//cortexcache-data.nas.sci.yorku.ca/Michaels-Group"></button></div>
+    <div class="row"><span class="k">Share login</span><span class="v">yorku.yorku.ca\<span class="var">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\" data-label="Copy prefix"></button></div>
   </div>
 </section>
 
 <!-- ============ TROUBLESHOOTING ============ -->
 <section class="card" id="troubleshooting">
   <h2>Troubleshooting</h2>
+  <p class="intro">Most problems come down to one of three things: the VPN isn't connected, the username is missing its domain prefix, or a saved password has gone stale.</p>
 
   <details><summary>The share won't connect, times out, or “server not found”</summary><div class="ans">
-    <p>Nine times out of ten the VPN isn't connected, or is connected to the wrong profile. Open Ivanti and confirm the <code>cortex</code> profile says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If the VPN is up, try disconnecting and reconnecting it, then mount again.</p>
+    <p>Nine times out of ten the VPN isn't connected, or is connected to the wrong profile. Open Ivanti and confirm <code>cortex</code> says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If the VPN is up, disconnect and reconnect it, then mount again.</p>
   </div></details>
 
   <details><summary>My username or password is rejected</summary><div class="ans">
-    <p>Check the username format — it differs between the two steps:</p>
-    <p>• VPN: <code>your_ppy_id</code> alone (no <code>@yorku.ca</code>, no domain).<br>• Share: <code>yorku.yorku.ca\your_ppy_id</code>, with a backslash, not a forward slash.</p>
-    <p>On Windows, if you didn't tick <em>Connect using different credentials</em>, Windows may never have asked you and is silently using your local account: disconnect the drive and map it again. If your Passport York password recently changed, update it in Keychain (Mac) or Credential Manager (Windows).</p>
+    <p>The username format differs between the two steps. VPN: <code>your_ppy_id</code> alone. Share: <code>yorku.yorku.ca\your_ppy_id</code>, with a backslash, not a forward slash.</p>
+    <p>On Windows, if you didn't tick <em>Connect using different credentials</em>, Windows may be silently using your local account: disconnect the drive and map it again. If your Passport York password changed recently, update it in Keychain (Mac) or Credential Manager (Windows).</p>
   </div></details>
 
   <details><summary>I never get the Duo push</summary><div class="ans">
-    <p>Make sure your phone has signal or Wi‑Fi and Duo Mobile notifications are enabled. Open Duo Mobile and look for a <em>Request waiting</em> banner. Failing that, use a passcode instead of a push: enter <code>yourpassword,123456</code> in the password field (password, comma, the six‑digit code from Duo Mobile). Duo problems (new phone, lost device) are handled by York UIT, not the lab.</p>
-  </div></details>
-
-  <details><summary>The VPN keeps disconnecting</summary><div class="ans">
-    <p>York's VPN profiles have an idle timeout of roughly 10–30 minutes with no traffic and a hard session limit of 8–10 hours, with a warning a few minutes before. Long transfers that exceed these limits will be interrupted; for very large copies, split them up or run them from a lab machine. Laptops going to sleep also drop the VPN, and the share with it: unmount before closing the lid.</p>
+    <p>Check your phone has signal or Wi‑Fi and Duo Mobile notifications are on. Open Duo Mobile and look for a <em>Request waiting</em> banner. Failing that, use a passcode: enter <code>yourpassword,123456</code> in the password field (password, comma, six‑digit code from Duo Mobile). Duo problems such as a new phone are handled by York UIT, not the lab.</p>
   </div></details>
 
   <details><summary>Ivanti says my password is invalid even though it's correct</summary><div class="ans">
-    <p>This is usually a saved password from an earlier session combined with Duo. In Ivanti, open the <code>cortex</code> connection's settings and choose <em>Forget saved settings</em>, then connect again without ticking <em>Save settings</em>.</p>
+    <p>Usually a saved password from an earlier session, which conflicts with Duo. Open the <code>cortex</code> connection's settings in Ivanti, choose <em>Forget saved settings</em>, then connect again without ticking <em>Save settings</em>.</p>
   </div></details>
 
-  <details><summary>Windows: “The network path was not found” or error 53 / 67</summary><div class="ans">
-    <p>Usually the VPN. Otherwise confirm you typed two leading backslashes (<code>\\cortexcache-data…</code>) and no trailing slash. From a Command Prompt, <code>ping cortexcache-data.nas.sci.yorku.ca</code> should resolve to an address while the VPN is connected; if it doesn't, the VPN profile is wrong.</p>
+  <details><summary>The VPN keeps disconnecting</summary><div class="ans">
+    <p>York's VPN profiles have an idle timeout of roughly 10–30 minutes with no traffic and a hard session limit of 8–10 hours, with a warning a few minutes before. Transfers longer than that get interrupted: split them up, or run them from a lab machine. Laptops going to sleep also drop the VPN and the share with it, so unmount before closing the lid.</p>
   </div></details>
 
-  <details><summary>Windows: “Multiple connections to a server by the same user are not allowed” (error 1219)</summary><div class="ans">
-    <p>Windows already has a connection to that server under different credentials. Run <code>net use * /delete</code> to clear all mapped drives, then map the share again.</p>
+  <details><summary>Windows: “The network path was not found” (error 53 / 67)</summary><div class="ans">
+    <p>Usually the VPN. Otherwise check for two leading backslashes (<code>\\cortexcache-data…</code>) and no trailing slash. From Command Prompt, <code>ping cortexcache-data.nas.sci.yorku.ca</code> should resolve while the VPN is connected; if it doesn't, the profile is wrong.</p>
+  </div></details>
+
+  <details><summary>Windows: “Multiple connections to a server… are not allowed” (error 1219)</summary><div class="ans">
+    <p>Windows already holds a connection to that server under different credentials. Run <code>net use * /delete</code> to clear all mapped drives, then map the share again.</p>
   </div></details>
 
   <details><summary>macOS: “There was a problem connecting to the server”</summary><div class="ans">
-    <p>Check the VPN first. Then make sure the address begins with <code>smb://</code> and that you selected <em>Registered User</em> rather than <em>Guest</em>. If a stale mount is lingering, eject anything named <code>Michaels-Group</code> in the Finder sidebar and try again.</p>
+    <p>Check the VPN first. Then make sure the address starts with <code>smb://</code> and that you chose <em>Registered User</em>, not <em>Guest</em>. If a stale mount lingers, eject anything named <code>Michaels-Group</code> in the Finder sidebar and try again.</p>
   </div></details>
 
   <details><summary>Linux: “mount error(13): Permission denied”</summary><div class="ans">
-    <p>Wrong username, password, or domain. Note that on Linux the domain is passed separately (<code>domain=yorku.yorku.ca</code>), so <code>username=</code> should be your bare Passport York ID <em>without</em> the prefix. Also verify you can reach the server: <code>ping -c 2 cortexcache-data.nas.sci.yorku.ca</code>.</p>
+    <p>Wrong username, password or domain. On Linux the domain is passed separately (<code>domain=yorku.yorku.ca</code>), so <code>username=</code> is your bare Passport York ID <em>without</em> the prefix. Also check you can reach the server: <code>ping -c 2 cortexcache-data.nas.sci.yorku.ca</code>.</p>
   </div></details>
 
   <details><summary>Linux: files are read‑only or owned by root</summary><div class="ans">
-    <p>You mounted without <code>uid=</code>/<code>gid=</code> options. Unmount and mount again with <code>uid=$(id -u),gid=$(id -g)</code> as shown above. If you need a different SMB protocol version you can add <code>,vers=3.0</code> to the options.</p>
+    <p>You mounted without <code>uid=</code>/<code>gid=</code>. Unmount and mount again with <code>uid=$(id -u),gid=$(id -g)</code> as shown above. If a different SMB protocol version is needed, add <code>,vers=3.0</code> to the options.</p>
   </div></details>
 
   <details><summary>Linux: “mount: unknown filesystem type 'cifs'”</summary><div class="ans">
     <p><code>cifs-utils</code> isn't installed — go back to step 1 of the Linux instructions.</p>
   </div></details>
 
-  <details><summary>Transfers are slow or the connection drops</summary><div class="ans">
-    <p>All traffic goes through the VPN, so throughput depends on your internet connection and York's VPN gateway. For large datasets, copy in the lab over a wired connection where possible, and avoid running analyses directly against the mounted share — copy the files you need to local disk first, then copy results back. Sleep/wake cycles on a laptop will often drop the mount; eject/unmount before closing the lid.</p>
+  <details><summary>Transfers are slow or drop out</summary><div class="ans">
+    <p>All traffic goes through the VPN, so throughput depends on your connection and York's gateway. For large datasets, copy in the lab over a wired connection where possible, and don't run analyses directly against the mounted share — copy what you need to local disk, work there, and copy results back.</p>
   </div></details>
 
-  <details><summary>I can connect but I can't see the <code>Michaels-Group</code> share or it's empty</summary><div class="ans">
+  <details><summary>I can connect but the share is missing or empty</summary><div class="ans">
     <p>Your Passport York account probably hasn't been added to the share's access group yet. See <a href="#access">Getting access</a>.</p>
   </div></details>
 </section>
@@ -434,26 +467,24 @@ echo "Mounted at $MP"</pre><button class="copy">Copy</button></div>
 <!-- ============ ACCESS ============ -->
 <section class="card" id="access">
   <h2>Getting access</h2>
-  <p>Two separate permissions are attached to your Passport York ID, and neither is automatic when you join the lab: access to the <code>cortex</code> <strong>VPN profile</strong> (every York member has the generic <em>VPNYork</em> profile, but restricted profiles like <code>cortex</code> must be requested by the profile owner through York UIT's "SSLVPN Request" form on Halo), and access to the <code>Michaels-Group</code> <strong>share</strong> itself. Jonathan requests both for you.</p>
+  <p class="intro">Two permissions are attached to your Passport York ID, and neither is automatic when you join the lab: the <code>cortex</code> <strong>VPN profile</strong> (everyone at York has the generic <em>VPNYork</em> profile, but restricted profiles are granted per person) and the <code>Michaels-Group</code> <strong>share</strong> itself. Jonathan requests both for you.</p>
   <ol class="steps" data-group="access">
-    <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Make sure you have a Passport York account and Duo set up</label>
-      <p>Students and staff normally already have one. If Duo isn't set up, follow York UIT's instructions at <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">yorku.ca/uit … /duo/</a>.</p></div></li>
-    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Ask Jonathan to request access for you</label>
-      <p>Send Jonathan (<a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>) your Passport York ID. He will submit the VPN profile request to UIT and ask Science IT, who administer CortexCache, to add you to the share's access group. Allow a few working days.</p></div></li>
+    <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Have a Passport York account with Duo set up</label>
+      <p>Students and staff normally already do. If Duo isn't set up, follow <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">York UIT's Duo instructions</a>.</p></div></li>
+    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Send Jonathan your Passport York ID</label>
+      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>. He submits the VPN profile request to UIT and asks Science IT, who administer CortexCache, to add you to the share's access group. Allow a few working days.</p></div></li>
     <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Connect</label>
-      <p>Once you've been told access is granted, follow steps 1 and 2 above.</p></div></li>
+      <p>Once you're told access is granted, follow steps 1 and 2 above.</p></div></li>
   </ol>
   <div class="note ok">
-    <strong>Good citizenship on the share</strong>
-    <p>The share is shared storage for the whole lab. Keep your work inside the folder structure already in place, don't store personal files there, and never put your Passport York password in a script or config file that lives on the share.</p>
+    <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+    <div><b>Good citizenship on the share</b><p>It's shared storage for the whole lab. Keep your work inside the existing folder structure, don't store personal files there, and never leave your Passport York password in a script or config file on the share.</p></div>
   </div>
 </section>
 
 <footer>
-  <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
-    <span>NCC Lab · <a href="https://ncclab.ca" target="_blank" rel="noopener">ncclab.ca</a> · School of Kinesiology and Health Science, York University. Based on Science IT's CortexCache HOWTO documents (Feb 2025), cross‑checked against <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT's VPN page</a> and <a href="https://infosec.yorku.ca/how-do-i-connect-to-pulse-secure-vpn-with-duo-2fa/" target="_blank" rel="noopener">InfoSec's Duo VPN guide</a> in Sept 2026.</span>
-    <button class="btn-reset" id="resetBtn" title="Clear your checklist progress and OS choice">Reset checklist</button>
-  </div>
+  NCC Lab · <a href="https://ncclab.ca" target="_blank" rel="noopener">ncclab.ca</a> · School of Kinesiology and Health Science, York University.<br>
+  Based on Science IT's CortexCache HOWTO documents (Feb 2025), cross‑checked against <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT's VPN page</a> and <a href="https://infosec.yorku.ca/how-do-i-connect-to-pulse-secure-vpn-with-duo-2fa/" target="_blank" rel="noopener">InfoSec's Duo VPN guide</a>, Sept 2026. Source on <a href="https://github.com/neural-control-and-computation-lab/cortexcache-docs" target="_blank" rel="noopener">GitHub</a>.
 </footer>
 
 </main>
@@ -461,90 +492,68 @@ echo "Mounted at $MP"</pre><button class="copy">Copy</button></div>
 
 <script>
 (function(){
-  var store = {
-    get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},
-    set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},
-    del:function(k){try{localStorage.removeItem(k)}catch(e){}}
-  };
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}}};
   var body=document.body;
-  var osButtons=document.querySelectorAll('.ospick button');
   var osNames={mac:'macOS',win:'Windows',linux:'Linux'};
+  var segButtons=document.querySelectorAll('.seg button');
   var boxes=document.querySelectorAll('ol.steps input[type=checkbox]');
 
-  function setOS(os, scroll){
-    body.setAttribute('data-os', os||'');
-    osButtons.forEach(function(b){b.setAttribute('aria-pressed', b.dataset.os===os ? 'true':'false')});
-    document.getElementById('osHint').textContent = os ? 'Showing instructions for '+osNames[os]+'. You can switch at any time.' : 'No system selected yet — the mount step will stay hidden until you choose one.';
-    document.getElementById('mountHint').style.display = os ? 'none':'block';
-    if(os) store.set('cc-os', os); else store.del('cc-os');
+  function setOS(os){
+    body.setAttribute('data-os',os||'');
+    segButtons.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.os===os?'true':'false')});
+    if(os)store.set('cc-os',os);else store.del('cc-os');
     updateProgress();
-    if(scroll){ document.getElementById('vpn').scrollIntoView({behavior:'smooth',block:'start'}); }
   }
-  osButtons.forEach(function(b){ b.addEventListener('click', function(){ setOS(b.dataset.os, true); }); });
+  segButtons.forEach(function(b){b.addEventListener('click',function(){setOS(b.dataset.os)})});
+  document.querySelectorAll('.os-empty button').forEach(function(b){b.addEventListener('click',function(){setOS(b.dataset.os)})});
 
-  // Auto-detect OS on first visit
-  var saved = store.get('cc-os');
-  if(saved && osNames[saved]){ setOS(saved,false); }
-  else {
-    var ua=navigator.userAgent||'', p=navigator.platform||'';
-    var guess = /Mac|iPhone|iPad/.test(ua+p) ? 'mac' : /Win/.test(ua+p) ? 'win' : /Linux|X11/.test(ua+p) ? 'linux' : '';
-    setOS(guess,false);
-  }
+  var saved=store.get('cc-os');
+  if(saved&&osNames[saved]){setOS(saved)}
+  else{var ua=(navigator.userAgent||'')+(navigator.platform||'');setOS(/Mac|iPhone|iPad/.test(ua)?'mac':/Win/.test(ua)?'win':/Linux|X11/.test(ua)?'linux':'')}
 
-  // Checklist persistence
   boxes.forEach(function(cb){
-    if(store.get('cc-step-'+cb.id)==='1'){ cb.checked=true; }
-    cb.closest('li').classList.toggle('done', cb.checked);
-    cb.addEventListener('change', function(){
-      cb.closest('li').classList.toggle('done', cb.checked);
-      if(cb.checked) store.set('cc-step-'+cb.id,'1'); else store.del('cc-step-'+cb.id);
+    if(store.get('cc-step-'+cb.id)==='1')cb.checked=true;
+    cb.closest('li').classList.toggle('done',cb.checked);
+    cb.addEventListener('change',function(){
+      cb.closest('li').classList.toggle('done',cb.checked);
+      if(cb.checked)store.set('cc-step-'+cb.id,'1');else store.del('cc-step-'+cb.id);
       updateProgress();
     });
   });
-  function visible(el){ return !!(el.offsetParent) ; }
   function updateProgress(){
-    var total=0, done=0;
-    boxes.forEach(function(cb){
-      var group=cb.closest('ol').dataset.group;
-      if(group==='access') return;
-      if(group==='vpn' || group===body.getAttribute('data-os')){ total++; if(cb.checked) done++; }
-    });
-    document.getElementById('progText').textContent = done+' / '+total+(total && done===total ? ' — connected!' : '');
-    document.getElementById('progBar').style.width = total ? (100*done/total)+'%' : '0%';
+    var total=0,done=0,os=body.getAttribute('data-os');
+    boxes.forEach(function(cb){var g=cb.closest('ol').dataset.group;if(g==='access')return;if(g==='vpn'||g===os){total++;if(cb.checked)done++}});
+    document.getElementById('progText').innerHTML='<b>'+done+'</b> of '+total+' steps'+(total&&done===total?' — connected':'');
+    document.getElementById('progBar').style.width=total?(100*done/total)+'%':'0%';
   }
   updateProgress();
 
-  document.getElementById('resetBtn').addEventListener('click', function(){
-    boxes.forEach(function(cb){ cb.checked=false; cb.closest('li').classList.remove('done'); store.del('cc-step-'+cb.id); });
-    setOS('', false);
-    window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('resetBtn').addEventListener('click',function(){
+    boxes.forEach(function(cb){cb.checked=false;cb.closest('li').classList.remove('done');store.del('cc-step-'+cb.id)});
+    setOS('');window.scrollTo({top:0,behavior:'smooth'});
   });
 
-  // Copy buttons
+  // copy buttons
+  var icon='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>';
   document.querySelectorAll('.copy').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var text = btn.dataset.copy;
-      if(text==null){ var pre=btn.parentElement.querySelector('pre'); text = pre ? pre.textContent : ''; }
-      // strip trailing inline comments for command blocks
-      if(!btn.dataset.copy){ text = text.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n'); }
-      var label=btn.textContent;
-      function ok(){ btn.textContent='Copied'; btn.classList.add('ok'); setTimeout(function(){btn.textContent=label;btn.classList.remove('ok')},1400); }
-      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok, function(){ fallback(text); ok(); }); }
-      else { fallback(text); ok(); }
+    var label=btn.dataset.label||'Copy';
+    btn.innerHTML=icon+'<span>'+label+'</span>';
+    btn.setAttribute('aria-label',label);
+    btn.addEventListener('click',function(){
+      var text=btn.dataset.copy;
+      if(text==null){var pre=btn.parentElement.querySelector('pre');text=pre?pre.textContent:'';text=text.split('\n').map(function(l){return l.replace(/\s+#.*$/,'')}).join('\n')}
+      function ok(){btn.innerHTML=icon+'<span>Copied</span>';btn.classList.add('ok');setTimeout(function(){btn.innerHTML=icon+'<span>'+label+'</span>';btn.classList.remove('ok')},1400)}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,function(){fallback(text);ok()})}else{fallback(text);ok()}
     });
   });
-  function fallback(text){ var ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy')}catch(e){} document.body.removeChild(ta); }
+  function fallback(t){var ta=document.createElement('textarea');ta.value=t;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}
 
   // TOC highlighting
   var links=document.querySelectorAll('nav.toc a');
-  var sections=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
   if('IntersectionObserver' in window){
     var current=null;
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if(en.isIntersecting){ current=en.target.id; } });
-      links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href')==='#'+current); });
-    },{rootMargin:'-20% 0px -65% 0px'});
-    sections.forEach(function(s){ if(s) io.observe(s); });
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting)current=en.target.id});links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+current)})},{rootMargin:'-25% 0px -60% 0px'});
+    links.forEach(function(a){var s=document.querySelector(a.getAttribute('href'));if(s)io.observe(s)});
   }
 })();
 </script>
