@@ -197,11 +197,22 @@ footer{color:var(--muted);font-size:.86rem;padding:20px 0 40px;border-top:1px so
 <!-- ============ STEP 1: VPN ============ -->
 <section class="card" id="vpn">
   <h2><span class="step-num">1</span>Connect to the VPN (Ivanti Secure Access)</h2>
-  <p>York uses the <strong>Ivanti Secure Access Client</strong> for VPN. You only have to install it and create the profile once; afterwards you just click <em>Connect</em>. These steps are the same on every operating system.</p>
+  <p>York uses the <strong>Ivanti Secure Access Client</strong> for VPN. It was previously called <strong>Pulse Secure</strong>; Ivanti bought the product and renamed it, so if you see either name (York's own pages still say "Pulse Secure" in places, and the Linux build installs to <code>/opt/pulsesecure/</code>), it's the same client. You only have to install it and create the profile once; afterwards you just click <em>Connect</em>.</p>
 
   <ol class="steps" data-group="vpn">
     <li><input type="checkbox" id="v1"><div class="step-body"><label class="step-title" for="v1">Install the Ivanti Secure Access Client</label>
-      <p>Download it from York UIT and follow their installation instructions for your operating system:<br><a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">yorku.ca/uit/faculty-and-staff-services/internet-access/</a></p></div></li>
+      <p>Installers are hosted by York UIT (Passport York login required to download) on the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">UIT Internet Access page</a>, under the <em>VPN</em> tab. Use the version marked <em>Current</em> (22.8r2 at the time of writing), not the older Pulse Secure 9.1 builds.</p>
+      <div class="os-only mac"><p><strong>macOS:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#mac" target="_blank" rel="noopener">Mac installer</a>, open the package and click through <em>Continue ▸ Install</em>. The client then appears in your Applications folder and in the menu bar. If macOS complains about an unidentified developer, allow it under <em>System Settings ▸ Privacy &amp; Security</em>.</p></div>
+      <div class="os-only win"><p><strong>Windows:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#windows" target="_blank" rel="noopener">64‑bit installer</a> (or the ARM64 build on a Snapdragon laptop), run the <code>.msi</code>, and accept the defaults. The Ivanti icon appears in the system tray.</p></div>
+      <div class="os-only linux"><p><strong>Linux:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#linux" target="_blank" rel="noopener"><code>.deb</code> (Ubuntu/Debian) or <code>.rpm</code> (Fedora/RHEL)</a>. The client needs a desktop session (it embeds a browser for the sign‑in) and two dependencies:</p>
+        <div class="cmd"><pre>sudo apt-get install libnss3-tools libwebkit2gtk-4.0-37   <span class="cmt"># Ubuntu 22.04 / Debian 12</span>
+sudo apt install ~/Downloads/ps-pulse-linux-*.deb
+sudo /opt/pulsesecure/bin/setup_cef.sh install</pre><button class="copy" data-copy="sudo apt-get install libnss3-tools libwebkit2gtk-4.0-37
+sudo apt install ~/Downloads/ps-pulse-linux-*.deb
+sudo /opt/pulsesecure/bin/setup_cef.sh install">Copy</button></div>
+        <p>Then launch <strong>Ivanti Secure Access Client</strong> (<code>pulseUi</code>) from your applications menu, or run <code>/opt/pulsesecure/bin/pulseUi</code>. On Fedora/RHEL use <code>sudo dnf install ./ps-pulse-linux-*.rpm</code> instead.</p>
+        <div class="note warn"><strong>Ubuntu 24.04 and newer</strong><p>The client depends on <code>libwebkit2gtk-4.0-37</code>, which 24.04 no longer ships (it has 4.1). The usual workaround is to temporarily add the Ubuntu 22.04 ("jammy") repository, install that one package, then remove the repository again. Very recent Fedora/RHEL releases have dropped the legacy WebKitGTK packages entirely and may not work until Ivanti updates the client. If you hit this, ask in the lab — connecting from a lab machine may be simpler.</p></div>
+      </div></div></li>
 
     <li><input type="checkbox" id="v2"><div class="step-body"><label class="step-title" for="v2">Open the client and add a new connection</label>
       <p>Launch Ivanti Secure Access Client (on Windows it lives in the system tray; on macOS in the menu bar). In the <em>Connections</em> panel, click the <strong>+</strong> button.</p>
@@ -222,13 +233,15 @@ footer{color:var(--muted);font-size:.86rem;padding:20px 0 40px;border-top:1px so
       </div></div></li>
 
     <li><input type="checkbox" id="v4"><div class="step-body"><label class="step-title" for="v4">Connect and sign in</label>
-      <p>Click <strong>Connect</strong> next to <code>cortex</code>. Enter your Passport York <strong>username only</strong> (e.g. <code>jsmith</code>, <em>not</em> <code>jsmith@yorku.ca</code>) and your password, then <strong>Sign In</strong>.</p>
+      <p>Click <strong>Connect</strong> next to <code>cortex</code>. Enter your Passport York <strong>username only</strong> (e.g. <code>jsmith</code>, <em>not</em> <code>jsmith@yorku.ca</code>) and your password, then <strong>Sign In</strong> / <strong>Connect</strong>.</p>
+      <div class="note warn"><strong>Leave “Save settings” unticked</strong><p>York InfoSec asks that you do <em>not</em> tick <em>Save settings</em> on this dialog: with Duo two‑factor, a saved password causes failed logins later. You'll type your password each time you connect.</p></div>
       <div class="figrow">
-        <figure><img src="img/vpn-4-signin.png" alt="Ivanti sign-in dialog titled Connect to: cortex, asking for user name and password"><figcaption>Sign‑in prompt. Tick <em>Save settings</em> to remember your username.</figcaption></figure>
+        <figure><img src="img/vpn-4-signin.png" alt="Ivanti sign-in dialog titled Connect to: cortex, asking for user name and password"><figcaption>The sign‑in prompt.</figcaption></figure>
       </div></div></li>
 
     <li><input type="checkbox" id="v5"><div class="step-body"><label class="step-title" for="v5">Approve the Duo push</label>
-      <p>Your phone will receive a <strong>Duo Push</strong> notification. Tap <em>Approve</em>. The client status changes to <em>Connected</em>. Leave it connected for as long as you're working with the share.</p></div></li>
+      <p>Your phone will receive a <strong>Duo Push</strong> notification. Tap <em>Approve</em>. The client status changes to <em>Connected</em>. Leave it connected for as long as you're working with the share.</p>
+      <p>If the push doesn't arrive, open the Duo Mobile app; there's usually a <em>Request waiting</em> banner you can tap. Alternatively, type your password followed by a comma and a Duo passcode in the password field, e.g. <code>mypassword,123456</code>, using the six‑digit code shown in Duo Mobile.</p></div></li>
   </ol>
 </section>
 
@@ -374,7 +387,15 @@ echo "Mounted at $MP"</pre><button class="copy">Copy</button></div>
   </div></details>
 
   <details><summary>I never get the Duo push</summary><div class="ans">
-    <p>Make sure your phone has signal or Wi‑Fi and Duo Mobile notifications are enabled. If the push doesn't arrive within ~30 s, cancel and connect again — a stale request won't be re‑sent. You can also open Duo Mobile and approve the pending request from inside the app. Duo problems (new phone, lost device) are handled by York UIT, not the lab.</p>
+    <p>Make sure your phone has signal or Wi‑Fi and Duo Mobile notifications are enabled. Open Duo Mobile and look for a <em>Request waiting</em> banner. Failing that, use a passcode instead of a push: enter <code>yourpassword,123456</code> in the password field (password, comma, the six‑digit code from Duo Mobile). Duo problems (new phone, lost device) are handled by York UIT, not the lab.</p>
+  </div></details>
+
+  <details><summary>The VPN keeps disconnecting</summary><div class="ans">
+    <p>York's VPN profiles have an idle timeout of roughly 10–30 minutes with no traffic and a hard session limit of 8–10 hours, with a warning a few minutes before. Long transfers that exceed these limits will be interrupted; for very large copies, split them up or run them from a lab machine. Laptops going to sleep also drop the VPN, and the share with it: unmount before closing the lid.</p>
+  </div></details>
+
+  <details><summary>Ivanti says my password is invalid even though it's correct</summary><div class="ans">
+    <p>This is usually a saved password from an earlier session combined with Duo. In Ivanti, open the <code>cortex</code> connection's settings and choose <em>Forget saved settings</em>, then connect again without ticking <em>Save settings</em>.</p>
   </div></details>
 
   <details><summary>Windows: “The network path was not found” or error 53 / 67</summary><div class="ans">
@@ -413,12 +434,12 @@ echo "Mounted at $MP"</pre><button class="copy">Copy</button></div>
 <!-- ============ ACCESS ============ -->
 <section class="card" id="access">
   <h2>Getting access</h2>
-  <p>Access to <code>Michaels-Group</code> is granted per person, by Passport York ID. It is not automatic when you join the lab.</p>
+  <p>Two separate permissions are attached to your Passport York ID, and neither is automatic when you join the lab: access to the <code>cortex</code> <strong>VPN profile</strong> (every York member has the generic <em>VPNYork</em> profile, but restricted profiles like <code>cortex</code> must be requested by the profile owner through York UIT's "SSLVPN Request" form on Halo), and access to the <code>Michaels-Group</code> <strong>share</strong> itself. Jonathan requests both for you.</p>
   <ol class="steps" data-group="access">
     <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Make sure you have a Passport York account and Duo set up</label>
       <p>Students and staff normally already have one. If Duo isn't set up, follow York UIT's instructions at <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">yorku.ca/uit … /duo/</a>.</p></div></li>
     <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Ask Jonathan to request access for you</label>
-      <p>Send Jonathan (<a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>) your Passport York ID. He will ask Science IT, who administer CortexCache, to add you to the share's access group. Allow a few working days.</p></div></li>
+      <p>Send Jonathan (<a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>) your Passport York ID. He will submit the VPN profile request to UIT and ask Science IT, who administer CortexCache, to add you to the share's access group. Allow a few working days.</p></div></li>
     <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Connect</label>
       <p>Once you've been told access is granted, follow steps 1 and 2 above.</p></div></li>
   </ol>
@@ -430,7 +451,7 @@ echo "Mounted at $MP"</pre><button class="copy">Copy</button></div>
 
 <footer>
   <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center">
-    <span>NCC Lab · <a href="https://ncclab.ca" target="_blank" rel="noopener">ncclab.ca</a> · School of Kinesiology and Health Science, York University. Based on Science IT's CortexCache HOWTO documents (last revised Feb 2025).</span>
+    <span>NCC Lab · <a href="https://ncclab.ca" target="_blank" rel="noopener">ncclab.ca</a> · School of Kinesiology and Health Science, York University. Based on Science IT's CortexCache HOWTO documents (Feb 2025), cross‑checked against <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT's VPN page</a> and <a href="https://infosec.yorku.ca/how-do-i-connect-to-pulse-secure-vpn-with-duo-2fa/" target="_blank" rel="noopener">InfoSec's Duo VPN guide</a> in Sept 2026.</span>
     <button class="btn-reset" id="resetBtn" title="Clear your checklist progress and OS choice">Reset checklist</button>
   </div>
 </footer>
