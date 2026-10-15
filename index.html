@@ -204,7 +204,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
       </div>
     </div>
     <div class="path" aria-hidden="true">
-      <div class="node"><b><span>1</span>Connect the VPN</b><small>Ivanti Secure Access · <code>cortex</code> profile</small></div>
+      <div class="node"><b><span>1</span>Connect the VPN</b><small>Ivanti Secure Access · <code>cortex</code> profile · not needed on registered lab computers</small></div>
       <div class="arrow">→</div>
       <div class="node"><b><span>2</span>Mount the share</b><small>SMB · Windows, macOS or Linux</small></div>
     </div>
@@ -248,48 +248,44 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
   </div>
   <div class="note warn">
     <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>
-    <div><b>The VPN is always required — on campus too</b><p>CortexCache is only reachable through the <code>cortex</code> VPN profile, even from York's wired or wireless network. Without step 1, the mount in step 2 fails or hangs.</p></div>
+    <div><b>The VPN is required from your own computer — on campus too</b><p>From a laptop or home machine, CortexCache is only reachable through the <code>cortex</code> VPN profile, even on York's wired or wireless network. Without step 1, the mount in step 2 fails or hangs. The one exception is a <strong>registered lab computer</strong>: the lab's fixed workstations are allow‑listed by address, so on those you skip step 1 and go straight to mounting. If you're not sure whether a machine is registered, ask.</p></div>
   </div>
 </section>
 
 <!-- ============ STORAGE LAYOUT ============ -->
 <section class="card" id="layout">
   <h2>How the storage is organised</h2>
-  <p class="intro">CortexCache holds several separate <strong>shares</strong>, each mounted on its own. You'll normally use two kinds:</p>
+  <p class="intro">Everything lives on one share, <code>Michaels-Projects</code>. You mount it once, and inside it you see only the folders you've been given access to.</p>
   <div class="kv">
-    <div class="row"><span class="k">Michaels-Projects</span><span class="v plain">The lab share (previously called <code>Michaels-Group</code> — if you have an old mapping or favourite with that name, delete it and set it up again). Everyone gets a <strong>private folder</strong> here by default, for your own working files. Raw experimental data does <strong>not</strong> belong in it.</span><span></span></div>
-    <div class="row"><span class="k">Project shares</span><span class="v plain">Each experiment or project has its own share, for its raw data and shared analyses. Access is granted per person, so you'll only see the ones you've been added to.</span><span></span></div>
+    <div class="row"><span class="k">Your folder</span><span class="v plain">Everyone gets a <strong>private folder</strong> for their own working files. Raw experimental data does <strong>not</strong> belong in it.</span><span></span></div>
+    <div class="row"><span class="k">Project folders</span><span class="v plain">Each experiment or project has its own folder for raw data and shared analyses. Access is granted per person, so the share looks different for each of you.</span><span></span></div>
   </div>
-  <p>The mount instructions below use <code>Michaels-Projects</code> as the example. To mount a project share, use exactly the same steps with the project's share name in place of <code>Michaels-Projects</code>. If you need access to a project share, or a new share for a new experiment, ask Jonathan.</p>
+  <p>If a project folder you need isn't visible, or you're starting a new experiment that needs its own folder, ask Jonathan. The share was previously called <code>Michaels-Group</code>: if you have an old mapping or favourite with that name, delete it and set it up again.</p>
 </section>
 
 <!-- ============ ACCESS ============ -->
 <section class="card" id="access">
   <h2>Getting access</h2>
-  <p class="intro">Do this first — it takes a few days. Your Passport York account needs to be added to <strong>two separate things</strong> before the server will let you in, and neither happens automatically when you join the lab:</p>
-  <div class="kv">
-    <div class="row"><span class="k">VPN profile</span><span class="v plain">The <code>cortex</code> VPN profile. Everyone at York has the generic <em>VPNYork</em> profile; <code>cortex</code> is granted per person by York UIT and is what lets your computer reach the server at all.</span><span></span></div>
-    <div class="row"><span class="k">Security group</span><span class="v plain">The Active Directory security group for the lab's storage (<code>sc-cortexcache-michaels</code>). CortexCache checks this group when you connect; without it you'll get <em>Access denied</em> even with the VPN working. Science IT manages it.</span><span></span></div>
-  </div>
-  <p>For now, <strong>ask Jonathan</strong> for both — don't contact UIT or Science IT yourself. Access to individual project shares is handled the same way.</p>
+  <p class="intro">Do this first — it takes a few days. To reach CortexCache from your own computer, your Passport York account must be added to the <code>cortex</code> <strong>VPN profile</strong>. Everyone at York has the generic <em>VPNYork</em> profile, but <code>cortex</code> is granted per person and does not happen automatically when you join the lab. Which folders you then see on the share is also set per person.</p>
+  <p>For now, <strong>ask Jonathan</strong> for both — don't contact UIT or Science IT yourself.</p>
   <ol class="steps" data-group="access">
     <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Have a Passport York account with Duo set up</label>
       <p>Students and staff normally already do. If Duo isn't set up, follow <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">York UIT's Duo instructions</a>.</p></div></li>
     <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Send Jonathan your Passport York ID</label>
-      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username and which projects you're working on. He requests the VPN profile and the security group membership for you. Allow a few working days, and wait for him to confirm both are done. The same applies later if you need another project share, or a new share for a new experiment.</p>
-      <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Don't try to connect before both are confirmed</b><p>If you attempt to mount the share before you're in the security group, the server can remember the refusal for a while and keep saying <em>Access denied</em> even after you've been added. Waiting for confirmation avoids a frustrating day of retries.</p></div></div></div></li>
+      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username and which projects you're working on. He requests the VPN profile for you and sets up your folder access. Allow a few working days, and wait for him to confirm before you try to connect. The same applies later if you need access to another project folder.</p></div></li>
     <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Connect</label>
-      <p>Once Jonathan confirms you're on the VPN profile <em>and</em> in the security group, follow steps 1 and 2 below.</p></div></li>
+      <p>Once Jonathan confirms, follow steps 1 and 2 below — or just step 2 if you're on a registered lab computer.</p></div></li>
   </ol>
   <div class="note ok">
     <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-    <div><b>Good citizenship on the share</b><p>Keep raw experimental data in its project share, not in your private folder on <code>Michaels-Projects</code>. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on a share.</p></div>
+    <div><b>Good citizenship on the share</b><p>Keep raw experimental data in its project folder, not in your private folder. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on the share.</p></div>
   </div>
 </section>
 
 <!-- ============ STEP 1: VPN ============ -->
 <section class="card" id="vpn">
   <h2><span class="n">1</span>Connect to the VPN</h2>
+  <p class="intro"><strong>Skip this step on a registered lab computer</strong> — those reach CortexCache directly. It applies to your own laptop or home machine. </p>
   <p class="intro">York's VPN client is <strong>Ivanti Secure Access</strong>, formerly called <strong>Pulse Secure</strong> — the same product under a new name, so either label may appear on York's pages (and the Linux build still installs to <code>/opt/pulsesecure/</code>). You install it and create the profile once; after that it's a single click to connect.</p>
 
   <ol class="steps" data-group="vpn">
@@ -337,7 +333,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
 <!-- ============ STEP 2: MOUNT ============ -->
 <section class="card" id="mount">
   <h2><span class="n">2</span>Mount the <code>Michaels-Projects</code> share</h2>
-  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system. <code>Michaels-Projects</code> is used as the example throughout — substitute a project share's name to mount that instead.</p>
+  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system. On a registered lab computer you can start here without the VPN.</p>
   <div class="kv">
     <div class="row"><span class="k">Server</span><span class="v">cortexcache-data.nas.sci.yorku.ca</span><button class="copy" data-copy="cortexcache-data.nas.sci.yorku.ca"></button></div>
     <div class="row"><span class="k">Share</span><span class="v">Michaels-Projects</span><button class="copy" data-copy="Michaels-Projects"></button></div>
@@ -366,7 +362,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
         <p>It appears under <em>Locations</em> in the Finder sidebar and at <code>/Volumes/Michaels-Projects</code> in Terminal. Eject it (<strong>⏏</strong> in the sidebar) before disconnecting the VPN or closing your laptop.</p></div></li>
     </ol>
     <details class="adv"><summary>Optional: reconnect automatically at login</summary><div class="ans">
-      <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and pick the <code>Michaels-Projects</code> volume. It reconnects at each login — but only if the VPN is already up, so connect Ivanti first.</p>
+      <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and pick the <code>Michaels-Projects</code> volume. It reconnects at each login — on your own computer, only if the VPN is already up, so connect Ivanti first.</p>
     </div></details>
   </div>
 
@@ -458,7 +454,7 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
   <p class="intro">Most problems come down to one of three things: the VPN isn't connected, the username is missing its domain prefix, or a saved password has gone stale.</p>
 
   <details><summary>The share won't connect, times out, or “server not found”</summary><div class="ans">
-    <p>Nine times out of ten the VPN isn't connected, or is connected to the wrong profile. Open Ivanti and confirm <code>cortex</code> says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If the VPN is up, disconnect and reconnect it, then mount again.</p>
+    <p>On your own computer, nine times out of ten the VPN isn't connected, or is connected to the wrong profile. Open Ivanti and confirm <code>cortex</code> says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If the VPN is up, disconnect and reconnect it, then mount again. On a lab computer that should reach the server without VPN, a timeout means the machine's address may not be registered — tell Jonathan.</p>
   </div></details>
 
   <details><summary>My username or password is rejected</summary><div class="ans">
@@ -506,12 +502,12 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
     <p>All traffic goes through the VPN, so throughput depends on your connection and York's gateway. For large datasets, copy in the lab over a wired connection where possible, and don't run analyses directly against the mounted share — copy what you need to local disk, work there, and copy results back.</p>
   </div></details>
 
-  <details><summary>“Access is denied” with the right username and password, even though I've been added</summary><div class="ans">
-    <p>If the VPN is connected, the username has the <code>yorku.yorku.ca\</code> prefix, and the password works elsewhere, the refusal is coming from the server, not from your computer. Either you aren't in the <code>sc-cortexcache-michaels</code> security group yet, or you tried to connect before you were added and the server is still holding on to the old answer. Rebooting or clearing caches on your own machine won't change this. Stop retrying and tell Jonathan; the fix is on the server side.</p>
+  <details><summary>“Access is denied” with the right username and password</summary><div class="ans">
+    <p>If the VPN is connected (or you're on a registered lab computer), the username has the <code>yorku.yorku.ca\</code> prefix, and the password works elsewhere, the refusal is coming from the server, not from your computer: your account hasn't been given access to the share yet. Rebooting or clearing caches on your own machine won't change this. Stop retrying and tell Jonathan.</p>
   </div></details>
 
   <details><summary>I can connect but the share is missing or empty</summary><div class="ans">
-    <p>Your Passport York account probably hasn't been added to the security group yet. See <a href="#access">Getting access</a>.</p>
+    <p>You only see the folders you've been granted. If the share mounts but a project folder you expect isn't there, or your private folder is missing, ask Jonathan to add you. See <a href="#access">Getting access</a>.</p>
   </div></details>
 </section>
 
