@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CortexCache Guide · NCC Lab</title>
-<meta name="description" content="How to connect to the NCC Lab's CortexCache network storage (Michaels-Group share) from Windows, macOS and Linux.">
+<meta name="description" content="How to connect to the NCC Lab's CortexCache network storage (Michaels-Projects share) from Windows, macOS and Linux.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231d4f78'/%3E%3Cpath d='M28 38h44v10H28zM28 52h44v10H28z' fill='white' opacity='.95'/%3E%3Ccircle cx='36' cy='43' r='2.5' fill='%231d4f78'/%3E%3Ccircle cx='36' cy='57' r='2.5' fill='%231d4f78'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -200,7 +200,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
       <div>
       <span class="overline">Neural Control &amp; Computation Lab · York University</span>
       <h1>Connecting to CortexCache</h1>
-      <p class="lede">CortexCache is the lab's shared network storage, administered by Science IT. Our data lives on the <code>Michaels-Group</code> share. Getting to it from your own computer takes two steps, and this page walks through both.</p>
+      <p class="lede">CortexCache is the lab's shared network storage, administered by Science IT. Our data lives on the <code>Michaels-Projects</code> share. Getting to it from your own computer takes two steps, and this page walks through both.</p>
       </div>
     </div>
     <div class="path" aria-hidden="true">
@@ -244,7 +244,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 
   <div class="note">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg>
-    <div><b>What you'll need</b><p>Your <strong>Passport York</strong> username and password (the same login as York email) with <strong>Duo Mobile</strong> set up for two‑factor authentication, plus access to the <code>cortex</code> VPN profile and the <code>Michaels-Group</code> share. If you're new to the lab, start with <a href="#access">Getting access</a> below.</p></div>
+    <div><b>What you'll need</b><p>Your <strong>Passport York</strong> username and password (the same login as York email) with <strong>Duo Mobile</strong> set up for two‑factor authentication, plus access to the <code>cortex</code> VPN profile and the <code>Michaels-Projects</code> share. If you're new to the lab, start with <a href="#access">Getting access</a> below.</p></div>
   </div>
   <div class="note warn">
     <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>
@@ -257,10 +257,10 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
   <h2>How the storage is organised</h2>
   <p class="intro">CortexCache holds several separate <strong>shares</strong>, each mounted on its own. You'll normally use two kinds:</p>
   <div class="kv">
-    <div class="row"><span class="k">Michaels-Group</span><span class="v plain">The lab share. Everyone gets a <strong>private folder</strong> here by default, for your own working files. Raw experimental data does <strong>not</strong> belong in it.</span><span></span></div>
+    <div class="row"><span class="k">Michaels-Projects</span><span class="v plain">The lab share (previously called <code>Michaels-Group</code> — if you have an old mapping or favourite with that name, delete it and set it up again). Everyone gets a <strong>private folder</strong> here by default, for your own working files. Raw experimental data does <strong>not</strong> belong in it.</span><span></span></div>
     <div class="row"><span class="k">Project shares</span><span class="v plain">Each experiment or project has its own share, for its raw data and shared analyses. Access is granted per person, so you'll only see the ones you've been added to.</span><span></span></div>
   </div>
-  <p>The mount instructions below use <code>Michaels-Group</code> as the example. To mount a project share, use exactly the same steps with the project's share name in place of <code>Michaels-Group</code>. If you need access to a project share, or a new share for a new experiment, ask Jonathan.</p>
+  <p>The mount instructions below use <code>Michaels-Projects</code> as the example. To mount a project share, use exactly the same steps with the project's share name in place of <code>Michaels-Projects</code>. If you need access to a project share, or a new share for a new experiment, ask Jonathan.</p>
 </section>
 
 <!-- ============ ACCESS ============ -->
@@ -283,7 +283,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
   </ol>
   <div class="note ok">
     <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-    <div><b>Good citizenship on the share</b><p>Keep raw experimental data in its project share, not in your private folder on <code>Michaels-Group</code>. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on a share.</p></div>
+    <div><b>Good citizenship on the share</b><p>Keep raw experimental data in its project share, not in your private folder on <code>Michaels-Projects</code>. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on a share.</p></div>
   </div>
 </section>
 
@@ -336,11 +336,11 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
 
 <!-- ============ STEP 2: MOUNT ============ -->
 <section class="card" id="mount">
-  <h2><span class="n">2</span>Mount the <code>Michaels-Group</code> share</h2>
-  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system. <code>Michaels-Group</code> is used as the example throughout — substitute a project share's name to mount that instead.</p>
+  <h2><span class="n">2</span>Mount the <code>Michaels-Projects</code> share</h2>
+  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system. <code>Michaels-Projects</code> is used as the example throughout — substitute a project share's name to mount that instead.</p>
   <div class="kv">
     <div class="row"><span class="k">Server</span><span class="v">cortexcache-data.nas.sci.yorku.ca</span><button class="copy" data-copy="cortexcache-data.nas.sci.yorku.ca"></button></div>
-    <div class="row"><span class="k">Share</span><span class="v">Michaels-Group</span><button class="copy" data-copy="Michaels-Group"></button></div>
+    <div class="row"><span class="k">Share</span><span class="v">Michaels-Projects</span><button class="copy" data-copy="Michaels-Projects"></button></div>
     <div class="row"><span class="k">Username</span><span class="v">yorku.yorku.ca\<span class="var">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\" data-label="Copy prefix"></button></div>
     <div class="row"><span class="k">Password</span><span class="v plain">Your Passport York password</span><span></span></div>
   </div>
@@ -358,15 +358,15 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
       <li><input type="checkbox" id="m1"><div class="step-body"><label class="step-title" for="m1">Open “Connect to Server”</label>
         <p>In Finder, choose <strong>Go ▸ Connect to Server…</strong>, or press <kbd>⌘</kbd> <kbd>K</kbd>.</p></div></li>
       <li><input type="checkbox" id="m2"><div class="step-body"><label class="step-title" for="m2">Enter the server address</label>
-        <div class="cmd"><pre>smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/</pre><button class="copy"></button></div>
+        <div class="cmd"><pre>smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Projects/</pre><button class="copy"></button></div>
         <p>Click <strong>+</strong> to save it to your favourites, then <strong>Connect</strong>.</p></div></li>
       <li><input type="checkbox" id="m3"><div class="step-body"><label class="step-title" for="m3">Sign in as a registered user</label>
         <p>Choose <em>Registered User</em>. Name: <code>yorku.yorku.ca\your_ppy_id</code>; password: your Passport York password. Ticking <em>Remember this password in my keychain</em> is fine. Click <strong>Connect</strong>.</p></div></li>
       <li><input type="checkbox" id="m4"><div class="step-body"><label class="step-title" for="m4">Find the share</label>
-        <p>It appears under <em>Locations</em> in the Finder sidebar and at <code>/Volumes/Michaels-Group</code> in Terminal. Eject it (<strong>⏏</strong> in the sidebar) before disconnecting the VPN or closing your laptop.</p></div></li>
+        <p>It appears under <em>Locations</em> in the Finder sidebar and at <code>/Volumes/Michaels-Projects</code> in Terminal. Eject it (<strong>⏏</strong> in the sidebar) before disconnecting the VPN or closing your laptop.</p></div></li>
     </ol>
     <details class="adv"><summary>Optional: reconnect automatically at login</summary><div class="ans">
-      <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and pick the <code>Michaels-Group</code> volume. It reconnects at each login — but only if the VPN is already up, so connect Ivanti first.</p>
+      <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and pick the <code>Michaels-Projects</code> volume. It reconnects at each login — but only if the VPN is already up, so connect Ivanti first.</p>
     </div></details>
   </div>
 
@@ -379,7 +379,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
       <li><input type="checkbox" id="w2"><div class="step-body"><label class="step-title" for="w2">Choose “Map network drive”</label>
         <p>Windows 11: click <strong>⋯</strong> (<em>See more</em>) in the toolbar ▸ <strong>Map network drive</strong>. Windows 10: it's on the <em>Computer</em> ribbon tab.</p></div></li>
       <li><input type="checkbox" id="w3"><div class="step-body"><label class="step-title" for="w3">Pick a drive letter and enter the folder path</label>
-        <div class="cmd"><pre>\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group</pre><button class="copy"></button></div>
+        <div class="cmd"><pre>\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects</pre><button class="copy"></button></div>
         <p>Tick <strong>Reconnect at sign‑in</strong> and, importantly, <strong>Connect using different credentials</strong> — otherwise Windows tries your local account and fails. Click <strong>Finish</strong>.</p>
         <div class="figrow">
           <figure><img src="img/win-1-map.png" alt="Map Network Drive dialog with drive letter and folder path fields"><figcaption>Map Network Drive.</figcaption></figure>
@@ -390,7 +390,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
     </ol>
     <details class="adv"><summary>Alternative: map the drive from the Command Prompt</summary><div class="ans">
       <p>In Command Prompt or PowerShell — replace <code>your_ppy_id</code>, and <code>M:</code> with any free letter. You'll be prompted for your password.</p>
-      <div class="cmd"><pre>net use M: \\cortexcache-data.nas.sci.yorku.ca\Michaels-Group /user:"yorku.yorku.ca\<span class="var">your_ppy_id</span>" /persistent:yes</pre><button class="copy"></button></div>
+      <div class="cmd"><pre>net use M: \\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects /user:"yorku.yorku.ca\<span class="var">your_ppy_id</span>" /persistent:yes</pre><button class="copy"></button></div>
       <p><code>net use</code> alone lists mapped drives. To disconnect:</p>
       <div class="cmd"><pre>net use M: /delete</pre><button class="copy"></button></div>
     </div></details>
@@ -408,7 +408,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
       <li><input type="checkbox" id="l3"><div class="step-body"><label class="step-title" for="l3">Mount the share</label>
         <p>Replace <code>your_ppy_id</code> with your Passport York ID. The first line reads your password without echoing it, so it never lands in your shell history or in <code>ps</code> output.</p>
         <div class="cmd"><pre>read -s -p "Passport York password: " SMB_PASS; echo
-sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Group /mnt/cortex \
+sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Projects /mnt/cortex \
   -o username=<span class="var">your_ppy_id</span>,password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
 unset SMB_PASS</pre><button class="copy"></button></div>
         <p><code>uid=$(id -u),gid=$(id -g)</code> makes the mounted files yours, so you can read and write without <code>sudo</code>.</p></div></li>
@@ -428,7 +428,7 @@ USER_ID="<span class="var">your_ppy_id</span>"
 MP=/mnt/cortex
 sudo mkdir -p "$MP"
 read -s -p "Passport York password for $USER_ID: " SMB_PASS; echo
-sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Group "$MP" \
+sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Projects "$MP" \
   -o username="$USER_ID",password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
 unset SMB_PASS
 echo "Mounted at $MP"</pre><button class="copy"></button></div>
@@ -445,9 +445,9 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
     <div class="row"><span class="k">VPN client</span><span class="v plain">Ivanti Secure Access Client (formerly Pulse Secure)</span><span></span></div>
     <div class="row"><span class="k">VPN server</span><span class="v">https://vpngateway.yorku.ca/cortex</span><button class="copy" data-copy="https://vpngateway.yorku.ca/cortex"></button></div>
     <div class="row"><span class="k">VPN login</span><span class="v plain">Passport York username (no @yorku.ca) · Duo push</span><span></span></div>
-    <div class="row"><span class="k">macOS</span><span class="v">smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/</span><button class="copy" data-copy="smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Group/"></button></div>
-    <div class="row"><span class="k">Windows</span><span class="v">\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group</span><button class="copy" data-copy="\\cortexcache-data.nas.sci.yorku.ca\Michaels-Group"></button></div>
-    <div class="row"><span class="k">Linux</span><span class="v">//cortexcache-data.nas.sci.yorku.ca/Michaels-Group</span><button class="copy" data-copy="//cortexcache-data.nas.sci.yorku.ca/Michaels-Group"></button></div>
+    <div class="row"><span class="k">macOS</span><span class="v">smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Projects/</span><button class="copy" data-copy="smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Projects/"></button></div>
+    <div class="row"><span class="k">Windows</span><span class="v">\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects</span><button class="copy" data-copy="\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects"></button></div>
+    <div class="row"><span class="k">Linux</span><span class="v">//cortexcache-data.nas.sci.yorku.ca/Michaels-Projects</span><button class="copy" data-copy="//cortexcache-data.nas.sci.yorku.ca/Michaels-Projects"></button></div>
     <div class="row"><span class="k">Share login</span><span class="v">yorku.yorku.ca\<span class="var">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\" data-label="Copy prefix"></button></div>
   </div>
 </section>
@@ -487,7 +487,7 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
   </div></details>
 
   <details><summary>macOS: “There was a problem connecting to the server”</summary><div class="ans">
-    <p>Check the VPN first. Then make sure the address starts with <code>smb://</code> and that you chose <em>Registered User</em>, not <em>Guest</em>. If a stale mount lingers, eject anything named <code>Michaels-Group</code> in the Finder sidebar and try again.</p>
+    <p>Check the VPN first. Then make sure the address starts with <code>smb://</code> and that you chose <em>Registered User</em>, not <em>Guest</em>. If a stale mount lingers, eject anything named <code>Michaels-Projects</code> in the Finder sidebar and try again.</p>
   </div></details>
 
   <details><summary>Linux: “mount error(13): Permission denied”</summary><div class="ans">
