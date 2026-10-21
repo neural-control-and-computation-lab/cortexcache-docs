@@ -140,6 +140,13 @@ li.done .step-title{color:var(--muted);text-decoration:line-through;text-decorat
 .kv .copy:hover{background:var(--accent-line)}
 .kv .copy.ok{background:var(--ok);color:#fff}
 
+.sharebox{font:inherit;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.86rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;width:14em;max-width:100%}
+.sharebox:focus{outline:2px solid var(--accent-line);border-color:var(--accent)}
+.sharehint{display:block;font-family:Inter,sans-serif;font-size:.8rem;color:var(--muted);margin-top:4px}
+.linkbtn{border:0;background:none;padding:0;font:inherit;font-family:"JetBrains Mono",ui-monospace,monospace;color:var(--accent);cursor:pointer;border-bottom:1px solid var(--accent-line)}
+.share{color:var(--code-var)}
+.kv .v .share,code .share{color:inherit}
+
 /* ---- callouts ---- */
 .note{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;border:1px solid var(--accent-line);background:var(--accent-soft);padding:13px 16px;border-radius:var(--r-s);margin:1rem 0}
 .note svg{width:18px;height:18px;margin-top:3px;flex:none;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -198,15 +205,15 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
     <div class="brand">
       <a class="logo" href="https://ncclab.ca" target="_blank" rel="noopener" title="Neural Control &amp; Computation Lab"><img src="img/ncclab-logo.png" alt="NCC Lab logo" width="92" height="78"></a>
       <div>
-      <span class="overline">Neural Control &amp; Computation Lab · York University</span>
+      <span class="overline">CortexCache · York University</span>
       <h1>Connecting to CortexCache</h1>
-      <p class="lede">CortexCache is the lab's shared network storage, administered by Science IT. Our data lives on the <code>Michaels-Projects</code> share. Getting to it from your own computer takes two steps, and this page walks through both.</p>
+      <p class="lede">CortexCache is the network storage used by the Michaels, Ma and Schall labs, run by Science IT. Each lab has its own share on it. Reaching yours from a computer takes two steps, and this page walks through both.</p>
       </div>
     </div>
     <div class="path" aria-hidden="true">
-      <div class="node"><b><span>1</span>Connect the VPN</b><small>Ivanti Secure Access · <code>cortex</code> profile · skipped only on registered lab machines</small></div>
+      <div class="node"><b><span>1</span>Connect the VPN</b><small>Ivanti Secure Access · <code>cortex</code> profile · not needed on registered lab machines</small></div>
       <div class="arrow">→</div>
-      <div class="node"><b><span>2</span>Mount the share</b><small>SMB · Windows, macOS or Linux</small></div>
+      <div class="node"><b><span>2</span>Mount your lab's share</b><small>SMB · Windows, macOS or Linux</small></div>
     </div>
   </div>
 </header>
@@ -240,76 +247,76 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 <!-- ============ BEFORE YOU START ============ -->
 <section class="card" id="start">
   <h2>Before you start</h2>
-  <p class="intro">Choose your operating system in the bar above; the page then shows only the steps that apply to you. Tick steps off as you go — progress is saved in this browser.</p>
+  <p class="intro">Pick your operating system in the bar above and the page shows only the steps that apply to you. Tick steps off as you go; progress is saved in this browser.</p>
 
   <div class="note">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v.5M12 11v5"/></svg>
-    <div><b>What you'll need</b><p>Your <strong>Passport York</strong> username and password (the same login as York email) with <strong>Duo Mobile</strong> set up for two‑factor authentication, plus access to the <code>cortex</code> VPN profile and the <code>Michaels-Projects</code> share. If you're new to the lab, start with <a href="#access">Getting access</a> below.</p></div>
+    <div><b>What you'll need</b><p>Your <strong>Passport York</strong> username and password (your York email login) with <strong>Duo Mobile</strong> set up, plus two things that must be arranged for you first: the <code>cortex</code> VPN profile and access to your lab's share. New to the lab? Start with <a href="#access">Getting access</a>.</p></div>
   </div>
   <div class="note warn">
     <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>
-    <div><b>The VPN is almost always required — on campus too</b><p>CortexCache is only reachable through the <code>cortex</code> VPN profile. It makes no difference whether you're at home or on campus, on Wi‑Fi or plugged into Ethernet: without step 1, the mount in step 2 fails or hangs. The one exception is a lab machine that UIT has <strong>registered on the CortexCache network</strong> <em>and</em> that sits on a fixed Ethernet connection; those reach the server directly and skip step 1. A laptop on campus Wi‑Fi or plugged into a random wall port is not one of those. If you're not sure whether a machine is registered, ask Jonathan.</p></div>
+    <div><b>The VPN is required — at home, on campus, on Wi‑Fi or Ethernet</b><p>CortexCache is only reachable through the <code>cortex</code> VPN profile. Being on campus or plugged into a wall port makes no difference. The one exception is a <strong>registered lab machine</strong>: a fixed‑Ethernet computer that UIT has connected directly to the CortexCache network. Those skip step 1. If you're not sure whether a machine is registered, ask Jonathan.</p></div>
   </div>
 </section>
 
 <!-- ============ STORAGE LAYOUT ============ -->
 <section class="card" id="layout">
   <h2>How the storage is organised</h2>
-  <p class="intro">Everything lives on one share, <code>Michaels-Projects</code>. You mount it once, and inside it you see only the folders you've been given access to.</p>
+  <p class="intro">Each lab has one share on CortexCache. You mount it once; inside, you see only the folders you've been given access to.</p>
   <div class="kv">
-    <div class="row"><span class="k">Your folder</span><span class="v plain">Everyone gets a <strong>private folder</strong> for their own working files. Raw experimental data does <strong>not</strong> belong in it.</span><span></span></div>
+    <div class="row"><span class="k">Lab shares</span><span class="v plain">The Michaels lab's share is <code>Michaels-Projects</code> (formerly <code>Michaels-Group</code>; delete any old mapping with that name). The Ma and Schall labs each have their own share — Jonathan will tell you its name when he sets up your access.</span><span></span></div>
+    <div class="row"><span class="k">Your folder</span><span class="v plain">Everyone gets a <strong>private folder</strong> for their own working files. Raw experimental data does <strong>not</strong> belong there.</span><span></span></div>
     <div class="row"><span class="k">Project folders</span><span class="v plain">Each experiment or project has its own folder for raw data and shared analyses. Access is granted per person, so the share looks different for each of you.</span><span></span></div>
   </div>
-  <p>If a project folder you need isn't visible, or you're starting a new experiment that needs its own folder, ask Jonathan. The share was previously called <code>Michaels-Group</code>: if you have an old mapping or favourite with that name, delete it and set it up again.</p>
 </section>
 
 <!-- ============ ACCESS ============ -->
 <section class="card" id="access">
   <h2>Getting access</h2>
-  <p class="intro">Do this first — it takes a few days. Two separate things have to be set up for you, by two different people, and neither happens automatically when you join the lab:</p>
+  <p class="intro">Do this first — it takes a few days. Two things are set up for you by two different people, and neither happens automatically when you join a lab.</p>
   <div class="kv">
-    <div class="row"><span class="k">VPN profile</span><span class="v plain">Your Passport York account must be added to the <code>cortex</code> VPN profile. Everyone at York has the generic <em>VPNYork</em> profile, but <code>cortex</code> is granted per person. <strong>York UIT</strong> does this — you ask them yourself.</span><span></span></div>
-    <div class="row"><span class="k">Folder access</span><span class="v plain">You must be given access to the folders on <code>Michaels-Projects</code> that belong to your project(s), plus your private folder. <strong>Jonathan</strong> does this — email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>.</span><span></span></div>
+    <div class="row"><span class="k">VPN profile</span><span class="v plain">Your Passport York account is added to the <code>cortex</code> VPN profile by <strong>York UIT</strong>. The request is approved by the <strong>Executive Officer of your Faculty</strong>, not by your supervisor.</span><span></span></div>
+    <div class="row"><span class="k">Folder access</span><span class="v plain">Your private folder and project folders on your lab's share are set up by <strong>Jonathan Michaels</strong> (<a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>), whichever of the three labs you're in.</span><span></span></div>
   </div>
   <ol class="steps" data-group="access">
     <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Have a Passport York account with Duo set up</label>
       <p>Students and staff normally already do. If Duo isn't set up, follow <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">York UIT's Duo instructions</a>.</p></div></li>
-    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Ask UIT to add you to the <code>cortex</code> VPN profile</label>
-      <p>Submit a request to York UIT (<a href="mailto:askit@yorku.ca">askit@yorku.ca</a>, or a service request through <a href="https://www.yorku.ca/uit/" target="_blank" rel="noopener">yorku.ca/uit</a>). Give your Passport York username, ask to be added to the <strong>CortexCache (<code>cortex</code>) SSLVPN profile</strong>, and say it's for the Neural Control &amp; Computation Lab (Jonathan Michaels, Kinesiology). UIT may confirm with Jonathan before approving.</p></div></li>
+    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Ask UIT for the <code>cortex</code> VPN profile</label>
+      <p>Email <a href="mailto:askit@yorku.ca">askit@yorku.ca</a> (or open a service request at <a href="https://www.yorku.ca/uit/" target="_blank" rel="noopener">yorku.ca/uit</a>) with your Passport York username, asking to be added to the <strong>CortexCache (<code>cortex</code>) SSLVPN profile</strong>. Name your lab and supervisor. UIT will seek approval from your Faculty's Executive Officer; you don't need to contact them yourself.</p></div></li>
     <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Ask Jonathan for folder access</label>
-      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username and which project(s) you're working on. He sets up your private folder and your project folder permissions. Do the same later whenever you need access to another project folder, or a new folder for a new experiment.</p></div></li>
+      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username, your lab, and the project(s) you're working on. Do the same later whenever you need another project folder.</p></div></li>
     <li><input type="checkbox" id="a4"><div class="step-body"><label class="step-title" for="a4">Connect</label>
-      <p>Once both are confirmed, follow steps 1 and 2 below — or just step 2 if you're on a registered lab machine.</p></div></li>
+      <p>Once both are confirmed, follow steps 1 and 2 below — or just step 2 on a registered lab machine.</p></div></li>
   </ol>
 
-  <div class="sub"><h3>Setting up a new lab machine</h3><span class="pill">For PIs and lab managers</span></div>
-  <p>When a lab needs a new computer put on the wired network (10 Gbit or otherwise), the request goes to <strong>York UIT</strong>. In the <em>same</em> request, ask for the machine to be <strong>connected directly into the network segment that's part of the CortexCache VPN</strong>, so that it can reach the server without anyone logging into the VPN client. A machine set up this way, on a fixed Ethernet connection, is a “registered lab machine” for the purposes of this guide. Any machine <em>not</em> set up this way, whatever it's plugged into, needs the VPN every time someone wants to reach the server.</p>
+  <div class="sub"><h3>Adding a new lab machine</h3><span class="pill">For PIs and lab managers</span></div>
+  <p>Requests to put a new computer on the wired network (10 Gbit or otherwise) go to <strong>York UIT</strong>. In the same request, ask for the machine to be <strong>connected directly to the network segment behind the CortexCache VPN</strong>, so it can reach the server without anyone logging into the VPN client. A machine set up that way, on fixed Ethernet, is a "registered lab machine" in this guide. Any machine not set up that way needs the VPN every time.</p>
 
   <div class="note ok">
     <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-    <div><b>Good citizenship on the share</b><p>Keep raw experimental data in its project folder, not in your private folder. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on the share.</p></div>
+    <div><b>Good citizenship on the share</b><p>Raw data goes in its project folder, not your private folder. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on the share.</p></div>
   </div>
 </section>
 
 <!-- ============ STEP 1: VPN ============ -->
 <section class="card" id="vpn">
   <h2><span class="n">1</span>Connect to the VPN</h2>
-  <p class="intro"><strong>Skip this step only on a registered lab machine</strong> (fixed Ethernet, set up by UIT on the CortexCache network). Everything else — your laptop, a home desktop, a lab computer on Wi‑Fi or an unregistered port — needs the VPN, on campus or off.</p>
-  <p class="intro">York's VPN client is <strong>Ivanti Secure Access</strong>, formerly called <strong>Pulse Secure</strong> — the same product under a new name, so either label may appear on York's pages (and the Linux build still installs to <code>/opt/pulsesecure/</code>). You install it and create the profile once; after that it's a single click to connect.</p>
+  <p class="intro"><strong>Skip this step only on a registered lab machine.</strong> Everything else — your laptop, a home desktop, a lab computer on Wi‑Fi or an ordinary wall port — needs the VPN, on campus or off.</p>
+  <p class="intro">York's VPN client is <strong>Ivanti Secure Access</strong>, formerly <strong>Pulse Secure</strong>; both names appear on York's pages and the Linux build still installs to <code>/opt/pulsesecure/</code>. You install it and create the profile once; after that connecting is one click.</p>
 
   <ol class="steps" data-group="vpn">
     <li><input type="checkbox" id="v1"><div class="step-body"><label class="step-title" for="v1">Install the Ivanti Secure Access Client</label>
-      <p>Installers are on the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT Internet Access page</a>, under the <em>VPN</em> tab (Passport York login required to download). Use the version marked <em>Current</em> — 22.8r2 at the time of writing — not the older Pulse Secure 9.1 builds.</p>
-      <div class="os-only mac"><p><strong>macOS:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#mac" target="_blank" rel="noopener">Mac installer</a>, open the package and click through <em>Continue ▸ Install</em>. The client appears in Applications and in the menu bar. If macOS objects to an unidentified developer, allow it under <em>System Settings ▸ Privacy &amp; Security</em>.</p></div>
-      <div class="os-only win"><p><strong>Windows:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#windows" target="_blank" rel="noopener">64‑bit installer</a> (or the ARM64 build on a Snapdragon laptop), run the <code>.msi</code> and accept the defaults. The Ivanti icon appears in the system tray.</p></div>
+      <p>Installers are on the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT Internet Access page</a>, under the <em>VPN</em> tab (Passport York login required). Use the version marked <em>Current</em> (22.8r2 at the time of writing), not the older Pulse Secure 9.1 builds.</p>
+      <div class="os-only mac"><p><strong>macOS:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#mac" target="_blank" rel="noopener">Mac installer</a>, open the package and click through <em>Continue ▸ Install</em>. The client appears in Applications and the menu bar. If macOS objects to an unidentified developer, allow it under <em>System Settings ▸ Privacy &amp; Security</em>.</p></div>
+      <div class="os-only win"><p><strong>Windows:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#windows" target="_blank" rel="noopener">64‑bit installer</a> (ARM64 on a Snapdragon laptop), run the <code>.msi</code> and accept the defaults. The Ivanti icon appears in the system tray.</p></div>
       <div class="os-only linux"><p><strong>Linux:</strong> download the <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/#linux" target="_blank" rel="noopener"><code>.deb</code> (Ubuntu/Debian) or <code>.rpm</code> (Fedora/RHEL)</a>. The client needs a desktop session (it embeds a browser for sign‑in) and two dependencies:</p>
         <div class="cmd"><pre>sudo apt-get install libnss3-tools libwebkit2gtk-4.0-37   <span class="cmt"># Ubuntu 22.04 / Debian 12</span>
 sudo apt install ~/Downloads/ps-pulse-linux-*.deb
 sudo /opt/pulsesecure/bin/setup_cef.sh install</pre><button class="copy" data-copy="sudo apt-get install libnss3-tools libwebkit2gtk-4.0-37
 sudo apt install ~/Downloads/ps-pulse-linux-*.deb
 sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
-        <p>Then launch <strong>Ivanti Secure Access Client</strong> from your applications menu, or run <code>/opt/pulsesecure/bin/pulseUi</code>. On Fedora/RHEL use <code>sudo dnf install ./ps-pulse-linux-*.rpm</code> instead.</p>
-        <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Ubuntu 24.04 and newer</b><p>The client depends on <code>libwebkit2gtk-4.0-37</code>, which 24.04 no longer ships. The usual workaround is to add the Ubuntu 22.04 ("jammy") repository temporarily, install that one package, then remove the repository. Recent Fedora/RHEL releases have dropped legacy WebKitGTK entirely and may not work until Ivanti updates the client. If you hit this, ask in the lab — a lab machine may be simpler.</p></div></div>
+        <p>Then launch <strong>Ivanti Secure Access Client</strong> from your applications menu, or run <code>/opt/pulsesecure/bin/pulseUi</code>. On Fedora/RHEL use <code>sudo dnf install ./ps-pulse-linux-*.rpm</code>.</p>
+        <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Ubuntu 24.04 and newer</b><p>The client needs <code>libwebkit2gtk-4.0-37</code>, which 24.04 no longer ships. The usual workaround is to add the Ubuntu 22.04 ("jammy") repository temporarily, install that one package, then remove the repository. Recent Fedora/RHEL releases have dropped legacy WebKitGTK entirely and may not work until Ivanti updates the client. If you hit this, a registered lab machine may be simpler.</p></div></div>
       </div></div></li>
 
     <li><input type="checkbox" id="v2"><div class="step-body"><label class="step-title" for="v2">Open the client and add a connection</label>
@@ -322,7 +329,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
         <div class="row"><span class="k">Name</span><span class="v">cortex</span><button class="copy" data-copy="cortex"></button></div>
         <div class="row"><span class="k">Server URL</span><span class="v">https://vpngateway.yorku.ca/cortex</span><button class="copy" data-copy="https://vpngateway.yorku.ca/cortex"></button></div>
       </div>
-      <p>The name is just a label. The <strong>server URL must end in <code>/cortex</code></strong>: the generic York VPN profile does not reach CortexCache. Click <strong>Save</strong>.</p>
+      <p>The name is just a label. The <strong>server URL must end in <code>/cortex</code></strong>; the generic York VPN does not reach CortexCache. Click <strong>Save</strong>.</p>
       <div class="figrow">
         <figure><img src="img/vpn-2-add.png" alt="Edit Connection dialog with Name cortex and Server URL https://vpngateway.yorku.ca/cortex"><figcaption>Adding the connection.</figcaption></figure>
         <figure><img src="img/vpn-3-saved.png" alt="Connections list showing the saved cortex profile with a Connect button"><figcaption>The saved <code>cortex</code> profile.</figcaption></figure>
@@ -330,22 +337,22 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
 
     <li><input type="checkbox" id="v4"><div class="step-body"><label class="step-title" for="v4">Connect and sign in</label>
       <p>Click <strong>Connect</strong> next to <code>cortex</code>. Enter your Passport York <strong>username only</strong> (<code>jsmith</code>, not <code>jsmith@yorku.ca</code>) and your password, then <strong>Connect</strong>.</p>
-      <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Leave “Save settings” unticked</b><p>York InfoSec asks that you don't save your password here: with Duo two‑factor, a saved password causes failed logins later. You'll type it each time you connect.</p></div></div>
+      <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Leave "Save settings" unticked</b><p>York InfoSec asks that you don't save your password here: with Duo, a saved password causes failed logins later. You'll type it each time you connect.</p></div></div>
       <div class="figrow"><figure><img src="img/vpn-4-signin.png" alt="Ivanti sign-in dialog titled Connect to: cortex, asking for user name and password"><figcaption>The sign‑in prompt.</figcaption></figure></div></div></li>
 
     <li><input type="checkbox" id="v5"><div class="step-body"><label class="step-title" for="v5">Approve the Duo push</label>
-      <p>Your phone receives a <strong>Duo Push</strong>; tap <em>Approve</em>. The client shows <em>Connected</em>. Leave it connected while you work with the share.</p>
-      <p>If no push arrives, open Duo Mobile and tap the <em>Request waiting</em> banner. Or use a passcode instead: type your password, a comma, and the six‑digit code from Duo Mobile in the password field, e.g. <code>mypassword,123456</code>.</p></div></li>
+      <p>Tap <em>Approve</em> on your phone. The client shows <em>Connected</em>; leave it connected while you use the share.</p>
+      <p>No push? Open Duo Mobile and tap the <em>Request waiting</em> banner, or type your password, a comma and the six‑digit Duo code in the password field, e.g. <code>mypassword,123456</code>.</p></div></li>
   </ol>
 </section>
 
 <!-- ============ STEP 2: MOUNT ============ -->
 <section class="card" id="mount">
-  <h2><span class="n">2</span>Mount the <code>Michaels-Projects</code> share</h2>
-  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system. On a registered lab machine you can start here without the VPN.</p>
+  <h2><span class="n">2</span>Mount your lab's share</h2>
+  <p class="intro">With the VPN connected (or on a registered lab machine), attach the share so it behaves like an ordinary drive or folder. Enter your lab's share name below and every path and command on this page updates to match.</p>
   <div class="kv">
     <div class="row"><span class="k">Server</span><span class="v">cortexcache-data.nas.sci.yorku.ca</span><button class="copy" data-copy="cortexcache-data.nas.sci.yorku.ca"></button></div>
-    <div class="row"><span class="k">Share</span><span class="v">Michaels-Projects</span><button class="copy" data-copy="Michaels-Projects"></button></div>
+    <div class="row"><span class="k">Share</span><span class="v"><input id="shareInput" class="sharebox" type="text" value="Michaels-Projects" spellcheck="false" autocomplete="off" aria-label="Your lab's share name"> <span class="sharehint">Michaels lab: <button type="button" class="linkbtn" data-share="Michaels-Projects">Michaels-Projects</button>. Ma or Schall lab: use the name Jonathan gave you.</span></span><button class="copy" data-copy-tpl="{share}"></button></div>
     <div class="row"><span class="k">Username</span><span class="v">yorku.yorku.ca\<span class="var">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\" data-label="Copy prefix"></button></div>
     <div class="row"><span class="k">Password</span><span class="v plain">Your Passport York password</span><span></span></div>
   </div>
@@ -360,18 +367,18 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
   <div class="os-only mac">
     <div class="sub"><h3>macOS</h3><span class="pill">Finder</span></div>
     <ol class="steps" data-group="mac">
-      <li><input type="checkbox" id="m1"><div class="step-body"><label class="step-title" for="m1">Open “Connect to Server”</label>
+      <li><input type="checkbox" id="m1"><div class="step-body"><label class="step-title" for="m1">Open "Connect to Server"</label>
         <p>In Finder, choose <strong>Go ▸ Connect to Server…</strong>, or press <kbd>⌘</kbd> <kbd>K</kbd>.</p></div></li>
       <li><input type="checkbox" id="m2"><div class="step-body"><label class="step-title" for="m2">Enter the server address</label>
-        <div class="cmd"><pre>smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Projects/</pre><button class="copy"></button></div>
-        <p>Click <strong>+</strong> to save it to your favourites, then <strong>Connect</strong>.</p></div></li>
+        <div class="cmd"><pre>smb://cortexcache-data.nas.sci.yorku.ca/<span class="share">Michaels-Projects</span>/</pre><button class="copy"></button></div>
+        <p>Click <strong>+</strong> to save it as a favourite, then <strong>Connect</strong>.</p></div></li>
       <li><input type="checkbox" id="m3"><div class="step-body"><label class="step-title" for="m3">Sign in as a registered user</label>
-        <p>Choose <em>Registered User</em>. Name: <code>yorku.yorku.ca\your_ppy_id</code>; password: your Passport York password. Ticking <em>Remember this password in my keychain</em> is fine. Click <strong>Connect</strong>.</p></div></li>
+        <p>Choose <em>Registered User</em>. Name <code>yorku.yorku.ca\your_ppy_id</code>, password your Passport York password. <em>Remember this password in my keychain</em> is fine. Click <strong>Connect</strong>.</p></div></li>
       <li><input type="checkbox" id="m4"><div class="step-body"><label class="step-title" for="m4">Find the share</label>
-        <p>It appears under <em>Locations</em> in the Finder sidebar and at <code>/Volumes/Michaels-Projects</code> in Terminal. Eject it (<strong>⏏</strong> in the sidebar) before disconnecting the VPN or closing your laptop.</p></div></li>
+        <p>It appears under <em>Locations</em> in the Finder sidebar and at <code>/Volumes/<span class="share">Michaels-Projects</span></code> in Terminal. Eject it (<strong>⏏</strong> in the sidebar) before disconnecting the VPN or closing your laptop.</p></div></li>
     </ol>
     <details class="adv"><summary>Optional: reconnect automatically at login</summary><div class="ans">
-      <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and pick the <code>Michaels-Projects</code> volume. It reconnects at each login — on your own computer, only if the VPN is already up, so connect Ivanti first.</p>
+      <p>With the share mounted, open <strong>System Settings ▸ General ▸ Login Items &amp; Extensions</strong>, click <strong>+</strong> under <em>Open at Login</em>, and pick the share's volume. It reconnects at each login, provided the VPN is already up.</p>
     </div></details>
   </div>
 
@@ -379,41 +386,40 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
   <div class="os-only win">
     <div class="sub"><h3>Windows 10 / 11</h3><span class="pill">File Explorer</span></div>
     <ol class="steps" data-group="win">
-      <li><input type="checkbox" id="w1"><div class="step-body"><label class="step-title" for="w1">Open File Explorer and go to “This PC”</label>
+      <li><input type="checkbox" id="w1"><div class="step-body"><label class="step-title" for="w1">Open File Explorer and go to "This PC"</label>
         <p>Press <kbd>Win</kbd> <kbd>E</kbd>, then click <strong>This PC</strong> in the left pane.</p></div></li>
-      <li><input type="checkbox" id="w2"><div class="step-body"><label class="step-title" for="w2">Choose “Map network drive”</label>
-        <p>Windows 11: click <strong>⋯</strong> (<em>See more</em>) in the toolbar ▸ <strong>Map network drive</strong>. Windows 10: it's on the <em>Computer</em> ribbon tab.</p></div></li>
+      <li><input type="checkbox" id="w2"><div class="step-body"><label class="step-title" for="w2">Choose "Map network drive"</label>
+        <p>Windows 11: <strong>⋯</strong> (<em>See more</em>) in the toolbar ▸ <strong>Map network drive</strong>. Windows 10: on the <em>Computer</em> ribbon tab.</p></div></li>
       <li><input type="checkbox" id="w3"><div class="step-body"><label class="step-title" for="w3">Pick a drive letter and enter the folder path</label>
-        <div class="cmd"><pre>\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects</pre><button class="copy"></button></div>
-        <p>Tick <strong>Reconnect at sign‑in</strong> and, importantly, <strong>Connect using different credentials</strong> — otherwise Windows tries your local account and fails. Click <strong>Finish</strong>.</p>
+        <div class="cmd"><pre>\\cortexcache-data.nas.sci.yorku.ca\<span class="share">Michaels-Projects</span></pre><button class="copy"></button></div>
+        <p>Tick <strong>Reconnect at sign‑in</strong> and <strong>Connect using different credentials</strong> — without the second, Windows tries your local account and fails. Click <strong>Finish</strong>.</p>
         <div class="figrow">
           <figure><img src="img/win-1-map.png" alt="Map Network Drive dialog with drive letter and folder path fields"><figcaption>Map Network Drive.</figcaption></figure>
           <figure><img src="img/win-2-folder.png" alt="Windows Security dialog asking for network credentials"><figcaption>The credentials prompt.</figcaption></figure>
         </div></div></li>
       <li><input type="checkbox" id="w4"><div class="step-body"><label class="step-title" for="w4">Enter your credentials</label>
-        <p>User name <code>yorku.yorku.ca\your_ppy_id</code>, password your Passport York password. Tick <em>Remember my credentials</em> so the drive reconnects without asking. The share opens under the drive letter you chose.</p></div></li>
+        <p>User name <code>yorku.yorku.ca\your_ppy_id</code>, password your Passport York password. Tick <em>Remember my credentials</em> so the drive reconnects without asking.</p></div></li>
     </ol>
     <details class="adv"><summary>Alternative: map the drive from the Command Prompt</summary><div class="ans">
-      <p>In Command Prompt or PowerShell — replace <code>your_ppy_id</code>, and <code>M:</code> with any free letter. You'll be prompted for your password.</p>
-      <div class="cmd"><pre>net use M: \\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects /user:"yorku.yorku.ca\<span class="var">your_ppy_id</span>" /persistent:yes</pre><button class="copy"></button></div>
-      <p><code>net use</code> alone lists mapped drives. To disconnect:</p>
-      <div class="cmd"><pre>net use M: /delete</pre><button class="copy"></button></div>
+      <p>Replace <code>your_ppy_id</code>, and <code>M:</code> with any free letter. You'll be prompted for your password.</p>
+      <div class="cmd"><pre>net use M: \\cortexcache-data.nas.sci.yorku.ca\<span class="share">Michaels-Projects</span> /user:"yorku.yorku.ca\<span class="var">your_ppy_id</span>" /persistent:yes</pre><button class="copy"></button></div>
+      <p><code>net use</code> alone lists mapped drives; <code>net use M: /delete</code> disconnects.</p>
     </div></details>
   </div>
 
   <!-- ---------- Linux ---------- -->
   <div class="os-only linux">
     <div class="sub"><h3>Linux</h3><span class="pill">CIFS</span></div>
-    <p>Written for Ubuntu/Debian. On Fedora use <code>sudo dnf install cifs-utils</code>, on Arch <code>sudo pacman -S cifs-utils</code>; everything else is the same.</p>
+    <p>Written for Ubuntu/Debian. On Fedora use <code>sudo dnf install cifs-utils</code>, on Arch <code>sudo pacman -S cifs-utils</code>; the rest is the same.</p>
     <ol class="steps" data-group="linux">
       <li><input type="checkbox" id="l1"><div class="step-body"><label class="step-title" for="l1">Install CIFS utilities</label>
         <div class="cmd"><pre>sudo apt-get install cifs-utils -y</pre><button class="copy"></button></div></div></li>
       <li><input type="checkbox" id="l2"><div class="step-body"><label class="step-title" for="l2">Create a mount point</label>
         <div class="cmd"><pre>sudo mkdir -p /mnt/cortex</pre><button class="copy"></button></div></div></li>
       <li><input type="checkbox" id="l3"><div class="step-body"><label class="step-title" for="l3">Mount the share</label>
-        <p>Replace <code>your_ppy_id</code> with your Passport York ID. The first line reads your password without echoing it, so it never lands in your shell history or in <code>ps</code> output.</p>
+        <p>Replace <code>your_ppy_id</code>. The first line reads your password without echoing it, so it never lands in your shell history or <code>ps</code> output.</p>
         <div class="cmd"><pre>read -s -p "Passport York password: " SMB_PASS; echo
-sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Projects /mnt/cortex \
+sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/<span class="share">Michaels-Projects</span> /mnt/cortex \
   -o username=<span class="var">your_ppy_id</span>,password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
 unset SMB_PASS</pre><button class="copy"></button></div>
         <p><code>uid=$(id -u),gid=$(id -g)</code> makes the mounted files yours, so you can read and write without <code>sudo</code>.</p></div></li>
@@ -430,14 +436,15 @@ mount | grep cifs          <span class="cmt"># all mounted CIFS shares</span></p
       <div class="cmd"><pre>#!/usr/bin/env bash
 set -e
 USER_ID="<span class="var">your_ppy_id</span>"
+SHARE="<span class="share">Michaels-Projects</span>"
 MP=/mnt/cortex
 sudo mkdir -p "$MP"
 read -s -p "Passport York password for $USER_ID: " SMB_PASS; echo
-sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/Michaels-Projects "$MP" \
+sudo mount -t cifs "//cortexcache-data.nas.sci.yorku.ca/$SHARE" "$MP" \
   -o username="$USER_ID",password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
 unset SMB_PASS
-echo "Mounted at $MP"</pre><button class="copy"></button></div>
-      <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Don't hard‑code your password</b><p>Keep it out of scripts, <code>/etc/fstab</code> and the command line — it's your Passport York password and unlocks far more than this share. For an unattended mount, use a <code>credentials=</code> file with <code>chmod 600</code>, and ask in the lab before setting it up.</p></div></div>
+echo "Mounted $SHARE at $MP"</pre><button class="copy"></button></div>
+      <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Don't hard‑code your password</b><p>Keep it out of scripts, <code>/etc/fstab</code> and the command line; it's your Passport York password and unlocks far more than this share. For an unattended mount, use a <code>credentials=</code> file with <code>chmod 600</code>, and ask before setting it up.</p></div></div>
     </div></details>
   </div>
 </section>
@@ -450,80 +457,80 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
     <div class="row"><span class="k">VPN client</span><span class="v plain">Ivanti Secure Access Client (formerly Pulse Secure)</span><span></span></div>
     <div class="row"><span class="k">VPN server</span><span class="v">https://vpngateway.yorku.ca/cortex</span><button class="copy" data-copy="https://vpngateway.yorku.ca/cortex"></button></div>
     <div class="row"><span class="k">VPN login</span><span class="v plain">Passport York username (no @yorku.ca) · Duo push</span><span></span></div>
-    <div class="row"><span class="k">macOS</span><span class="v">smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Projects/</span><button class="copy" data-copy="smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Projects/"></button></div>
-    <div class="row"><span class="k">Windows</span><span class="v">\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects</span><button class="copy" data-copy="\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects"></button></div>
-    <div class="row"><span class="k">Linux</span><span class="v">//cortexcache-data.nas.sci.yorku.ca/Michaels-Projects</span><button class="copy" data-copy="//cortexcache-data.nas.sci.yorku.ca/Michaels-Projects"></button></div>
+    <div class="row"><span class="k">macOS</span><span class="v">smb://cortexcache-data.nas.sci.yorku.ca/<span class="share">Michaels-Projects</span>/</span><button class="copy" data-copy-tpl="smb://cortexcache-data.nas.sci.yorku.ca/{share}/"></button></div>
+    <div class="row"><span class="k">Windows</span><span class="v">\\cortexcache-data.nas.sci.yorku.ca\<span class="share">Michaels-Projects</span></span><button class="copy" data-copy-tpl="\\cortexcache-data.nas.sci.yorku.ca\{share}"></button></div>
+    <div class="row"><span class="k">Linux</span><span class="v">//cortexcache-data.nas.sci.yorku.ca/<span class="share">Michaels-Projects</span></span><button class="copy" data-copy-tpl="//cortexcache-data.nas.sci.yorku.ca/{share}"></button></div>
     <div class="row"><span class="k">Share login</span><span class="v">yorku.yorku.ca\<span class="var">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\" data-label="Copy prefix"></button></div>
+    <div class="row"><span class="k">Access</span><span class="v plain">VPN profile: UIT (<a href="mailto:askit@yorku.ca">askit@yorku.ca</a>), approved by your Faculty's EO · Folders: Jonathan (<a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>)</span><span></span></div>
   </div>
 </section>
 
 <!-- ============ TROUBLESHOOTING ============ -->
 <section class="card" id="troubleshooting">
   <h2>Troubleshooting</h2>
-  <p class="intro">Most problems come down to one of three things: the VPN isn't connected, the username is missing its domain prefix, or a saved password has gone stale.</p>
+  <p class="intro">Most problems are one of three things: the VPN isn't connected, the username is missing its domain prefix, or a saved password has gone stale.</p>
 
-  <details><summary>The share won't connect, times out, or “server not found”</summary><div class="ans">
-    <p>On your own computer, nine times out of ten the VPN isn't connected, or is connected to the wrong profile. Open Ivanti and confirm <code>cortex</code> says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If the VPN is up, disconnect and reconnect it, then mount again. On a lab machine that is supposed to reach the server without VPN, a timeout means it may not actually be registered on the CortexCache network (or has been moved to a different port) — tell Jonathan.</p>
+  <details><summary>The share won't connect, times out, or "server not found"</summary><div class="ans">
+    <p>Almost always the VPN: open Ivanti and confirm <code>cortex</code> says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If it is connected, disconnect, reconnect, and mount again. On a registered lab machine, a timeout means it may no longer be on the registered port; tell Jonathan.</p>
   </div></details>
 
   <details><summary>My username or password is rejected</summary><div class="ans">
-    <p>The username format differs between the two steps. VPN: <code>your_ppy_id</code> alone. Share: <code>yorku.yorku.ca\your_ppy_id</code>, with a backslash, not a forward slash.</p>
-    <p>On Windows, if you didn't tick <em>Connect using different credentials</em>, Windows may be silently using your local account: disconnect the drive and map it again. If your Passport York password changed recently, update it in Keychain (Mac) or Credential Manager (Windows).</p>
+    <p>The username format differs between the two steps: VPN uses <code>your_ppy_id</code> alone; the share uses <code>yorku.yorku.ca\your_ppy_id</code>, with a backslash. On Windows, if you didn't tick <em>Connect using different credentials</em>, Windows may be silently using your local account: disconnect the drive and map it again. If your Passport York password changed recently, update it in Keychain (Mac) or Credential Manager (Windows).</p>
+  </div></details>
+
+  <details><summary>"Access is denied" with the right username and password</summary><div class="ans">
+    <p>If the VPN is connected (or you're on a registered lab machine), the username has the <code>yorku.yorku.ca\</code> prefix and the password works elsewhere, the refusal is coming from the server: your account hasn't been given access to the share yet. Rebooting or clearing caches on your own machine won't change this. Stop retrying and email Jonathan.</p>
+  </div></details>
+
+  <details><summary>The share mounts, but a folder I need isn't there</summary><div class="ans">
+    <p>You only see folders you've been granted. Ask Jonathan to add you to the project folder; see <a href="#access">Getting access</a>.</p>
   </div></details>
 
   <details><summary>I never get the Duo push</summary><div class="ans">
-    <p>Check your phone has signal or Wi‑Fi and Duo Mobile notifications are on. Open Duo Mobile and look for a <em>Request waiting</em> banner. Failing that, use a passcode: enter <code>yourpassword,123456</code> in the password field (password, comma, six‑digit code from Duo Mobile). Duo problems such as a new phone are handled by York UIT, not the lab.</p>
+    <p>Check your phone has signal and Duo Mobile notifications are on, then look in Duo Mobile for a <em>Request waiting</em> banner. Failing that, use a passcode: <code>yourpassword,123456</code> in the password field (password, comma, six‑digit code from Duo Mobile). Duo problems such as a new phone are handled by York UIT.</p>
   </div></details>
 
   <details><summary>Ivanti says my password is invalid even though it's correct</summary><div class="ans">
-    <p>Usually a saved password from an earlier session, which conflicts with Duo. Open the <code>cortex</code> connection's settings in Ivanti, choose <em>Forget saved settings</em>, then connect again without ticking <em>Save settings</em>.</p>
+    <p>Usually a saved password conflicting with Duo. Open the <code>cortex</code> connection's settings in Ivanti, choose <em>Forget saved settings</em>, and connect again without ticking <em>Save settings</em>.</p>
   </div></details>
 
   <details><summary>The VPN keeps disconnecting</summary><div class="ans">
-    <p>York's VPN profiles have an idle timeout of roughly 10–30 minutes with no traffic and a hard session limit of 8–10 hours, with a warning a few minutes before. Transfers longer than that get interrupted: split them up, or run them from a lab machine. Laptops going to sleep also drop the VPN and the share with it, so unmount before closing the lid.</p>
+    <p>York's VPN profiles have an idle timeout of roughly 10–30 minutes and a hard session limit of 8–10 hours. Long transfers get interrupted: split them up, or run them from a registered lab machine, which has no VPN session to expire. Laptops going to sleep also drop the VPN and the share with it, so unmount before closing the lid.</p>
   </div></details>
 
-  <details><summary>Windows: “The network path was not found” (error 53 / 67)</summary><div class="ans">
-    <p>Usually the VPN. Otherwise check for two leading backslashes (<code>\\cortexcache-data…</code>) and no trailing slash. From Command Prompt, <code>ping cortexcache-data.nas.sci.yorku.ca</code> should resolve while the VPN is connected; if it doesn't, the profile is wrong.</p>
+  <details><summary>Windows: "The network path was not found" (error 53 / 67)</summary><div class="ans">
+    <p>Usually the VPN. Otherwise check for two leading backslashes (<code>\\cortexcache-data…</code>) and no trailing slash. <code>ping cortexcache-data.nas.sci.yorku.ca</code> in Command Prompt should resolve while the VPN is connected; if not, the profile is wrong.</p>
   </div></details>
 
-  <details><summary>Windows: “Multiple connections to a server… are not allowed” (error 1219)</summary><div class="ans">
-    <p>Windows already holds a connection to that server under different credentials. Run <code>net use * /delete</code> to clear all mapped drives, then map the share again.</p>
+  <details><summary>Windows: "Multiple connections to a server… are not allowed" (error 1219)</summary><div class="ans">
+    <p>Windows already holds a connection to that server under different credentials. Run <code>net use * /delete</code>, then map the share again.</p>
   </div></details>
 
-  <details><summary>macOS: “There was a problem connecting to the server”</summary><div class="ans">
-    <p>Check the VPN first. Then make sure the address starts with <code>smb://</code> and that you chose <em>Registered User</em>, not <em>Guest</em>. If a stale mount lingers, eject anything named <code>Michaels-Projects</code> in the Finder sidebar and try again.</p>
+  <details><summary>macOS: "There was a problem connecting to the server"</summary><div class="ans">
+    <p>Check the VPN first. Then make sure the address starts with <code>smb://</code> and that you chose <em>Registered User</em>, not <em>Guest</em>. If a stale mount lingers, eject it in the Finder sidebar and try again.</p>
   </div></details>
 
-  <details><summary>Linux: “mount error(13): Permission denied”</summary><div class="ans">
-    <p>Wrong username, password or domain. On Linux the domain is passed separately (<code>domain=yorku.yorku.ca</code>), so <code>username=</code> is your bare Passport York ID <em>without</em> the prefix. Also check you can reach the server: <code>ping -c 2 cortexcache-data.nas.sci.yorku.ca</code>.</p>
+  <details><summary>Linux: "mount error(13): Permission denied"</summary><div class="ans">
+    <p>Wrong username, password or domain. On Linux the domain is passed separately (<code>domain=yorku.yorku.ca</code>), so <code>username=</code> is your bare Passport York ID <em>without</em> the prefix. Also check <code>ping -c 2 cortexcache-data.nas.sci.yorku.ca</code> works.</p>
   </div></details>
 
   <details><summary>Linux: files are read‑only or owned by root</summary><div class="ans">
-    <p>You mounted without <code>uid=</code>/<code>gid=</code>. Unmount and mount again with <code>uid=$(id -u),gid=$(id -g)</code> as shown above. If a different SMB protocol version is needed, add <code>,vers=3.0</code> to the options.</p>
+    <p>You mounted without <code>uid=</code>/<code>gid=</code>. Unmount and mount again with <code>uid=$(id -u),gid=$(id -g)</code> as shown above. If a specific SMB version is needed, add <code>,vers=3.0</code>.</p>
   </div></details>
 
-  <details><summary>Linux: “mount: unknown filesystem type 'cifs'”</summary><div class="ans">
-    <p><code>cifs-utils</code> isn't installed — go back to step 1 of the Linux instructions.</p>
+  <details><summary>Linux: "mount: unknown filesystem type 'cifs'"</summary><div class="ans">
+    <p><code>cifs-utils</code> isn't installed; go back to step 1 of the Linux instructions.</p>
   </div></details>
 
   <details><summary>Transfers are slow or drop out</summary><div class="ans">
-    <p>All traffic goes through the VPN, so throughput depends on your connection and York's gateway. For large datasets, copy in the lab over a wired connection where possible, and don't run analyses directly against the mounted share — copy what you need to local disk, work there, and copy results back.</p>
-  </div></details>
-
-  <details><summary>“Access is denied” with the right username and password</summary><div class="ans">
-    <p>If the VPN is connected (or you're on a registered lab computer), the username has the <code>yorku.yorku.ca\</code> prefix, and the password works elsewhere, the refusal is coming from the server, not from your computer: your account hasn't been given access to the share or its folders yet. Rebooting or clearing caches on your own machine won't change this. Stop retrying and email Jonathan.</p>
-  </div></details>
-
-  <details><summary>I can connect but the share is missing or empty</summary><div class="ans">
-    <p>You only see the folders you've been granted. If the share mounts but a project folder you expect isn't there, or your private folder is missing, ask Jonathan to add you. See <a href="#access">Getting access</a>.</p>
+    <p>Over the VPN, throughput depends on your connection and York's gateway. For large datasets, copy from a registered lab machine where possible, and don't run analyses directly against the mounted share: copy what you need to local disk, work there, and copy results back.</p>
   </div></details>
 </section>
 
 <footer>
   <div class="fbrand"><img src="img/ncclab-logo.png" alt=""><span>Neural Control &amp; Computation Lab</span></div>
-  NCC Lab · <a href="https://ncclab.ca" target="_blank" rel="noopener">ncclab.ca</a> · School of Kinesiology and Health Science, York University.<br>
-  Based on Science IT's CortexCache HOWTO documents (Feb 2025), cross‑checked against <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT's VPN page</a> and <a href="https://infosec.yorku.ca/how-do-i-connect-to-pulse-secure-vpn-with-duo-2fa/" target="_blank" rel="noopener">InfoSec's Duo VPN guide</a>, Sept 2026. Source on <a href="https://github.com/neural-control-and-computation-lab/cortexcache-docs" target="_blank" rel="noopener">GitHub</a>.
+  Maintained by the NCC Lab (<a href="https://ncclab.ca" target="_blank" rel="noopener">ncclab.ca</a>), School of Kinesiology and Health Science, York University, for the labs sharing CortexCache.<br>
+  Based on Science IT's CortexCache HOWTO documents (Feb 2025), cross‑checked against <a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/" target="_blank" rel="noopener">York UIT's VPN page</a> and <a href="https://infosec.yorku.ca/how-do-i-connect-to-pulse-secure-vpn-with-duo-2fa/" target="_blank" rel="noopener">InfoSec's Duo VPN guide</a>. Source on <a href="https://github.com/neural-control-and-computation-lab/cortexcache-docs" target="_blank" rel="noopener">GitHub</a>.
 </footer>
 
 </main>
@@ -569,8 +576,21 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
 
   document.getElementById('resetBtn').addEventListener('click',function(){
     boxes.forEach(function(cb){cb.checked=false;cb.closest('li').classList.remove('done');store.del('cc-step-'+cb.id)});
-    setOS('');window.scrollTo({top:0,behavior:'smooth'});
+    setShare('Michaels-Projects');setOS('');window.scrollTo({top:0,behavior:'smooth'});
   });
+
+  // share name
+  var shareInput=document.getElementById('shareInput');
+  function setShare(name){
+    name=(name||'').trim()||'Michaels-Projects';
+    document.querySelectorAll('.share').forEach(function(el){el.textContent=name});
+    document.querySelectorAll('[data-copy-tpl]').forEach(function(b){b.dataset.copy=b.dataset.copyTpl.replace('{share}',name)});
+    if(shareInput.value!==name)shareInput.value=name;
+    store.set('cc-share',name);
+  }
+  shareInput.addEventListener('input',function(){setShare(shareInput.value)});
+  document.querySelectorAll('.linkbtn[data-share]').forEach(function(b){b.addEventListener('click',function(){setShare(b.dataset.share)})});
+  setShare(store.get('cc-share')||'Michaels-Projects');
 
   // copy buttons
   var icon='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>';
