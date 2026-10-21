@@ -204,7 +204,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
       </div>
     </div>
     <div class="path" aria-hidden="true">
-      <div class="node"><b><span>1</span>Connect the VPN</b><small>Ivanti Secure Access · <code>cortex</code> profile · not needed on registered lab computers</small></div>
+      <div class="node"><b><span>1</span>Connect the VPN</b><small>Ivanti Secure Access · <code>cortex</code> profile · skipped only on registered lab machines</small></div>
       <div class="arrow">→</div>
       <div class="node"><b><span>2</span>Mount the share</b><small>SMB · Windows, macOS or Linux</small></div>
     </div>
@@ -248,7 +248,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
   </div>
   <div class="note warn">
     <svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg>
-    <div><b>The VPN is required from your own computer — on campus too</b><p>From a laptop or home machine, CortexCache is only reachable through the <code>cortex</code> VPN profile, even on York's wired or wireless network. Without step 1, the mount in step 2 fails or hangs. The one exception is a <strong>registered lab computer</strong>: the lab's fixed workstations are allow‑listed by address, so on those you skip step 1 and go straight to mounting. If you're not sure whether a machine is registered, ask.</p></div>
+    <div><b>The VPN is almost always required — on campus too</b><p>CortexCache is only reachable through the <code>cortex</code> VPN profile. It makes no difference whether you're at home or on campus, on Wi‑Fi or plugged into Ethernet: without step 1, the mount in step 2 fails or hangs. The one exception is a lab machine that UIT has <strong>registered on the CortexCache network</strong> <em>and</em> that sits on a fixed Ethernet connection; those reach the server directly and skip step 1. A laptop on campus Wi‑Fi or plugged into a random wall port is not one of those. If you're not sure whether a machine is registered, ask Jonathan.</p></div>
   </div>
 </section>
 
@@ -266,16 +266,25 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 <!-- ============ ACCESS ============ -->
 <section class="card" id="access">
   <h2>Getting access</h2>
-  <p class="intro">Do this first — it takes a few days. To reach CortexCache from your own computer, your Passport York account must be added to the <code>cortex</code> <strong>VPN profile</strong>. Everyone at York has the generic <em>VPNYork</em> profile, but <code>cortex</code> is granted per person and does not happen automatically when you join the lab. Which folders you then see on the share is also set per person.</p>
-  <p>For now, <strong>ask Jonathan</strong> for both — don't contact UIT or Science IT yourself.</p>
+  <p class="intro">Do this first — it takes a few days. Two separate things have to be set up for you, by two different people, and neither happens automatically when you join the lab:</p>
+  <div class="kv">
+    <div class="row"><span class="k">VPN profile</span><span class="v plain">Your Passport York account must be added to the <code>cortex</code> VPN profile. Everyone at York has the generic <em>VPNYork</em> profile, but <code>cortex</code> is granted per person. <strong>York UIT</strong> does this — you ask them yourself.</span><span></span></div>
+    <div class="row"><span class="k">Folder access</span><span class="v plain">You must be given access to the folders on <code>Michaels-Projects</code> that belong to your project(s), plus your private folder. <strong>Jonathan</strong> does this — email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>.</span><span></span></div>
+  </div>
   <ol class="steps" data-group="access">
     <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Have a Passport York account with Duo set up</label>
       <p>Students and staff normally already do. If Duo isn't set up, follow <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">York UIT's Duo instructions</a>.</p></div></li>
-    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Send Jonathan your Passport York ID</label>
-      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username and which projects you're working on. He requests the VPN profile for you and sets up your folder access. Allow a few working days, and wait for him to confirm before you try to connect. The same applies later if you need access to another project folder.</p></div></li>
-    <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Connect</label>
-      <p>Once Jonathan confirms, follow steps 1 and 2 below — or just step 2 if you're on a registered lab computer.</p></div></li>
+    <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Ask UIT to add you to the <code>cortex</code> VPN profile</label>
+      <p>Submit a request to York UIT (<a href="mailto:askit@yorku.ca">askit@yorku.ca</a>, or a service request through <a href="https://www.yorku.ca/uit/" target="_blank" rel="noopener">yorku.ca/uit</a>). Give your Passport York username, ask to be added to the <strong>CortexCache (<code>cortex</code>) SSLVPN profile</strong>, and say it's for the Neural Control &amp; Computation Lab (Jonathan Michaels, Kinesiology). UIT may confirm with Jonathan before approving.</p></div></li>
+    <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Ask Jonathan for folder access</label>
+      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username and which project(s) you're working on. He sets up your private folder and your project folder permissions. Do the same later whenever you need access to another project folder, or a new folder for a new experiment.</p></div></li>
+    <li><input type="checkbox" id="a4"><div class="step-body"><label class="step-title" for="a4">Connect</label>
+      <p>Once both are confirmed, follow steps 1 and 2 below — or just step 2 if you're on a registered lab machine.</p></div></li>
   </ol>
+
+  <div class="sub"><h3>Setting up a new lab machine</h3><span class="pill">For PIs and lab managers</span></div>
+  <p>When a lab needs a new computer put on the wired network (10 Gbit or otherwise), the request goes to <strong>York UIT</strong>. In the <em>same</em> request, ask for the machine to be <strong>connected directly into the network segment that's part of the CortexCache VPN</strong>, so that it can reach the server without anyone logging into the VPN client. A machine set up this way, on a fixed Ethernet connection, is a “registered lab machine” for the purposes of this guide. Any machine <em>not</em> set up this way, whatever it's plugged into, needs the VPN every time someone wants to reach the server.</p>
+
   <div class="note ok">
     <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
     <div><b>Good citizenship on the share</b><p>Keep raw experimental data in its project folder, not in your private folder. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on the share.</p></div>
@@ -285,7 +294,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 <!-- ============ STEP 1: VPN ============ -->
 <section class="card" id="vpn">
   <h2><span class="n">1</span>Connect to the VPN</h2>
-  <p class="intro"><strong>Skip this step on a registered lab computer</strong> — those reach CortexCache directly. It applies to your own laptop or home machine. </p>
+  <p class="intro"><strong>Skip this step only on a registered lab machine</strong> (fixed Ethernet, set up by UIT on the CortexCache network). Everything else — your laptop, a home desktop, a lab computer on Wi‑Fi or an unregistered port — needs the VPN, on campus or off.</p>
   <p class="intro">York's VPN client is <strong>Ivanti Secure Access</strong>, formerly called <strong>Pulse Secure</strong> — the same product under a new name, so either label may appear on York's pages (and the Linux build still installs to <code>/opt/pulsesecure/</code>). You install it and create the profile once; after that it's a single click to connect.</p>
 
   <ol class="steps" data-group="vpn">
@@ -333,7 +342,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
 <!-- ============ STEP 2: MOUNT ============ -->
 <section class="card" id="mount">
   <h2><span class="n">2</span>Mount the <code>Michaels-Projects</code> share</h2>
-  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system. On a registered lab computer you can start here without the VPN.</p>
+  <p class="intro">With the VPN connected, attach the share so it behaves like an ordinary drive or folder. The server and login format are the same everywhere; only the mechanics differ by system. On a registered lab machine you can start here without the VPN.</p>
   <div class="kv">
     <div class="row"><span class="k">Server</span><span class="v">cortexcache-data.nas.sci.yorku.ca</span><button class="copy" data-copy="cortexcache-data.nas.sci.yorku.ca"></button></div>
     <div class="row"><span class="k">Share</span><span class="v">Michaels-Projects</span><button class="copy" data-copy="Michaels-Projects"></button></div>
@@ -454,7 +463,7 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
   <p class="intro">Most problems come down to one of three things: the VPN isn't connected, the username is missing its domain prefix, or a saved password has gone stale.</p>
 
   <details><summary>The share won't connect, times out, or “server not found”</summary><div class="ans">
-    <p>On your own computer, nine times out of ten the VPN isn't connected, or is connected to the wrong profile. Open Ivanti and confirm <code>cortex</code> says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If the VPN is up, disconnect and reconnect it, then mount again. On a lab computer that should reach the server without VPN, a timeout means the machine's address may not be registered — tell Jonathan.</p>
+    <p>On your own computer, nine times out of ten the VPN isn't connected, or is connected to the wrong profile. Open Ivanti and confirm <code>cortex</code> says <em>Connected</em>. The generic York VPN and campus Wi‑Fi do <strong>not</strong> reach CortexCache. If the VPN is up, disconnect and reconnect it, then mount again. On a lab machine that is supposed to reach the server without VPN, a timeout means it may not actually be registered on the CortexCache network (or has been moved to a different port) — tell Jonathan.</p>
   </div></details>
 
   <details><summary>My username or password is rejected</summary><div class="ans">
@@ -503,7 +512,7 @@ echo "Mounted at $MP"</pre><button class="copy"></button></div>
   </div></details>
 
   <details><summary>“Access is denied” with the right username and password</summary><div class="ans">
-    <p>If the VPN is connected (or you're on a registered lab computer), the username has the <code>yorku.yorku.ca\</code> prefix, and the password works elsewhere, the refusal is coming from the server, not from your computer: your account hasn't been given access to the share yet. Rebooting or clearing caches on your own machine won't change this. Stop retrying and tell Jonathan.</p>
+    <p>If the VPN is connected (or you're on a registered lab computer), the username has the <code>yorku.yorku.ca\</code> prefix, and the password works elsewhere, the refusal is coming from the server, not from your computer: your account hasn't been given access to the share or its folders yet. Rebooting or clearing caches on your own machine won't change this. Stop retrying and email Jonathan.</p>
   </div></details>
 
   <details><summary>I can connect but the share is missing or empty</summary><div class="ans">
