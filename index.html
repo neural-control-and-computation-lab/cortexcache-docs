@@ -1,34 +1,36 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Ye/aXWWdHapw8hFCpNKBBEhg4dq9DlCa0I891jFaQQo='; style-src 'sha256-Tq4NGoa+yP+mFqZh/9kdZ11i7+GYj1Dc9j4tQekxcvE='; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Connect to CortexCache · NCC Lab</title>
 <meta name="description" content="Get access and connect to your lab's CortexCache storage. A short guide for Michaels, Ma and Schall lab members.">
 <style>
-:root{color-scheme:light;--ink:#172c38;--muted:#526772;--blue:#175d77;--line:#d9e3e7;--soft:#eef5f7}*{box-sizing:border-box}body{margin:0;background:#f7f9fa;color:var(--ink);font:17px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:820px;margin:auto;padding:35px 24px 65px}header{padding:14px 0 28px}.brand{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:650;color:var(--muted)}.brand img{width:38px;height:38px;object-fit:contain}h1{font-size:clamp(30px,5vw,44px);line-height:1.15;letter-spacing:-1.3px;margin:24px 0 14px}h2{font-size:23px;line-height:1.35;margin:0 0 12px}h3{font-size:18px;margin:20px 0 8px}p{margin:8px 0 16px}a{color:var(--blue);text-underline-offset:3px}button,select{font:inherit}button,a.button{cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:8px 14px;background:white;color:var(--blue);font-size:14px;font-weight:650}a.button{display:inline-block;text-decoration:none;background:var(--blue);border-color:var(--blue);color:white}button:hover{background:var(--soft)}:focus-visible{outline:3px solid #dc8b29;outline-offset:3px}.choose{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:22px;background:var(--soft);border-radius:12px}.choose label{display:block;font-size:14px;font-weight:650;margin-bottom:7px}select{width:100%;padding:10px;border:1px solid #aabfc8;border-radius:7px;background:white;color:var(--ink)}.route{margin:12px 0 0;color:var(--muted);font-size:14px}.step{margin-top:22px;padding:26px;background:white;border:1px solid var(--line);border-radius:12px}.number{display:inline-grid;place-items:center;background:var(--soft);color:var(--blue);width:32px;height:32px;border-radius:50%;font-size:16px;margin-right:10px}.small{font-size:14px;color:var(--muted)}.callout{padding:12px 16px;border-left:3px solid #76a8ba;background:var(--soft);border-radius:0 6px 6px 0}.address{display:flex;align-items:center;gap:12px;background:var(--soft);padding:12px 14px;border-radius:8px;margin:12px 0}.address code{flex:1;overflow-wrap:anywhere}.address button{flex-shrink:0}code{font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}ol{padding-left:24px}li{margin:9px 0}details{border-top:1px solid var(--line);margin-top:18px;padding-top:15px}summary{cursor:pointer;color:var(--blue);font-weight:600}details p{margin-top:12px}details img{display:block;max-width:100%;max-height:380px;margin:14px auto;border:1px solid var(--line);border-radius:7px}footer{font-size:13px;color:var(--muted);margin-top:28px}footer p{margin:5px 0}[hidden]{display:none!important}#status{min-height:24px;font-size:14px;color:var(--blue)}@media(max-width:540px){main{padding:22px 15px 40px}.choose{grid-template-columns:1fr;gap:12px;padding:17px}.step{padding:20px 17px}.address{align-items:flex-start;flex-wrap:wrap}h2{font-size:21px}}
+:root{color-scheme:light;--ink:#172c38;--muted:#526772;--blue:#175d77;--line:#d9e3e7;--soft:#eef5f7}*{box-sizing:border-box}body{margin:0;background:#f7f9fa;color:var(--ink);font:17px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:820px;margin:auto;padding:35px 24px 65px}header{padding:14px 0 28px}.brand{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:650;color:var(--muted)}.brand img{width:38px;height:38px;object-fit:contain}h1{font-size:clamp(30px,5vw,44px);line-height:1.15;letter-spacing:-1.3px;margin:24px 0 14px}h2{font-size:23px;line-height:1.35;margin:0 0 12px}h3{font-size:18px;margin:20px 0 8px}p{margin:8px 0 16px}a{color:var(--blue);text-underline-offset:3px}button,select{font:inherit}button,a.button{cursor:pointer;border:1px solid var(--line);border-radius:8px;padding:8px 14px;background:white;color:var(--blue);font-size:14px;font-weight:650}a.button{display:inline-block;text-decoration:none;background:var(--blue);border-color:var(--blue);color:white}button:hover{background:var(--soft)}:focus-visible{outline:3px solid #dc8b29;outline-offset:3px}.choose{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:22px;background:var(--soft);border-radius:12px}.choose label{display:block;font-size:14px;font-weight:650;margin-bottom:7px}select{width:100%;padding:10px;border:1px solid #aabfc8;border-radius:7px;background:white;color:var(--ink)}.route{margin:12px 0 0;color:var(--muted);font-size:14px}.step{margin-top:22px;padding:26px;background:white;border:1px solid var(--line);border-radius:12px}.number{display:inline-grid;place-items:center;background:var(--soft);color:var(--blue);width:32px;height:32px;border-radius:50%;font-size:16px;margin-right:10px}.small{font-size:14px;color:var(--muted)}.callout{padding:12px 16px;border-left:3px solid #76a8ba;background:var(--soft);border-radius:0 6px 6px 0}.address{display:flex;align-items:center;gap:12px;background:var(--soft);padding:12px 14px;border-radius:8px;margin:12px 0}.address code{flex:1;overflow-wrap:anywhere}.address button{flex-shrink:0}code{font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}ol{padding-left:24px}li{margin:9px 0}details{border-top:1px solid var(--line);margin-top:18px;padding-top:15px}summary{cursor:pointer;color:var(--blue);font-weight:600}details p{margin-top:12px}details img{display:block;max-width:100%;max-height:380px;margin:14px auto;border:1px solid var(--line);border-radius:7px}footer{font-size:13px;color:var(--muted);margin-top:28px}footer p{margin:5px 0}[hidden]{display:none!important}#status{min-height:24px;font-size:14px;color:var(--blue)}@media(max-width:540px){main{padding:22px 15px 40px}.choose{grid-template-columns:1fr;gap:12px;padding:17px}.step{padding:20px 17px}.address{align-items:flex-start;flex-wrap:wrap}h2{font-size:21px}}
 </style>
 </head>
 <body>
 <main>
 <header><div class="brand"><img src="img/ncclab-logo.png" alt="">NEURAL CONTROL &amp; COMPUTATION LAB</div>
-<h1>Your lab’s files.<br>Three steps to connect.</h1>
+<h1>CortexCache access guide</h1>
 <p>CortexCache is the shared storage for the Michaels, Ma and Schall labs. Start here if you’re connecting for the first time.</p>
 </header>
+<nav aria-label="Guide navigation"><a href="#access">Access</a> · <a href="#vpn">VPN setup</a> · <a href="#mount">Connect to storage</a> · <a href="#help">Troubleshooting</a> · <a href="reference.html">Detailed reference</a></nav>
 <div class="choose">
 <div><label for="lab">Your lab</label><select id="lab"><option value="Michaels-Projects">Michaels</option><option value="Ma-Group">Ma</option><option value="Schall-Group">Schall</option></select></div>
-<div><label for="os">Your computer</label><select id="os"><option value="win">Windows</option><option value="mac">macOS</option><option value="linux">Ubuntu / Linux</option></select></div>
+<div><label for="os">Operating system</label><select id="os"><option value="win">Windows</option><option value="mac">macOS</option><option value="linux">Ubuntu / Linux</option></select></div>
 </div>
 <p class="route" id="route" aria-live="polite"></p>
 <noscript><p class="callout">Enable JavaScript to tailor this guide. Without it, the instructions below show all operating systems and default to the Michaels share. Ma uses Ma-Group; Schall uses Schall-Group.</p></noscript>
+<span id="start"></span><span id="layout"></span>
 <section class="step" id="access">
-<h2><span class="number">1</span>Get access first</h2>
+<h2><span class="number">1</span>Request access</h2>
 <p>You need a Passport York account with Duo, plus permission to reach the server and open your lab’s files.</p>
 <ol>
 <li><strong>Ask York UIT for VPN access.</strong> Email <a id="vpn-email" href="mailto:askit@yorku.ca">askit@yorku.ca</a> and request the <strong>CortexCache (<code>cortex</code>) VPN profile</strong>. Include your Passport York username, lab and supervisor.</li>
 <li><strong>Ask Jonathan for file access.</strong> Email <a id="access-email" href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username, lab, supervisor, and <span data-lab="michaels">the project folders you need</span><span data-lab="other" hidden>the lab share you need</span>.</li>
 </ol>
 <p class="callout">Wait for confirmation before signing in. VPN permission and file permission are separate. Never email your password.</p>
-<details><summary>Already have access, or using a lab computer?</summary><p>If both permissions are already confirmed, go to step 2. If your lab manager confirms that this wired computer has direct CortexCache access, skip the VPN and go to step 3. You still need permission to open the files.</p><p>UIT arranges VPN approval through your Faculty’s Executive Officer. Allow a few days for a new request.</p></details>
+<p class="small"><a href="reference.html#access">Access requirements and lab computer registration</a></p><details><summary>Existing access and registered lab computers</summary><p>If both permissions are already confirmed, go to step 2. If your lab manager confirms that this wired computer has direct CortexCache access, skip the VPN and go to step 3. You still need permission to open the files.</p><p>UIT arranges VPN approval through your Faculty’s Executive Officer. Allow a few days for a new request.</p></details>
 </section>
 <section class="step" id="vpn">
 <h2><span class="number">2</span>Connect to the cortex VPN</h2>
@@ -40,10 +42,10 @@
 <li>Click <strong>Connect</strong>. Enter your Passport York username <strong>without @yorku.ca</strong> and your password. Leave <strong>Save settings</strong> unticked, then approve the Duo request.</li>
 </ol>
 <p class="callout">Wait until Ivanti says <strong>Connected</strong>, and leave it connected while using your files. The server URL must end in <code>/cortex</code>.</p>
-<details><summary>Show the connection setup screen</summary><img src="img/vpn-2-add.png" alt="Ivanti connection settings with the name cortex and its server URL" loading="lazy"></details>
+<p class="small"><a href="reference.html#vpn">Detailed VPN setup and sign-in support</a></p><details><summary>VPN setup screenshot</summary><img src="img/vpn-2-add.png" alt="Ivanti connection settings with the name cortex and its server URL" loading="lazy"></details>
 </section>
 <section class="step" id="mount">
-<h2><span class="number">3</span>Open your lab’s files</h2>
+<h2><span class="number">3</span>Connect to your lab share</h2>
 <p data-lab="michaels">Your share is <strong>Michaels-Projects</strong>. Inside, open your project folder. Only folders you have access to appear. Keep raw data and shared analyses in the appropriate project folder.</p>
 <p data-lab="other" hidden>Your share is <strong class="share">Ma-Group</strong>. It opens your existing user folder automatically. Use the address below as shown; don’t add your username to it.</p>
 <div data-os="win">
@@ -52,7 +54,7 @@
 <div class="address"><code id="win-path">\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects</code><button type="button" data-copy="win-path" aria-label="Copy Windows share address">Copy</button></div>
 Tick <strong>Reconnect at sign-in</strong> and <strong>Connect using different credentials</strong>, then click <strong>Finish</strong>.</li>
 <li>Sign in as <code>yorku.yorku.ca\your_username</code>, replacing <code>your_username</code> with your Passport York username. Use your Passport York password.</li></ol>
-<details><summary>Show the Windows drive setup screen</summary><img src="img/win-1-map.png" alt="Windows Map Network Drive dialog" loading="lazy"></details>
+<details><summary>Windows setup screenshot</summary><img src="img/win-1-map.png" alt="Windows Map Network Drive dialog" loading="lazy"></details>
 </div>
 <div data-os="mac">
 <ol><li>In <strong>Finder</strong>, choose <strong>Go → Connect to Server</strong> (⌘K).</li>
@@ -79,15 +81,15 @@ The installer needs internet and your Ubuntu administrator password. It installs
 <p class="small">On Ubuntu, missing SMB support can be installed with <code>sudo apt install gvfs-backends gvfs-fuse</code>. Log out and back in after installing.</p>
 </details>
 </div>
-<p class="small">Next time: connect the VPN if needed, then reopen the share. Request additional file access from Jonathan.</p>
+<p><a href="reference.html#connections">Reconnecting, disconnecting and command-line mounting</a></p><p class="small">Next time: connect the VPN if needed, then reopen the share. Request additional file access from Jonathan.</p>
 </section>
-<section class="step" id="help"><h2>Something not working?</h2>
+<span id="troubleshooting"></span><section class="step" id="help"><h2>Troubleshooting</h2>
 <details><summary>The server won’t open</summary><p>Check that Ivanti says Connected to <strong>cortex</strong>, not a different York profile. Check the address against step 3 and retry. For VPN problems, contact <a href="mailto:askit@yorku.ca">York UIT</a>.</p></details>
 <details><summary>It keeps asking for my password, or says “Access denied”</summary><p>Check your username format in step 3. If your York password works elsewhere but the server still refuses it, stop retrying and email <a href="mailto:jmichae@yorku.ca">Jonathan</a>. Include your username, lab, share name, exact error and a screenshot. Never include your password.</p></details>
 <details><summary>I’m connected, but files or folders are missing</summary><p data-lab="michaels">Email Jonathan with your York username and the project folder you need. Being connected does not give you access to every project.</p><p data-lab="other" hidden>Ma and Schall use per-user storage. If expected files are missing, email Jonathan with your York username and the folder you expected to find.</p></details>
 <details data-os="linux"><summary>Videos won’t play on Ubuntu</summary><p>For Michaels users, run the Ubuntu setup in step 3, then log out and back in. It lets VLC use the authenticated server connection. Keep the VPN connected while playing videos.</p></details>
 </section>
-<p id="status" role="status" aria-live="polite"></p>
+<section class="step" id="reference"><h2>Reference and support</h2><p><a href="reference.html#reference">Connection addresses</a> · <a href="reference.html#troubleshooting">Error-specific troubleshooting</a> · <a href="reference.html#transfers">Large transfers and file management</a></p></section><p id="status" role="status" aria-live="polite"></p>
 <footer><p>File access: <a href="mailto:jmichae@yorku.ca">Jonathan Michaels</a> · VPN help: <a href="mailto:askit@yorku.ca">York UIT</a></p><p><a href="https://www.yorku.ca/uit/faculty-and-staff-services/internet-access/">York VPN guidance</a> · <a href="https://infosec.yorku.ca/how-do-i-connect-to-pulse-secure-vpn-with-duo-2fa/">Duo sign-in guidance</a> · <a href="https://github.com/neural-control-and-computation-lab/cortexcache-docs">Site source</a></p></footer>
 </main>
 <script>
