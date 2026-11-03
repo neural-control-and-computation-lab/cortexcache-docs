@@ -262,11 +262,12 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 <!-- ============ STORAGE LAYOUT ============ -->
 <section class="card" id="layout">
   <h2>How the storage is organised</h2>
-  <p class="intro">Each lab has one share on CortexCache. You mount it once; inside, you see only the folders you've been given access to.</p>
+  <p class="intro">Choose the share for your lab. Michaels uses shared project folders; Ma and Schall retain their existing per-user storage layout.</p>
   <div class="kv">
-    <div class="row"><span class="k">Lab shares</span><span class="v plain">The Michaels lab's share is <code>Michaels-Projects</code> (formerly <code>Michaels-Group</code>; delete any old mapping with that name). The Ma and Schall labs each have their own share — Jonathan will tell you its name when he sets up your access.</span><span></span></div>
-    <div class="row"><span class="k">Your folder</span><span class="v plain">Everyone gets a <strong>private folder</strong> for their own working files. Raw experimental data does <strong>not</strong> belong there.</span><span></span></div>
-    <div class="row"><span class="k">Project folders</span><span class="v plain">Each experiment or project has its own folder for raw data and shared analyses. Access is granted per person, so the share looks different for each of you.</span><span></span></div>
+    <div class="row"><span class="k">Michaels lab</span><span class="v plain">Mount <code>Michaels-Projects</code>. Each project has a folder for raw data and shared analyses. You see only the project folders you have been granted access to.</span><span></span></div>
+    <div class="row"><span class="k">Ma lab</span><span class="v plain">Mount <code>Ma-Group</code>. Its existing per-user (<code>%U</code>) layout is unchanged: the server opens the folder associated with your login.</span><span></span></div>
+    <div class="row"><span class="k">Schall lab</span><span class="v plain">Mount <code>Schall-Group</code>. Its existing per-user (<code>%U</code>) layout is unchanged: the server opens the folder associated with your login.</span><span></span></div>
+    <div class="row"><span class="k">Share names</span><span class="v plain">Use the share name exactly as shown. <code>%U</code> is expanded by the server; do not append it or your username to the share address.</span><span></span></div>
   </div>
 </section>
 
@@ -276,15 +277,15 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
   <p class="intro">Do this first — it takes a few days. Two things are set up for you by two different people, and neither happens automatically when you join a lab.</p>
   <div class="kv">
     <div class="row"><span class="k">VPN profile</span><span class="v plain">Your Passport York account is added to the <code>cortex</code> VPN profile by <strong>York UIT</strong>. The request is approved by the <strong>Executive Officer of your Faculty</strong>, not by your supervisor.</span><span></span></div>
-    <div class="row"><span class="k">Folder access</span><span class="v plain">Your private folder and project folders on your lab's share are set up by <strong>Jonathan Michaels</strong> (<a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>), whichever of the three labs you're in.</span><span></span></div>
+    <div class="row"><span class="k">Folder access</span><span class="v plain">Access to your lab's share and the folders you need is arranged through <strong>Jonathan Michaels</strong> (<a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a>), whichever of the three labs you're in.</span><span></span></div>
   </div>
   <ol class="steps" data-group="access">
     <li><input type="checkbox" id="a1"><div class="step-body"><label class="step-title" for="a1">Have a Passport York account with Duo set up</label>
       <p>Students and staff normally already do. If Duo isn't set up, follow <a href="https://www.yorku.ca/uit/faculty-and-staff-services/duo/" target="_blank" rel="noopener">York UIT's Duo instructions</a>.</p></div></li>
     <li><input type="checkbox" id="a2"><div class="step-body"><label class="step-title" for="a2">Ask UIT for the <code>cortex</code> VPN profile</label>
       <p>Email <a href="mailto:askit@yorku.ca">askit@yorku.ca</a> (or open a service request at <a href="https://www.yorku.ca/uit/" target="_blank" rel="noopener">yorku.ca/uit</a>) with your Passport York username, asking to be added to the <strong>CortexCache (<code>cortex</code>) SSLVPN profile</strong>. Name your lab and supervisor. UIT will seek approval from your Faculty's Executive Officer; you don't need to contact them yourself.</p></div></li>
-    <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Ask Jonathan for folder access</label>
-      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your Passport York username, your lab, and the project(s) you're working on. Do the same later whenever you need another project folder.</p></div></li>
+    <li><input type="checkbox" id="a3"><div class="step-body"><label class="step-title" for="a3">Ask Jonathan for share and project access</label>
+      <p>Email <a href="mailto:jmichae@yorku.ca">jmichae@yorku.ca</a> with your <strong>Passport York username, lab, supervisor, and the project folder(s) you need</strong>. For Michaels, access is granted to named users for each project; connecting to the VPN alone does not grant project access. For Ma and Schall, ask for access to your existing lab share. Request additional project access the same way later; never send your password.</p></div></li>
     <li><input type="checkbox" id="a4"><div class="step-body"><label class="step-title" for="a4">Connect</label>
       <p>Once both are confirmed, follow steps 1 and 2 below — or just step 2 on a registered lab machine.</p></div></li>
   </ol>
@@ -294,7 +295,7 @@ footer{color:var(--muted);font-size:.84rem;padding:22px 0 44px;border-top:1px so
 
   <div class="note ok">
     <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-    <div><b>Good citizenship on the share</b><p>Raw data goes in its project folder, not your private folder. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on the share.</p></div>
+    <div><b>Good citizenship on the share</b><p>For Michaels projects, keep raw data and shared analyses in the appropriate project folder. Follow the folder structure already in place, don't store personal files, and never leave your Passport York password in a script or config file on the share.</p></div>
   </div>
 </section>
 
@@ -352,7 +353,7 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
   <p class="intro">With the VPN connected (or on a registered lab machine), attach the share so it behaves like an ordinary drive or folder. Enter your lab's share name below and every path and command on this page updates to match.</p>
   <div class="kv">
     <div class="row"><span class="k">Server</span><span class="v">cortexcache-data.nas.sci.yorku.ca</span><button class="copy" data-copy="cortexcache-data.nas.sci.yorku.ca"></button></div>
-    <div class="row"><span class="k">Share</span><span class="v"><input id="shareInput" class="sharebox" type="text" value="Michaels-Projects" spellcheck="false" autocomplete="off" aria-label="Your lab's share name"> <span class="sharehint">Michaels lab: <button type="button" class="linkbtn" data-share="Michaels-Projects">Michaels-Projects</button>. Ma or Schall lab: use the name Jonathan gave you.</span></span><button class="copy" data-copy-tpl="{share}"></button></div>
+    <div class="row"><span class="k">Share</span><span class="v"><input id="shareInput" class="sharebox" type="text" value="Michaels-Projects" spellcheck="false" autocomplete="off" aria-label="Your lab's share name"> <span class="sharehint">Choose your lab: <button type="button" class="linkbtn" data-share="Michaels-Projects">Michaels</button> · <button type="button" class="linkbtn" data-share="Ma-Group">Ma</button> · <button type="button" class="linkbtn" data-share="Schall-Group">Schall</button>.</span></span><button class="copy" data-copy-tpl="{share}"></button></div>
     <div class="row"><span class="k">Username</span><span class="v">yorku.yorku.ca\<span class="var">your_ppy_id</span></span><button class="copy" data-copy="yorku.yorku.ca\" data-label="Copy prefix"></button></div>
     <div class="row"><span class="k">Password</span><span class="v plain">Your Passport York password</span><span></span></div>
   </div>
@@ -410,6 +411,13 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
   <!-- ---------- Linux ---------- -->
   <div class="os-only linux">
     <div class="sub"><h3>Linux</h3><span class="pill">CIFS</span></div>
+    <details class="adv"><summary>Michaels lab: Ubuntu desktop installer and VLC playback</summary><div class="ans">
+      <p>On Ubuntu Desktop, <a href="downloads/Michaels-Projects-Setup.zip" download>download the Michaels-Projects installer</a> and extract the ZIP. Open the extracted folder in Terminal and run:</p>
+      <div class="cmd"><pre>bash install.sh</pre><button class="copy"></button></div>
+      <p>The installer needs internet access and your Ubuntu administrator password. It installs VLC, a Michaels-Projects shortcut, and the filesystem integration for playing server videos directly without copying them locally. It sets VLC as the default for common video formats.</p>
+      <p>Open the shortcut, enter your York username, and sign in when Files asks. The <code>YORKU</code> domain is supplied automatically. Connect to the VPN first unless you are on a registered lab machine. If desktop icons are hidden, open Michaels-Projects from Applications. Log out and back in once if filesystem integration has not activated.</p>
+      <p>Ma and Schall users can use the manual instructions below with their lab share selected.</p>
+    </div></details>
     <p>Written for Ubuntu/Debian. On Fedora use <code>sudo dnf install cifs-utils</code>, on Arch <code>sudo pacman -S cifs-utils</code>; the rest is the same.</p>
     <ol class="steps" data-group="linux">
       <li><input type="checkbox" id="l1"><div class="step-body"><label class="step-title" for="l1">Install CIFS utilities</label>
@@ -417,11 +425,9 @@ sudo /opt/pulsesecure/bin/setup_cef.sh install"></button></div>
       <li><input type="checkbox" id="l2"><div class="step-body"><label class="step-title" for="l2">Create a mount point</label>
         <div class="cmd"><pre>sudo mkdir -p /mnt/cortex</pre><button class="copy"></button></div></div></li>
       <li><input type="checkbox" id="l3"><div class="step-body"><label class="step-title" for="l3">Mount the share</label>
-        <p>Replace <code>your_ppy_id</code>. The first line reads your password without echoing it, so it never lands in your shell history or <code>ps</code> output.</p>
-        <div class="cmd"><pre>read -s -p "Passport York password: " SMB_PASS; echo
-sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/<span class="share">Michaels-Projects</span> /mnt/cortex \
-  -o username=<span class="var">your_ppy_id</span>,password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
-unset SMB_PASS</pre><button class="copy"></button></div>
+        <p>Replace <code>your_ppy_id</code>. The mount command prompts for your Passport York password; do not include it in the command.</p>
+        <div class="cmd"><pre>sudo mount -t cifs //cortexcache-data.nas.sci.yorku.ca/<span class="share">Michaels-Projects</span> /mnt/cortex \
+  -o username=<span class="var">your_ppy_id</span>,domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)</pre><button class="copy"></button></div>
         <p><code>uid=$(id -u),gid=$(id -g)</code> makes the mounted files yours, so you can read and write without <code>sudo</code>.</p></div></li>
       <li><input type="checkbox" id="l4"><div class="step-body"><label class="step-title" for="l4">Verify</label>
         <div class="cmd"><pre>df -h | grep cortex        <span class="cmt"># the share and its free space</span>
@@ -439,10 +445,8 @@ USER_ID="<span class="var">your_ppy_id</span>"
 SHARE="<span class="share">Michaels-Projects</span>"
 MP=/mnt/cortex
 sudo mkdir -p "$MP"
-read -s -p "Passport York password for $USER_ID: " SMB_PASS; echo
 sudo mount -t cifs "//cortexcache-data.nas.sci.yorku.ca/$SHARE" "$MP" \
-  -o username="$USER_ID",password="$SMB_PASS",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
-unset SMB_PASS
+  -o username="$USER_ID",domain=yorku.yorku.ca,uid=$(id -u),gid=$(id -g)
 echo "Mounted $SHARE at $MP"</pre><button class="copy"></button></div>
       <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 3 2.5 20h19L12 3z"/><path d="M12 10v4M12 17v.5"/></svg><div><b>Don't hard‑code your password</b><p>Keep it out of scripts, <code>/etc/fstab</code> and the command line; it's your Passport York password and unlocks far more than this share. For an unattended mount, use a <code>credentials=</code> file with <code>chmod 600</code>, and ask before setting it up.</p></div></div>
     </div></details>
@@ -483,7 +487,7 @@ echo "Mounted $SHARE at $MP"</pre><button class="copy"></button></div>
   </div></details>
 
   <details><summary>The share mounts, but a folder I need isn't there</summary><div class="ans">
-    <p>You only see folders you've been granted. Ask Jonathan to add you to the project folder; see <a href="#access">Getting access</a>.</p>
+    <p>In Michaels-Projects, you only see project folders you've been granted. Ask Jonathan to add you to the project folder. Ma and Schall shares open your per-user folder; see <a href="#access">Getting access</a>.</p>
   </div></details>
 
   <details><summary>I never get the Duo push</summary><div class="ans">

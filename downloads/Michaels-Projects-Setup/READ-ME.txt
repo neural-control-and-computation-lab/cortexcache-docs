@@ -1,0 +1,28 @@
+MICHAELS-PROJECTS — UBUNTU SETUP
+
+This installer downloads and installs VLC itself plus the Ubuntu components
+needed to play videos directly from the authenticated server share.
+Internet access and an Ubuntu administrator password are required.
+Intended for Ubuntu Desktop with Files (Nautilus).
+
+INSTALL
+1. Open this USB folder in Files.
+2. Right-click blank space in the folder and choose Open in Terminal.
+3. Run:
+   bash install.sh
+   Do not run the whole script with sudo; it requests sudo only for packages.
+
+USE
+Open Michaels-Projects from Applications or the desktop.
+If necessary, right-click the desktop icon and choose Allow Launching.
+Enter your York username (not your email). The domain is preset to YORKU.
+Files will request your password if it needs it.
+Connect to York VPN if required. Only your authorized project folders appear.
+Double-click a video to stream it directly in VLC; no full local copy is made.
+If icons are hidden, use Applications. Log out/in once if integration needs it.
+
+The installer sets VLC as the default for common video formats. Existing VLC
+Snap installations are retained; this launcher uses Ubuntu's /usr/bin/vlc.
+A pre-existing user vlc.desktop override is backed up before replacement.
+Installed launchers are copied into your home folder: you can remove the USB.
+No passwords, account names, or server data are included in this bundle.

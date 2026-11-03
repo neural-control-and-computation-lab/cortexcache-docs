@@ -1,6 +1,6 @@
 # CortexCache connection guide
 
-Interactive, single-page documentation for connecting to the NCC Lab's CortexCache network storage (`Michaels-Group` share) from macOS, Windows and Linux.
+Interactive, single-page documentation for connecting to the Michaels, Ma and Schall labs' CortexCache network storage (`Michaels-Projects`, `Ma-Group`, and `Schall-Group`) from macOS, Windows and Linux.
 
 - `index.html` — the whole site (no build step, no dependencies)
 - `img/` — screenshots used on the page
@@ -38,3 +38,7 @@ Everything is plain HTML inside `index.html`. Useful anchors:
 - The access section names Jonathan as the contact; change the `mailto:` link if that changes.
 
 Checklist progress and the OS choice are stored in each visitor's own browser (localStorage); nothing is sent anywhere.
+
+## Ubuntu installer
+
+`downloads/Michaels-Projects-Setup.zip` contains the Michaels desktop launcher, online VLC/dependency installer, and authenticated SMB playback integration. Its source files are in `downloads/Michaels-Projects-Setup/`. Requires internet and administrator privileges for package installation.
