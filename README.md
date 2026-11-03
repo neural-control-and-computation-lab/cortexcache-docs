@@ -30,15 +30,10 @@ To update the guide later, edit `index.html`, commit, and push — Pages redeplo
 
 ## Editing
 
-Everything is plain HTML inside `index.html`. Useful anchors:
+The page is a three-step onboarding guide: get access, connect the cortex VPN, then open the selected lab share. Lab and operating-system selectors show only relevant instructions. Troubleshooting and screenshots stay collapsed until requested.
 
-- Server/share values appear in the "Mount the share" and "Quick reference" cards — search for `cortexcache-data.nas.sci.yorku.ca`.
-- OS-specific blocks are `<div class="os-only mac|win|linux">`.
-- Troubleshooting entries are `<details>` blocks; add a new one by copying an existing block.
-- The access section names Jonathan as the contact; change the `mailto:` link if that changes.
-
-Checklist progress and the OS choice are stored in each visitor's own browser (localStorage); nothing is sent anywhere.
+Lab share mappings and OS-specific content are in `index.html`. Elements use `data-lab="michaels|other"` and `data-os="win|mac|linux"`. Selected lab and OS are stored only in the visitor's localStorage. Access email links prefill a request with empty username and supervisor fields; the site collects no credentials.
 
 ## Ubuntu installer
 
-`downloads/Michaels-Projects-Setup.zip` contains the Michaels desktop launcher, online VLC/dependency installer, and authenticated SMB playback integration. Its source files are in `downloads/Michaels-Projects-Setup/`. Requires internet and administrator privileges for package installation.
+`downloads/Michaels-Projects-Setup.zip` includes the online dependency/VLC installer, share launcher and direct-server video integration. Source files are in the adjacent `Michaels-Projects-Setup/` directory.
