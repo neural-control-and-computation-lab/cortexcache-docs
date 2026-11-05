@@ -49,19 +49,30 @@
 <p data-lab="michaels">Your share is <strong>Michaels-Projects</strong>. Inside, open your project folder. Only folders you have access to appear. Keep raw data and shared analyses in the appropriate project folder.</p>
 <p data-lab="other" hidden>Your share is <strong class="share">Ma-Group</strong>. It opens your existing user folder automatically. Use the address below as shown; don’t add your username to it.</p>
 <div data-os="win">
+<p><a class="button" href="downloads/CortexCache-Windows-Setup.zip" download>Download Windows setup</a></p>
+<p>Extract the ZIP and open <code>Setup.cmd</code> as your normal user. Choose your lab and enter your York username and password when prompted. Windows selects a free drive letter and remembers the mapping at sign-in. The same installer supports Michaels, Ma and Schall.</p>
+<p class="small">Connect the VPN first. After a later VPN connection, open the mapped drive in This PC to reconnect. Windows may ask for your password again. <a href="reference.html#automatic-mounting">Saved credentials, removal and setup details</a></p>
+<details><summary>Connect manually instead</summary>
 <ol><li>Open <strong>File Explorer → This PC → Map network drive</strong> (it may be under the <strong>…</strong> menu). Choose a drive letter.</li>
 <li>Paste this into <strong>Folder</strong>:
 <div class="address"><code id="win-path">\\cortexcache-data.nas.sci.yorku.ca\Michaels-Projects</code><button type="button" data-copy="win-path" aria-label="Copy Windows share address">Copy</button></div>
 Tick <strong>Reconnect at sign-in</strong> and <strong>Connect using different credentials</strong>, then click <strong>Finish</strong>.</li>
 <li>Sign in as <code>yorku.yorku.ca\your_username</code>, replacing <code>your_username</code> with your Passport York username. Use your Passport York password.</li></ol>
+</details>
 <details><summary>Windows setup screenshot</summary><img src="img/win-1-map.png" alt="Windows Map Network Drive dialog" loading="lazy"></details>
 </div>
 <div data-os="mac">
+<p><a class="button" href="downloads/CortexCache-Mac-Setup.zip" download>Download Mac setup</a></p>
+<p>Extract the ZIP. In Terminal, type <code>bash</code> followed by a space, drag <code>Setup.command</code> into the window, and press Return. Choose your lab, enter your York username, and choose whether to connect at Mac sign-in. The same installer supports Michaels, Ma and Schall.</p>
+<p>The installer creates a CortexCache launcher in your home folder’s Applications directory. Enter your password in the macOS connection dialog. If the VPN connects after sign-in, open the launcher again.</p>
+<p class="small"><a href="reference.html#automatic-mounting">Keychain, Login Items, removal and setup details</a></p>
+<details><summary>Connect manually instead</summary>
 <ol><li>In <strong>Finder</strong>, choose <strong>Go → Connect to Server</strong> (⌘K).</li>
 <li>Paste this address and click <strong>Connect</strong>:
 <div class="address"><code id="mac-path">smb://cortexcache-data.nas.sci.yorku.ca/Michaels-Projects</code><button type="button" data-copy="mac-path" aria-label="Copy macOS share address">Copy</button></div></li>
 <li>Choose <strong>Registered User</strong>. Sign in as <code>yorku.yorku.ca\your_username</code> with your Passport York password.</li></ol>
 <p>Find the share in Finder’s sidebar under <strong>Locations</strong>.</p>
+</details>
 </div>
 <div data-os="linux">
 <div data-lab="michaels">
